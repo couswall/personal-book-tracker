@@ -1,8 +1,18 @@
 import { ThemeProvider } from "styled-components"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, FlexContainer, FormContainer, Icon, Input, Label, Paragraph, TitleH2 } from "../../components"
 import { lightTeam } from "../../styles/Theme"
+import { schemaLoginValidations } from "./schemaLoginValidations";
+import { ILoginForm } from "./interfaces";
+import { ErrorMessage } from "./ErrorMessage";
 
 export const Login = () => {
+  const {register, handleSubmit, formState:{errors}} = useForm<ILoginForm>({
+    resolver: yupResolver(schemaLoginValidations)
+  });
+  const onSubmit = (data: ILoginForm) => {};
+
   return (
     <ThemeProvider theme={lightTeam}>
       <FlexContainer JustifyContent="center" AlignItems="center" MinHeight="100vh">
@@ -27,6 +37,7 @@ export const Login = () => {
             Gap="1rem"
             MarginTop="2rem"
             Width="100%"
+            onSubmit={handleSubmit(onSubmit)}
           >
             <FlexContainer
               FlexDirection="column"
@@ -35,7 +46,7 @@ export const Login = () => {
             >
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
                 <Label FontSize="0.875rem" FontColor="#333333">{'Email'}</Label>
-                <FlexContainer Gap="0.5rem" Padding="1rem 0px" BorderBottom="1px solid #d9d9d9" AlignItems="center" Width="100%">
+                <FlexContainer Gap="0.5rem" Padding="1rem 0px" BorderBottom={errors.email ? '1px solid #FA4032' : '1px solid #d9d9d9'} AlignItems="center" Width="100%">
                   <Icon className="fa-solid fa-user" FontColor="#333333" FontSize="1rem"/>
                   <Input 
                     Border="none" 
@@ -45,8 +56,10 @@ export const Login = () => {
                     Width="100%"
                     FontColor="#333333"
                     type="email"
+                    {...register('email')}
                   />
                 </FlexContainer>
+                {errors.email?.message && <ErrorMessage message={errors.email.message}/>}
               </FlexContainer>
 
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
@@ -61,8 +74,10 @@ export const Login = () => {
                     Width="100%"
                     FontColor="#333333"
                     type="password"
+                    {...register('password')}
                   />
                 </FlexContainer>
+                {errors.password?.message && <ErrorMessage message={errors.password.message}/>}
               </FlexContainer>
 
               <FlexContainer JustifyContent="end" MarginBottom="1rem">
