@@ -3,3 +3,15 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --inter-font-family: "Inter", serif;
+    --primary-color: '#69247C';
+    --secondary-color: '#DA498D';
+    --teritary-color: '#FAC67A';
+    --light-color: '#F9E6CF';
+}
+
+body {
+    font-family: var(--inter-font-family);
+}

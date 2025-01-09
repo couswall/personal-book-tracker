@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router"
-import { MyBooks, SignIn, SignUp } from "../pages"
+import { MyBooks, Login, SignUp } from "../pages"
 import { privateRoutes, publicRoutes } from "./routes";
 
 export const AppRouter = () => {
@@ -16,9 +16,9 @@ export const AppRouter = () => {
           </>
         ) : (
             <>
-              <Route path={publicRoutes.SignIn} element={<SignIn/>}/>
+              <Route path={publicRoutes.Login} element={<Login/>}/>
               <Route path={publicRoutes.SignUp} element={<SignUp/>}/>
-              <Route path='/*' element={ <Navigate to={publicRoutes.SignIn}/>} />
+              <Route path='/*' element={ <Navigate to={publicRoutes.Login}/>} />
             </>
         )}
       </Routes>
