@@ -1,16 +1,21 @@
 import { ThemeProvider } from "styled-components"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { Button, FlexContainer, FormContainer, Icon, Input, Label, Paragraph, TitleH2 } from "../../components"
 import { lightTeam } from "../../styles/Theme"
 import { schemaLoginValidations } from "./schemaLoginValidations";
 import { ILoginForm } from "./interfaces";
 import { ErrorMessage } from "./ErrorMessage";
+import { publicRoutes } from "../../routes/routes";
 
 export const Login = () => {
   const {register, handleSubmit, formState:{errors}} = useForm<ILoginForm>({
     resolver: yupResolver(schemaLoginValidations)
   });
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const onSubmit = (data: ILoginForm) => {};
 
   return (
@@ -41,7 +46,7 @@ export const Login = () => {
           >
             <FlexContainer
               FlexDirection="column"
-              Gap="0.5rem"
+              Gap="1rem"
               Width="100%"
             >
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
@@ -73,8 +78,15 @@ export const Login = () => {
                     placeholder="Type your password"
                     Width="100%"
                     FontColor="#333333"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     {...register('password')}
+                  />
+                  <Icon 
+                    className={`fa-regular ${showPassword ? 'fa-eye':'fa-eye-slash'}`} 
+                    FontColor="#333333" 
+                    FontSize="1rem"
+                    Cursor="pointer"
+                    onClick={() => setShowPassword(!showPassword)}
                   />
                 </FlexContainer>
                 {errors.password?.message && <ErrorMessage message={errors.password.message}/>}
@@ -89,6 +101,21 @@ export const Login = () => {
               <Button type="submit">
                 {'Login'}
               </Button>
+
+              <FlexContainer JustifyContent="center" Gap="0.5rem" MarginTop="1.5rem">
+                <Paragraph FontSize="0.875rem" FontColor="#DA498D" Cursor="pointer" TextAlign="center">
+                    {'Do not you have an account?'}
+                </Paragraph>
+                <Paragraph 
+                  FontSize="0.875rem" 
+                  FontColor="#DA498D" 
+                  TextDecoration="underline"
+                  Cursor="pointer" 
+                  onClick={() => navigate(publicRoutes.SignUp)}
+                >
+                  {'Sign Up here'}
+                </Paragraph>
+              </FlexContainer>
             </FlexContainer>
           </FormContainer>
           

@@ -5,6 +5,7 @@ interface IconProps {
     FontSize?: string;
     Padding?: string;
     Margin?: string;
+    Cursor?: string;
 }
 
 export const Icon = styled.i<IconProps>`
@@ -12,4 +13,5 @@ export const Icon = styled.i<IconProps>`
     font-size: ${(props) => props.FontSize || "0.875rem"};
     margin: ${(props) => props.Margin || "0"};
     padding: ${(props) => props.Padding || "0"};
+    cursor: ${(props) => props.Cursor};
 `;
