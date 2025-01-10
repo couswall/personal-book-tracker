@@ -10,6 +10,7 @@ interface ITypographyProps {
     Margin?: string;
     Padding?: string;
     Cursor?:string;
+    TextDecoration?:string;
 }
 
 export const TitleH1 = styled.h1<ITypographyProps>`
@@ -66,4 +67,5 @@ export const Paragraph = styled.p<ITypographyProps>`
     margin: ${(props) => props.Margin || "0"};
     padding: ${(props) => props.Padding || "0"};
     cursor: ${(props) => props.Cursor};
+    text-decoration: ${(props) => props.TextDecoration};
 `;

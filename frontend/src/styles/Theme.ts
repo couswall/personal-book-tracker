@@ -5,7 +5,7 @@ export const lightTeam: DefaultTheme = {
         primaryColor: '#69247C',
         secondaryColor: '#DA498D',
         teritaryColor: '#FAC67A',
-        lightColor: '#F9E6CF',
+        lightColor: '#FFFFFE',
         primaryLight: '#783989',
         darkGrey: '#9fa3a9',
         disabledButton: '#b7e8e9',

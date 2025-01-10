@@ -18,6 +18,7 @@ interface IBaseContainerProps {
     Gap?: string;
     BoxShadow?: string;
     MarginTop?:string;
+    SmallPadding?: string;
 }
 
 export const BaseContainer = styled.div<IBaseContainerProps>`
@@ -27,7 +28,7 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     padding: ${(props) => props.Padding || "0"};
     margin: ${(props) => props.Margin || "0"};
     margin-bottom: ${(props) => props.MarginBottom};
-    background-color: ${(props) => props.BackgroundColor || "transparent"};
+    background-color: ${(props) => props.theme.colors.lightColor || props.BackgroundColor};
     border: ${(props) => props.Border || "none"};
     border-bottom: ${(props) => props.BorderBottom || 'none'};
     border-radius: ${(props) => props.BorderRadius || "0"};
@@ -39,6 +40,11 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     box-sizing: border-box;
     box-shadow: ${(props) => props.BoxShadow};
     margin-top: ${(props) => props.MarginTop};
+
+    @media (max-width: 575.98px) {
+        padding: ${(props) => props.SmallPadding};
+
+    }
 `;
 
 export const FlexContainer = styled(BaseContainer)`

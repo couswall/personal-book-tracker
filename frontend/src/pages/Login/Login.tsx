@@ -29,8 +29,9 @@ export const Login = () => {
           BoxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px;"
           BorderRadius="1rem"
           Width="500px"
+          SmallPadding="2.125rem 2.375rem"
         >
-          <TitleH2 FontSize="2rem" Margin="0px 0px 0.5rem 0px" TextAlign="center">
+          <TitleH2 FontSize="2rem" Margin="0px 0px 0.5rem 0px" TextAlign="center" LineHeight="1">
             {'Welcome back'}
           </TitleH2>
           <Paragraph FontSize="0.875rem" FontColor="#DA498D" TextAlign="center">
@@ -52,7 +53,7 @@ export const Login = () => {
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
                 <Label FontSize="0.875rem" FontColor="#333333">{'Email'}</Label>
                 <FlexContainer Gap="0.5rem" Padding="1rem 0px" BorderBottom={errors.email ? '1px solid #FA4032' : '1px solid #d9d9d9'} AlignItems="center" Width="100%">
-                  <Icon className="fa-solid fa-user" FontColor="#333333" FontSize="1rem"/>
+                  <Icon className="fa-solid fa-envelope" FontColor="#333333" FontSize="1rem"/>
                   <Input 
                     Border="none" 
                     BorderRadius="0px"
