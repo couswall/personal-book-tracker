@@ -2,20 +2,23 @@ import { useForm } from "react-hook-form"
 import { useState } from "react";
 import { ThemeProvider } from "styled-components"
 import { useNavigate } from "react-router";
+import { yupResolver } from '@hookform/resolvers/yup';
 import { lightTeam } from "../../styles/Theme"
 import { Button, FlexContainer, FormContainer, Icon, Input, Label, Paragraph, TitleH2 } from "../../components"
 import { publicRoutes } from "../../routes/routes";
-
-export interface ISignUpForm {
-  name: string;
-  email: string;
-  password: string;
-}
+import { schemaSignUpValidations } from './schemaSignUpValidations';
+import { ErrorMessage } from "../Login/ErrorMessage";
+import { ISignUpForm } from "./interfaces";
 
 export const SignUp = () => {
-  const {register, formState: {errors}} = useForm<ISignUpForm>();
+  const {register, formState: {errors}, handleSubmit} = useForm<ISignUpForm>({
+    resolver: yupResolver(schemaSignUpValidations) 
+  });
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const onSubmit = (data: ISignUpForm) => {
+    console.log(data)
+  }
   return (
     <ThemeProvider theme={lightTeam}>
       <FlexContainer JustifyContent="center" AlignItems="center" MinHeight="100vh">
@@ -41,6 +44,7 @@ export const SignUp = () => {
             Gap="1rem"
             MarginTop="2rem"
             Width="100%"
+            onSubmit={handleSubmit(onSubmit)}
           >
             <FlexContainer
               FlexDirection="column"
@@ -65,9 +69,10 @@ export const SignUp = () => {
                     FontColor="#333333"
                     type="text"
                     {...register('name')}
+                    maxLength={50}
                   />
                 </FlexContainer>
-                {/* {errors.email?.message && <ErrorMessage message={errors.name.message}/>} */}
+                {errors.name?.message && <ErrorMessage message={errors.name.message}/>}
               </FlexContainer>
 
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
@@ -91,7 +96,7 @@ export const SignUp = () => {
                     {...register('email')}
                   />
                 </FlexContainer>
-                {/* {errors.email?.message && <ErrorMessage message={errors.name.message}/>} */}
+                {errors.email?.message && <ErrorMessage message={errors.email.message}/>}
               </FlexContainer>
 
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
@@ -113,6 +118,7 @@ export const SignUp = () => {
                     FontColor="#333333"
                     type={showPassword ? 'text' : 'password'}
                     {...register('password')}
+                    maxLength={16}
                   />
                   <Icon 
                     className={`fa-regular ${showPassword ? 'fa-eye':'fa-eye-slash'}`} 
@@ -122,7 +128,7 @@ export const SignUp = () => {
                     onClick={() => setShowPassword(!showPassword)}
                   />
                 </FlexContainer>
-                {/* {errors.email?.message && <ErrorMessage message={errors.name.message}/>} */}
+                {errors.password?.message && <ErrorMessage message={errors.password.message}/>}
               </FlexContainer>
 
               <Button type="submit">
