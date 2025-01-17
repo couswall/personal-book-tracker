@@ -2,7 +2,7 @@ import { DefaultTheme } from "styled-components";
 
 export const lightTeam: DefaultTheme = {
     colors: {
-        primaryColor: '#69247C',
+        primaryColor: '#3A3960',
         secondaryColor: '#DA498D',
         teritaryColor: '#FAC67A',
         lightColor: '#FFFFFE',
@@ -12,5 +12,14 @@ export const lightTeam: DefaultTheme = {
     },
     fonts: {
         inter: 'Inter'
+    },
+    widths: {
+        sectionMaxWidth: '1400px'
+    },
+    paddings: {
+        sectionContainer: '0 40px',
+    },
+    margins: {
+        sectionContainer: '0 auto',
     }
 }

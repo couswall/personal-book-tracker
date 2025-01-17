@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface IBaseContainerProps {
     Width?: string;
+    MaxWidth?: string;
     Height?: string;
     MinHeight?: string;
     Padding?: string;
@@ -18,17 +19,20 @@ interface IBaseContainerProps {
     Gap?: string;
     BoxShadow?: string;
     MarginTop?:string;
+    Cursor?: string; 
     SmallPadding?: string;
+    Position?: string;
 }
 
 export const BaseContainer = styled.div<IBaseContainerProps>`
     width: ${(props) => props.Width || "auto"};
     height: ${(props) => props.Height || "auto"};
+    max-width: ${(props) => props.MaxWidth};
     min-height: ${(props) => props.MinHeight || 'auto'};
     padding: ${(props) => props.Padding || "0"};
     margin: ${(props) => props.Margin || "0"};
     margin-bottom: ${(props) => props.MarginBottom};
-    background-color: ${(props) => props.theme.colors.lightColor || props.BackgroundColor};
+    background-color: ${(props) => props.BackgroundColor ? props.BackgroundColor : props.theme.colors.lightColor};
     border: ${(props) => props.Border || "none"};
     border-bottom: ${(props) => props.BorderBottom || 'none'};
     border-radius: ${(props) => props.BorderRadius || "0"};
@@ -40,6 +44,8 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     box-sizing: border-box;
     box-shadow: ${(props) => props.BoxShadow};
     margin-top: ${(props) => props.MarginTop};
+    cursor: ${(props) => props.Cursor};
+    position: ${(props) => props.Position};
 
     @media (max-width: 575.98px) {
         padding: ${(props) => props.SmallPadding};

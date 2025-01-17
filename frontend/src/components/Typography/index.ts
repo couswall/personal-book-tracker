@@ -11,12 +11,13 @@ interface ITypographyProps {
     Padding?: string;
     Cursor?:string;
     TextDecoration?:string;
+    LightColor?: boolean;
 }
 
 export const TitleH1 = styled.h1<ITypographyProps>`
     font-size: ${(props) => props.FontSize || "2rem"};
     font-weight: ${(props) => props.FontWeight || "bold"};
-    color: ${(props) => props.FontColor || "inherit"};
+    color: ${(props) => props.LightColor ? props.theme.colors.lightColor : props.FontColor || "inherit"};
     font-family: ${(props) => props.FontFamily || "Inter"};
     line-height: ${(props) => props.LineHeight || "1.5"};
     text-align: ${(props) => props.TextAlign || "left"};
@@ -49,7 +50,7 @@ export const TitleH3 = styled.h3<ITypographyProps>`
 export const TitleH4 = styled.h4<ITypographyProps>`
     font-size: ${(props) => props.FontSize || "1.25rem"};
     font-weight: ${(props) => props.FontWeight || "bold"};
-    color: ${(props) => props.FontColor || "inherit"};
+    color: ${(props) => props.LightColor ? props.theme.colors.lightColor : props.FontColor || "inherit"};
     font-family: ${(props) => props.FontFamily || "Inter"};
     line-height: ${(props) => props.LineHeight || "1.5"};
     text-align: ${(props) => props.TextAlign || "left"};
