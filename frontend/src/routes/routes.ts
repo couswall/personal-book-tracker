@@ -1,8 +1,9 @@
 export const publicRoutes = {
-    Login: '/auth/Login',
-    SignUp: '/auth/SignUp',
+    login: '/auth/login',
+    signUp: '/auth/signup',
 };
 
 export const privateRoutes = {
-    MyBooks: '/MyBooks',
+    myBooks: '/mybooks',
+    search: '/search'
 };

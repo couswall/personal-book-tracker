@@ -13,13 +13,13 @@ export const AppRouter = () => {
             <Route element={<DashboardLayout/>}>
               <Route path="/" element={<h1>{'HomePage'}</h1>}/>
               <Route path='/*' element={ <h1>{'404 error'}</h1>  } />
-              <Route path={privateRoutes.MyBooks} element={<MyBooks/>}/>
+              <Route path={privateRoutes.myBooks} element={<MyBooks/>}/>
             </Route>
         ) : (
             <>
-              <Route path={publicRoutes.Login} element={<Login/>}/>
-              <Route path={publicRoutes.SignUp} element={<SignUp/>}/>
-              <Route path='/*' element={ <Navigate to={publicRoutes.Login}/>} />
+              <Route path={publicRoutes.login} element={<Login/>}/>
+              <Route path={publicRoutes.signUp} element={<SignUp/>}/>
+              <Route path='/*' element={ <Navigate to={publicRoutes.login}/>} />
             </>
         )}
       </Routes>
