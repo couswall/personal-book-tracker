@@ -1,22 +1,15 @@
 import { useNavigate } from "react-router"
 import { Container } from "../Containers"
 import { FlexContainer } from "../FlexContainer"
-import { TitleH1, TitleH4 } from "../Typography"
-import { HamburgerContainer, NavbarElement, NavbarLink, NavbarList, NavbarStyled } from "./styles"
-import { privateRoutes } from "../../routes/routes"
-import { Icon } from "../Icon"
+import { TitleH1 } from "../Typography"
+import {NavbarStyled} from "./styles"
 import { useState } from "react"
-
-export const navbarRoutes = [
-    {label: 'Home', route: '/'},
-    {label: 'My Books', route: privateRoutes.MyBooks},
-    {label: 'Browse', route: '/Browse'},
-]
+import { NavbarItems, SearchBarNav } from "./components"
 
 export const Navbar = () => {
     const navigate = useNavigate();
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-    const isDarkMode = false;
+    const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
+
     return (
         <NavbarStyled
             Height="80px"
@@ -30,52 +23,27 @@ export const Navbar = () => {
                     BackgroundColor="inherit" 
                     JustifyContent="space-between" 
                     AlignItems="center"
-                    // Position="relative"
+                    Gap="16px"
                 >
                     <TitleH1 
                         FontSize="1.5rem" 
-                        LightColor={true} 
                         Cursor="pointer"
                         onClick={() => navigate('/')}
+                        FontColor='#FFFFFE'
+                        Width="max-content"
                     >
                         {'Book Tracker'}
                     </TitleH1>
-                    <NavbarList className={isMenuOpen ? 'show-menu' : ''}>
-                        {navbarRoutes.map((item, index) => (
-                            <NavbarElement key={index} onClick={() => navigate(item.route)}>
-                                <NavbarLink LightColor={true} FontWeight="300" FontSize="1rem">
-                                    {item.label}
-                                </NavbarLink>
-                            </NavbarElement>
-                        ))}
-                        {/* <NavbarElement>
-                            {(isDarkMode) ? (
-                                <Icon className="fa-regular fa-sun" FontSize="1rem" LightColor={true}/>
-                            ) : (
-                                <Icon className="fa-solid fa-moon" FontSize="1rem" LightColor={true}/>
-                            )}
-                        </NavbarElement> */}
-                    </NavbarList>
-                    <HamburgerContainer>
-                        {isMenuOpen ? (
-                            <Icon 
-                                className="fa-solid fa-x" 
-                                FontSize="1.5rem" 
-                                LightColor={true}
-                                Cursor="pointer"
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            />
-                        ) : (
-                            <Icon 
-                                className="fa-solid fa-bars" 
-                                FontSize="1.5rem" 
-                                LightColor={true}
-                                Cursor="pointer"
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            />
-                        )}
-                    </HamburgerContainer>
+                    
+                    <NavbarItems
+                        showSearchInput={showSearchInput} 
+                        setShowSearchInput={setShowSearchInput}
+                    />
                 </FlexContainer>
+                <SearchBarNav 
+                    showSearchInput={showSearchInput} 
+                    setShowSearchInput={setShowSearchInput}
+                />
             </Container>
         </NavbarStyled>
     )

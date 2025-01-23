@@ -44,3 +44,7 @@ export const Button = styled.button<ButtonProps>`
 
     }
 `;
+
+export const ButtonSecondary = styled(Button)`
+    background-color: ${(props) => props.BackGroundColor || props.theme.colors.secondaryColor};
+`;

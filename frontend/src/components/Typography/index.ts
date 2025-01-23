@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-interface ITypographyProps {
+interface ITypographyBaseProps {
     FontSize?: string;
     FontWeight?: string;
     FontColor?: string;
@@ -11,62 +11,48 @@ interface ITypographyProps {
     Padding?: string;
     Cursor?:string;
     TextDecoration?:string;
+    Width?: string;
     LightColor?: boolean;
+    LetterSpacing?: string;
 }
 
-export const TitleH1 = styled.h1<ITypographyProps>`
-    font-size: ${(props) => props.FontSize || "2rem"};
-    font-weight: ${(props) => props.FontWeight || "bold"};
-    color: ${(props) => props.LightColor ? props.theme.colors.lightColor : props.FontColor || "inherit"};
-    font-family: ${(props) => props.FontFamily || "Inter"};
-    line-height: ${(props) => props.LineHeight || "1.5"};
-    text-align: ${(props) => props.TextAlign || "left"};
-    margin: ${(props) => props.Margin || "0"};
-    padding: ${(props) => props.Padding || "0"};
-`;
-
-export const TitleH2 = styled.h2<ITypographyProps>`
-    font-size: ${(props) => props.FontSize || "1.75rem"};
-    font-weight: ${(props) => props.FontWeight || "bold"};
-    color: ${(props) => props.FontColor || "inherit"};
-    font-family: ${(props) => props.FontFamily || "Inter"};
-    line-height: ${(props) => props.LineHeight || "1.5"};
-    text-align: ${(props) => props.TextAlign || "left"};
-    margin: ${(props) => props.Margin || "0"};
-    padding: ${(props) => props.Padding || "0"};
-`;
-
-export const TitleH3 = styled.h3<ITypographyProps>`
-    font-size: ${(props) => props.FontSize || "1.5rem"};
-    font-weight: ${(props) => props.FontWeight || "bold"};
-    color: ${(props) => props.FontColor || "inherit"};
-    font-family: ${(props) => props.FontFamily || "Inter"};
-    line-height: ${(props) => props.LineHeight || "1.5"};
-    text-align: ${(props) => props.TextAlign || "left"};
-    margin: ${(props) => props.Margin || "0"};
-    padding: ${(props) => props.Padding || "0"};
-`;
-
-export const TitleH4 = styled.h4<ITypographyProps>`
-    font-size: ${(props) => props.FontSize || "1.25rem"};
-    font-weight: ${(props) => props.FontWeight || "bold"};
-    color: ${(props) => props.LightColor ? props.theme.colors.lightColor : props.FontColor || "inherit"};
-    font-family: ${(props) => props.FontFamily || "Inter"};
-    line-height: ${(props) => props.LineHeight || "1.5"};
-    text-align: ${(props) => props.TextAlign || "left"};
-    margin: ${(props) => props.Margin || "0"};
-    padding: ${(props) => props.Padding || "0"};
-`;
-
-export const Paragraph = styled.p<ITypographyProps>`
-    font-size: ${(props) => props.FontSize || "1rem"};
+export const TypographyBase = styled.p<ITypographyBaseProps>`
+    font-size: ${(props) => props.FontSize};
     font-weight: ${(props) => props.FontWeight || "normal"};
-    color: ${(props) => props.FontColor || "inherit"};
-    font-family: ${(props) => props.FontFamily || "Inter"};
+    color: ${(props) => props.LightColor 
+                                ? props.theme.colors.lightColor
+                                : props.FontColor || props.theme.colors.themeText};
+    font-family: ${(props) => props.theme.fonts.inter || props.FontFamily};
     line-height: ${(props) => props.LineHeight || "1.5"};
     text-align: ${(props) => props.TextAlign || "left"};
     margin: ${(props) => props.Margin || "0"};
     padding: ${(props) => props.Padding || "0"};
     cursor: ${(props) => props.Cursor};
     text-decoration: ${(props) => props.TextDecoration};
+    width: ${(props) => props.Width};
+    letter-spacing: ${(props) => props.LetterSpacing};
+`;
+
+export const TitleH1 = styled(TypographyBase).attrs({as: 'h1'})`
+    font-size: ${(props) => props.FontSize || "2rem"};
+    font-weight: ${(props) => props.FontWeight || "bold"};
+`;
+
+export const TitleH2 = styled(TypographyBase).attrs({as: 'h2'})`
+    font-size: ${(props) => props.FontSize || "1.75rem"};
+    font-weight: ${(props) => props.FontWeight || "bold"};
+`;
+
+export const TitleH3 = styled(TypographyBase).attrs({as: 'h3'})`
+    font-size: ${(props) => props.FontSize || "1.5rem"};
+    font-weight: ${(props) => props.FontWeight || "bold"};
+`;
+
+export const TitleH4 = styled(TypographyBase).attrs({as: 'h4'})`
+    font-size: ${(props) => props.FontSize || "1.25rem"};
+    font-weight: ${(props) => props.FontWeight || "bold"};
+`;
+
+export const Paragraph = styled(TypographyBase)`
+    font-size: ${(props) => props.FontSize || "1rem"};
 `;
