@@ -7,7 +7,7 @@ import React from 'react'
 import { SearchBarNavProps } from './interfaces'
 import { RootState } from '../../../store/store'
 
-export const SearchBarNav: React.FC<SearchBarNavProps> = ({showSearchInput, setShowSearchInput}) => {
+export const SearchBarNav: React.FC<SearchBarNavProps> = ({showSearchInput, setShowSearchInput, searchBarRef}) => {
     const {isDarkMode} = useSelector((state: RootState) => state.darkMode);
     return (
     <>
@@ -18,6 +18,7 @@ export const SearchBarNav: React.FC<SearchBarNavProps> = ({showSearchInput, setS
             Top="80px"
             Left="0"
             className={showSearchInput ? 'expand-search-bar' : ''}
+            ref={searchBarRef}
         >
             <FormContainer 
                 Height="100%" 

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { AppDispatch, RootState } from "../../../store/store";
 import { FlexContainer } from "../../FlexContainer";
 import { HamburgerContainer, NavbarElement, NavbarLink, NavbarList } from "../styles";
@@ -9,14 +9,19 @@ import { Icon } from "../../Icon";
 import { toggleDarkMode } from "../../../store";
 import { NavbarItemsProps } from "./interfaces";
 import { SubMenuNav } from "./SubMenuNav";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 
-export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setShowSearchInput}) => {
+export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setShowSearchInput, searchBarRef}) => {
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
     const {isDarkMode} = useSelector((state: RootState) => state.darkMode);
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [showSubmenu, setShowSubmenu] = useState<boolean>(false);
+    const subMenuBtnRef = useRef<HTMLDivElement | null>(null);
+    const searchBtnRef = useRef<HTMLDivElement | null>(null);
+    useClickOutside([subMenuBtnRef], () => setShowSubmenu(false));
+    useClickOutside([searchBtnRef, searchBarRef], () => setShowSearchInput(false));
     return (
         <FlexContainer BackgroundColor="inherit" AlignItems="center" Gap="1rem">
             <NavbarList className={isMenuOpen ? 'show-menu' : ''}>
@@ -77,6 +82,7 @@ export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setSho
                 Cursor="pointer" 
                 AlignItems="center"
                 onClick={() => setShowSearchInput(!showSearchInput)}
+                ref={searchBtnRef}
             >
                 <Icon 
                     className="fa-solid fa-magnifying-glass" 
@@ -89,10 +95,10 @@ export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setSho
                 Width="1rem" 
                 Height="1rem" 
                 BackgroundColor="inherit" 
-                Cursor="pointer" 
                 AlignItems="center"
                 Position="relative"
                 onClick={() => setShowSubmenu(!showSubmenu)}
+                ref={subMenuBtnRef}
             >
                 <Icon 
                     className="fa-solid fa-user" 

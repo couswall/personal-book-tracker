@@ -3,12 +3,13 @@ import { Container } from "../Containers"
 import { FlexContainer } from "../FlexContainer"
 import { TitleH1 } from "../Typography"
 import {NavbarStyled} from "./styles"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { NavbarItems, SearchBarNav } from "./components"
 
 export const Navbar = () => {
     const navigate = useNavigate();
     const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
+    const searchBarRef = useRef<HTMLDivElement | null>(null);
 
     return (
         <NavbarStyled
@@ -38,11 +39,13 @@ export const Navbar = () => {
                     <NavbarItems
                         showSearchInput={showSearchInput} 
                         setShowSearchInput={setShowSearchInput}
+                        searchBarRef={searchBarRef}
                     />
                 </FlexContainer>
                 <SearchBarNav 
                     showSearchInput={showSearchInput} 
                     setShowSearchInput={setShowSearchInput}
+                    searchBarRef={searchBarRef}
                 />
             </Container>
         </NavbarStyled>

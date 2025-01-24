@@ -20,7 +20,7 @@ export const SubMenuNav = () => {
         <FlexContainer FlexDirection="column" BackgroundColor="inherit">
             {subMenuRoutes.map((item, index) => (
                 <FlexContainer key={index} BackgroundColor="inherit" Height="32px" AlignItems="center">
-                    <SubMenuLink LightColor={true} FontSize="0.875rem" LetterSpacing="1px">
+                    <SubMenuLink LightColor={true} FontSize="0.875rem" LetterSpacing="1px" Cursor='pointer'>
                         {item.label}
                     </SubMenuLink>
                 </FlexContainer>
@@ -29,7 +29,7 @@ export const SubMenuNav = () => {
         
         <FlexContainer FlexDirection="column" BackgroundColor="inherit" BorderTop="1px solid #FFFFFE">
             <FlexContainer BackgroundColor="inherit" Height="32px" AlignItems="center">
-                <SubMenuLink LightColor={true} FontSize="0.875rem" LetterSpacing="1px">
+                <SubMenuLink LightColor={true} FontSize="0.875rem" LetterSpacing="1px" Cursor='pointer'>
                     {'Sign out'}
                 </SubMenuLink>
             </FlexContainer>
