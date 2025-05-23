@@ -1,9 +1,10 @@
-import express from "express";
+import express, { Router } from "express";
 import { Server as HttpServer } from 'http';
 
 interface ServerOptions{
     port: number;
     publicPath: string;
+    routes: Router;
 }
 
 export class Server{
@@ -11,17 +12,24 @@ export class Server{
     private readonly port: number;
     private serverListener?: HttpServer;
     private readonly publicPath: string;
+    private readonly routes: Router;
 
     constructor(options: ServerOptions){
-        const {port, publicPath} = options;
+        const {port, publicPath, routes} = options;
         
         this.port = port;
         this.publicPath = publicPath;
+        this.routes = routes;
     };
 
     async start(){
         
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({extended: true}));
+
         this.app.use(express.static(this.publicPath));
+        
+        this.app.use(this.routes);
 
         this.serverListener = this.app.listen(this.port, () => {
             console.log(`Server running in port ${this.port}`);
