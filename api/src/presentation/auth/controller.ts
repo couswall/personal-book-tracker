@@ -1,3 +1,4 @@
+import { CreateUserDto } from '@/src/domain/dtos';
 import { Request, Response } from 'express';
 
 export class AuthController{
@@ -8,6 +9,15 @@ export class AuthController{
     };
 
     public registerUser = (req: Request, res: Response) => {
-        res.json('register user');
+        const [errorMsg, dto] = CreateUserDto.create(req.body);
+        if(errorMsg) {
+            res.status(400).json({
+                success: false,
+                data: null,
+                error: {message: errorMsg},
+            });
+            return;
+        }
+        res.json(dto);
     };
 }
