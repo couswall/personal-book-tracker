@@ -1,8 +1,10 @@
-import { prisma } from "@/src/data/postgres";
-import { CreateUserDto } from "@domain/dtos";
+import { prisma } from "@data/postgres";
+import { BCryptAdapter } from "@src/config";
+import { CreateUserDto, LoginUserDto } from "@domain/dtos";
+import { CustomError } from "@domain/errors/custom.error";
 import { UserEntity } from "@domain/entities/user.entity";
 import { UserDatasource } from "@domain/datasources/user.datasource";
-import { CustomError } from "@domain/errors/custom.error";
+import { ERROR_MESSAGES } from "@infrastructure/constants";
 
 export class UserDatasourceImpl implements UserDatasource{
     
@@ -15,8 +17,8 @@ export class UserDatasourceImpl implements UserDatasource{
             where: {email: createUserDto.email}
         });
 
-        if(existingUsername) throw CustomError.badRequest('User with provided username already exists');
-        if(existingEmail) throw CustomError.badRequest('User with provided email already exists');
+        if(existingUsername) throw CustomError.badRequest(ERROR_MESSAGES.USER.CREATE.EXISTING_USERNAME);
+        if(existingEmail) throw CustomError.badRequest(ERROR_MESSAGES.USER.CREATE.EXISTING_EMAIL);
 
         const newUser = await prisma.user.create({
             data: {
@@ -28,5 +30,24 @@ export class UserDatasourceImpl implements UserDatasource{
         });
 
         return UserEntity.fromObject(newUser);
+    }
+
+    async login(loginUserDto: LoginUserDto): Promise<UserEntity>{
+        const user = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    {email: loginUserDto.emailOrUsername},
+                    {username: loginUserDto.emailOrUsername},
+                ]
+            } 
+        });
+
+        if(!user) throw CustomError.badRequest(ERROR_MESSAGES.USER.LOGIN.INVALID_CREDENTIALS);
+
+        const passwordMatch = BCryptAdapter.compare(loginUserDto.password, user.password);
+
+        if(!passwordMatch) throw CustomError.badRequest(ERROR_MESSAGES.USER.LOGIN.INVALID_CREDENTIALS);
+
+        return UserEntity.fromObject(user);
     }
 }

@@ -25,5 +25,12 @@ export const DTOS_ERRORS = {
             STRING: 'password must be a string',
             FORMAT: 'password must be at least 6 characters and include an uppercase letter, lowercase letter, number, and special character',  
         }
+    },
+    LOGIN_USER: {
+        EMAIL_USERNAME: {
+            REQUIRED: 'username or email field is required',
+            STRING: 'username or email field must be a string',
+            BLANK_SPACES: 'username or email field cannot contain only blank spaces'
+        }
     }
 }

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { CreateUserDto } from '@domain/dtos';
+import { CreateUserDto, LoginUserDto } from '@domain/dtos';
 import { UserRepository } from '@domain/repositories/user.repository';
-import { CreateUser } from '@domain/use-cases/user/create-user';
+import { CreateUser, LoginUser } from '@domain/use-cases';
 import { CustomError } from '@domain/errors/custom.error';
 
 export class AuthController{
@@ -10,7 +10,30 @@ export class AuthController{
     ){};
 
     public loginUser = (req: Request, res: Response) => {
-        res.json('login user');
+        const [errorMsg, dto] = LoginUserDto.create(req.body);
+        if(errorMsg) {
+            res.status(400).json({
+                success: false,
+                error: {message: errorMsg},
+            });
+            return;
+        }
+
+        new LoginUser(this.repository)
+            .execute(dto!)
+            .then(({user, token}) => {
+                const {password,deletedAt, ...responseUser} = user;
+
+                res.status(200).json({
+                    success: true,
+                    message: 'Login successfully',
+                    data: {
+                        user: responseUser,
+                        token,
+                    },
+                })
+            })
+            .catch(error => CustomError.handleError(error, res));
     };
 
     public registerUser = (req: Request, res: Response) => {
@@ -25,14 +48,15 @@ export class AuthController{
         
         new CreateUser(this.repository)
             .execute(dto!)
-            .then(user => {
-                const {password, ...responseUser} = user;
+            .then(({user, token}) => {
+                const {password, deletedAt, ...responseUser} = user;
 
                 res.status(201).json({
                     success: true,
                     message: 'User created successfully',
                     data: {
                         user: responseUser,
+                        token,
                     },
                 })
             })

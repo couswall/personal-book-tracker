@@ -1,7 +1,7 @@
-import { UserDatasource } from "@/src/domain/datasources/user.datasource";
-import { CreateUserDto } from "@/src/domain/dtos";
-import { UserEntity } from "@/src/domain/entities/user.entity";
-import { UserRepository } from "@/src/domain/repositories/user.repository";
+import { UserDatasource } from "@domain/datasources/user.datasource";
+import { CreateUserDto, LoginUserDto } from "@domain/dtos";
+import { UserEntity } from "@domain/entities/user.entity";
+import { UserRepository } from "@domain/repositories/user.repository";
 
 export class UserRepositoryImpl implements UserRepository{
     constructor(
@@ -10,5 +10,9 @@ export class UserRepositoryImpl implements UserRepository{
 
     create(createUserDto: CreateUserDto): Promise<UserEntity> {
         return this.datasource.create(createUserDto);
+    }
+
+    login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+        return this.datasource.login(loginUserDto);
     }
 }

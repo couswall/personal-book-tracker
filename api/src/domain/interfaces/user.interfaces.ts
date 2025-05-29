@@ -13,3 +13,8 @@ export interface ICreateUserDto{
     email: string;
     password: string;
 }
+
+export interface ILoginUserDto{
+    emailOrUsername: string;
+    password: string;
+}
