@@ -3,7 +3,7 @@ export const DTOS_ERRORS = {
         FULLNAME: {
             REQUIRED: 'fullname is required',
             STRING: 'fullname must be a string',
-            MIN_LENGTH: 'fullname must contain at least one character long',
+            MIN_LENGTH: 'fullname must contain at least 3 character long',
             MAX_LENGTH: 'fullname must contain at last 40 characters long',
             BLANK_SPACES: 'fullname cannot contain only blank spaces',
             FORMAT: 'fullname can only contain letters and spaces'

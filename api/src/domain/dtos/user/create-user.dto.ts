@@ -1,6 +1,6 @@
-import { regularExps } from "@/src/config";
+import { regularExps } from "@config/regular-exp";
 import { ICreateUserDto } from "@domain/interfaces/user.interfaces";
-import { DTOS_ERRORS } from "../../constants/user.constants";
+import { DTOS_ERRORS } from "@domain/constants/user.constants";
 
 export class CreateUserDto{
     constructor(
@@ -15,7 +15,7 @@ export class CreateUserDto{
 
         if(!fullName) return DTOS_ERRORS.CREATE_USER.FULLNAME.REQUIRED;
         if(typeof fullName !== 'string') return DTOS_ERRORS.CREATE_USER.FULLNAME.STRING;
-        if(fullName.length === 0) return DTOS_ERRORS.CREATE_USER.FULLNAME.MIN_LENGTH;
+        if(fullName.length < 3) return DTOS_ERRORS.CREATE_USER.FULLNAME.MIN_LENGTH;
         if(fullName.length > 40) return DTOS_ERRORS.CREATE_USER.FULLNAME.MAX_LENGTH;
         if(fullName.trim().length === 0) return DTOS_ERRORS.CREATE_USER.FULLNAME.BLANK_SPACES;
         if(!regularExps.fullname.test(fullName)) return DTOS_ERRORS.CREATE_USER.FULLNAME.FORMAT;
@@ -27,7 +27,7 @@ export class CreateUserDto{
         if(!regularExps.username.test(username)) return DTOS_ERRORS.CREATE_USER.USERNAME.FORMAT;
 
         if(!email) return DTOS_ERRORS.CREATE_USER.EMAIL.REQUIRED;
-        if(typeof email !== 'string') return DTOS_ERRORS.CREATE_USER.EMAIL.REQUIRED;
+        if(typeof email !== 'string') return DTOS_ERRORS.CREATE_USER.EMAIL.STRING;
         if(!regularExps.email.test(email)) return DTOS_ERRORS.CREATE_USER.EMAIL.FORMAT;
         
         if(!password) return DTOS_ERRORS.CREATE_USER.PASSWORD.REQUIRED;

@@ -1,4 +1,4 @@
-import { regularExps } from "@src/config";
+import { regularExps } from "@config/regular-exp";
 import { DTOS_ERRORS } from "@domain/constants/user.constants";
 import { ILoginUserDto } from "@domain/interfaces/user.interfaces";
 
