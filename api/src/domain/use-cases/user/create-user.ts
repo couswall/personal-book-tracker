@@ -1,4 +1,4 @@
-import { BCryptAdapter, JwtAdapter } from "@/src/config";
+import { BCryptAdapter, JwtAdapter } from "@src/config";
 import { UserRepository } from "@domain/repositories/user.repository";
 import { CreateUserDto } from "@domain/dtos";
 import { CustomError } from "@domain/errors/custom.error";
