@@ -22,3 +22,7 @@ export const loginUserDtoObj = {
     emailOrUsername: userObj.email,
     password: userObj.password,
 };
+
+export const mockUserPrisma = {
+    ...userObj,
+}

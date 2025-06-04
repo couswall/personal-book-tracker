@@ -10,11 +10,11 @@ export class UserDatasourceImpl implements UserDatasource{
     
     async create(createUserDto: CreateUserDto): Promise<UserEntity> {
         const existingUsername = await prisma.user.findFirst({
-            where: {username: createUserDto.username}
+            where: {username: createUserDto.username, deletedAt: null,}
         });
 
         const existingEmail = await prisma.user.findFirst({
-            where: {email: createUserDto.email}
+            where: {email: createUserDto.email, deletedAt: null,}
         });
 
         if(existingUsername) throw CustomError.badRequest(ERROR_MESSAGES.USER.CREATE.EXISTING_USERNAME);
@@ -36,8 +36,8 @@ export class UserDatasourceImpl implements UserDatasource{
         const user = await prisma.user.findFirst({
             where: {
                 OR: [
-                    {email: loginUserDto.emailOrUsername},
-                    {username: loginUserDto.emailOrUsername},
+                    {email: loginUserDto.emailOrUsername, deletedAt: null,},
+                    {username: loginUserDto.emailOrUsername, deletedAt: null,},
                 ]
             } 
         });
