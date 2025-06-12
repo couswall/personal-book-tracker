@@ -20,13 +20,14 @@ interface IBaseContainerProps {
     BoxShadow?: string;
     MarginTop?:string;
     Cursor?: string; 
-    SmallPadding?: string;
     Position?: string;
     Top?: string;
     Right?: string;
     Bottom?: string;
     Left?: string;
     BorderTop?:string;
+    SmallPadding?: string;
+    SmallFlexDir?: string;
 }
 
 export const BaseContainer = styled.div<IBaseContainerProps>`
@@ -59,7 +60,6 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
 
     @media (max-width: 575.98px) {
         padding: ${(props) => props.SmallPadding};
-
     }
 `;
 
@@ -69,6 +69,10 @@ export const FlexContainer = styled(BaseContainer)`
     align-items: ${(props) => props.AlignItems || "stretch"};
     justify-content: ${(props) => props.JustifyContent || "flex-start"};
     gap: ${(props) => props.Gap};
+
+    @media (max-width: 575.98px) {
+        flex-direction: ${(props) => props.SmallFlexDir};
+    }
 `;
 
 export const FormContainer = styled(BaseContainer).attrs({as: 'form'})``;

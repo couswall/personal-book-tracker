@@ -112,7 +112,7 @@ export const Login = () => {
                   FontColor="#DA498D" 
                   TextDecoration="underline"
                   Cursor="pointer" 
-                  onClick={() => navigate(publicRoutes.SignUp)}
+                  onClick={() => navigate(publicRoutes.signUp)}
                 >
                   {'Sign Up here'}
                 </Paragraph>

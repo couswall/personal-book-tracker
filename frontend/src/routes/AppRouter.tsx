@@ -5,7 +5,7 @@ import { DashboardLayout } from "../views/DashboardLayout";
 
 export const AppRouter = () => {
   
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   
   return (
       <Routes>

@@ -1,6 +1,21 @@
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+
 export interface ISignUpForm {
-    name: string;
-    email: string;
-    password: string;
-  }
-  
+  fullName: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+export type SignUpFildName = "fullName" | "username" | "email" | "password";
+
+export interface IFormFieldProps {
+  label: string;
+  placeholder?: string;
+  inputType?: string;
+  inputMaxLength?: number;
+  iconClass: string;
+  fieldName: SignUpFildName;
+  register: UseFormRegister<ISignUpForm>;
+  errors: FieldErrors<ISignUpForm>;
+}
