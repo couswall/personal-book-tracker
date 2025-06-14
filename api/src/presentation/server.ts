@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import cors, { CorsOptions } from 'cors';
 import { Server as HttpServer } from 'http';
 
 interface ServerOptions{
@@ -24,6 +25,13 @@ export class Server{
 
     async start(){
         
+        const corsOptions: CorsOptions = {
+            origin: ['http://localhost:5173'],
+            methods: ['GET', 'POST', 'PUT'],
+            allowedHeaders: ['Authorization', 'Content-Type'],
+        };
+
+        this.app.use(cors(corsOptions));
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended: true}));
 
