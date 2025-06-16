@@ -1,8 +1,19 @@
 import * as yup from 'yup';
-
-export const emailRex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import { ERROR_MESSAGES } from './constants';
+import { regularExs } from '../../constants/regExs';
 
 export const schemaLoginValidations = yup.object().shape({
-    email: yup.string().required('Email is required').matches(emailRex, 'Invalid email'),
-    password: yup.string().required('Password is required')
+    emailOrUsername: yup.string()
+        .required(ERROR_MESSAGES.REQUIRED)
+        .trim()
+        .min(3, ERROR_MESSAGES.EMAIL_USERNAME.MIN_LENGTH)
+        .test(
+            'not-only-blank-spaces', 
+            ERROR_MESSAGES.EMAIL_USERNAME.BLANK_SPACES, 
+            (value) => value?.trim().length !== 0, 
+        ),
+    password: yup.string()
+        .required(ERROR_MESSAGES.REQUIRED)
+        .trim()
+        .matches(regularExs.password, ERROR_MESSAGES.PASSWORD.FORMAT),
 });

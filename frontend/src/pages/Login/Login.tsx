@@ -1,22 +1,30 @@
+import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "styled-components"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { Button, FlexContainer, FormContainer, Icon, Input, Label, Paragraph, TitleH2 } from "../../components"
-import { lightTeam } from "../../styles/Theme"
-import { schemaLoginValidations } from "./schemaLoginValidations";
-import { ILoginForm } from "./interfaces";
+import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "../../components"
 import { ErrorMessage } from "./ErrorMessage";
+import { AppDispatch, RootState } from "../../store/store";
+import { loginAuthUser } from "../../store";
+import { schemaLoginValidations } from "./schemaLoginValidations";
+import { lightTeam } from "../../styles/Theme"
+import { ILoginForm } from "./interfaces";
 import { publicRoutes } from "../../routes/routes";
+import { LOGIN_PAGE } from "./constants";
 
 export const Login = () => {
   const {register, handleSubmit, formState:{errors}} = useForm<ILoginForm>({
     resolver: yupResolver(schemaLoginValidations)
   });
+  const dispatch: AppDispatch = useDispatch();
+  const {errors: errorsMsg, loadings} = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const onSubmit = (data: ILoginForm) => {};
+  const onSubmit = (data: ILoginForm) => {
+    dispatch(loginAuthUser(data.emailOrUsername, data.password));
+  };
 
   return (
     <ThemeProvider theme={lightTeam}>
@@ -32,11 +40,28 @@ export const Login = () => {
           SmallPadding="2.125rem 2.375rem"
         >
           <TitleH2 FontSize="2rem" Margin="0px 0px 0.5rem 0px" TextAlign="center" LineHeight="1">
-            {'Welcome back'}
+            {LOGIN_PAGE.TITLE}
           </TitleH2>
           <Paragraph FontSize="0.875rem" FontColor="#DA498D" TextAlign="center">
-            {'Enter your login credentials.'}
+            {LOGIN_PAGE.DESCRIPTION}
           </Paragraph>
+
+          {errorsMsg.loginErrorMsg && (
+            <FlexContainer 
+              Gap="0.25rem" 
+              BackgroundColor="#FEA08B" 
+              MarginTop="0.5rem" 
+              BorderRadius="0.5rem" 
+              Border="0.5px solid #AD2103"
+              Padding="0.25rem"
+              AlignItems="center"
+            >
+              <Icon className="fa-regular fa-circle-xmark" FontColor="#AD2103" FontSize="0.875rem"/>
+              <Paragraph TextAlign="center" FontColor="#AD2103" FontSize="0.875rem">
+                {errorsMsg.loginErrorMsg}
+              </Paragraph>
+            </FlexContainer>
+          )}
 
           <FormContainer
             FlexDirection="column"
@@ -51,32 +76,42 @@ export const Login = () => {
               Width="100%"
             >
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
-                <Label FontSize="0.875rem" FontColor="#333333">{'Email'}</Label>
-                <FlexContainer Gap="0.5rem" Padding="1rem 0px" BorderBottom={errors.email ? '1px solid #FA4032' : '1px solid #d9d9d9'} AlignItems="center" Width="100%">
-                  <Icon className="fa-solid fa-envelope" FontColor="#333333" FontSize="1rem"/>
+                <Label FontSize="0.875rem" FontColor="#333333">
+                  {LOGIN_PAGE.FIELDS.EMAIL_USERNAME.LABEL}
+                </Label>
+                <FlexContainer 
+                  Gap="0.5rem" 
+                  Padding="1rem 0px" 
+                  BorderBottom={errors.emailOrUsername ? '1px solid #FA4032' : '1px solid #d9d9d9'} 
+                  AlignItems="center" 
+                  Width="100%"
+                >
+                  <Icon className="fa-solid fa-user" FontColor="#333333" FontSize="1rem"/>
                   <Input 
                     Border="none" 
                     BorderRadius="0px"
                     FontSize="1rem"
-                    placeholder="Type your email"
+                    placeholder={LOGIN_PAGE.FIELDS.EMAIL_USERNAME.PLACEHOLDER}
                     Width="100%"
                     FontColor="#333333"
-                    type="email"
-                    {...register('email')}
+                    type="text"
+                    {...register('emailOrUsername')}
                   />
                 </FlexContainer>
-                {errors.email?.message && <ErrorMessage message={errors.email.message}/>}
+                {errors.emailOrUsername?.message && <ErrorMessage message={errors.emailOrUsername.message}/>}
               </FlexContainer>
 
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
-                <Label FontSize="0.875rem" FontColor="#333333">{'Password'}</Label>
+                <Label FontSize="0.875rem" FontColor="#333333">
+                  {LOGIN_PAGE.FIELDS.PASSWORD.LABEL}
+                </Label>
                 <FlexContainer Gap="0.5rem" Padding="1rem 0px" BorderBottom="1px solid #d9d9d9" AlignItems="center" Width="100%">
                   <Icon className="fa-solid fa-lock" FontColor="#333333" FontSize="1rem"/>
                   <Input 
                     Border="none" 
                     BorderRadius="0px"
                     FontSize="1rem"
-                    placeholder="Type your password"
+                    placeholder={LOGIN_PAGE.FIELDS.PASSWORD.PLACEHOLDER}
                     Width="100%"
                     FontColor="#333333"
                     type={showPassword ? 'text' : 'password'}
@@ -95,17 +130,21 @@ export const Login = () => {
 
               <FlexContainer JustifyContent="end" MarginBottom="1rem">
                 <Paragraph FontSize="0.875rem" FontColor="#DA498D" Cursor="pointer">
-                  {'Forgot password?'}
+                  {LOGIN_PAGE.FORGOT_PASSWORD}
                 </Paragraph>
               </FlexContainer>
 
-              <Button type="submit">
-                {'Login'}
+              <Button type="submit" disabled={loadings.loginLoading}>
+                  {loadings.loginLoading ? (
+                    <FlexContainer Width="100%" BackgroundColor="transparent" JustifyContent="center">
+                      <LoadingSpinner Width="25px" Padding="5px" BackGroundColor="#FFFFFE"/>
+                    </FlexContainer>
+                  ) : (<>{LOGIN_PAGE.BTN_LOGIN}</>)}
               </Button>
 
               <FlexContainer JustifyContent="center" Gap="0.5rem" MarginTop="1.5rem">
                 <Paragraph FontSize="0.875rem" FontColor="#DA498D" Cursor="pointer" TextAlign="center">
-                    {'Do not you have an account?'}
+                    {LOGIN_PAGE.ACCOUNT_CTA}
                 </Paragraph>
                 <Paragraph 
                   FontSize="0.875rem" 
@@ -114,7 +153,7 @@ export const Login = () => {
                   Cursor="pointer" 
                   onClick={() => navigate(publicRoutes.signUp)}
                 >
-                  {'Sign Up here'}
+                  {LOGIN_PAGE.SIGN_UP_HERE}
                 </Paragraph>
               </FlexContainer>
             </FlexContainer>
