@@ -46,3 +46,8 @@ export interface IRegisterUserParams{
     email: string;
     password: string;
 }
+
+export interface ILoginParams{
+    emailOrUsername: string;
+    password: string;
+}

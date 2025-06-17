@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { NavigateFunction } from "react-router";
 import { AppDispatch } from "../store"
 import { 
     logginError, 
@@ -9,20 +10,22 @@ import {
     registerUserSuccess 
 } from "./authSlice";
 import { getEnvVariables } from "../../helpers/getEnvVariables";
-import { ILoginFetchResponse, IRegisterUserParams } from "./interfaces";
+import { ILoginFetchResponse, ILoginParams, IRegisterUserParams } from "./interfaces";
 import { urlWeb } from "../../constants/apiEndpoints";
+import { privateRoutes } from "../../routes/routes";
 
 const apiUrl = getEnvVariables().api_url;
 
-export const loginAuthUser = (emailOrUsername: string, password: string) => {
+export const loginAuthUser = (params: ILoginParams, navigate: NavigateFunction) => {
     return async(dispatch: AppDispatch) => {
         dispatch(loginStart());
         try {
             const {data}: AxiosResponse<ILoginFetchResponse> = await axios.post(
                 `${apiUrl}${urlWeb.login}`, 
-                {emailOrUsername, password}
+                params,
             );
             dispatch(loginSuccess(data.data));
+            navigate(privateRoutes.myBooks);
         } catch (error) {
             if(error instanceof AxiosError){
                 const errorMsg = error.response?.data.error?.message ?? '';
@@ -32,7 +35,7 @@ export const loginAuthUser = (emailOrUsername: string, password: string) => {
     }
 };
 
-export const registerUser = (newUser: IRegisterUserParams) => {
+export const registerUser = (newUser: IRegisterUserParams, navigate: NavigateFunction) => {
     return async(dispatch: AppDispatch) => {
         dispatch(registerUserStart());
         try {
@@ -40,6 +43,7 @@ export const registerUser = (newUser: IRegisterUserParams) => {
                 `${apiUrl}${urlWeb.registerUser}`, newUser
             );
             dispatch(registerUserSuccess(data.data));
+            navigate(privateRoutes.myBooks);
         } catch (error) {
             if(error instanceof AxiosError){
                 const errorMsg = error.response?.data.error?.message ?? '';

@@ -24,7 +24,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const onSubmit = (data: ILoginForm) => {
-    dispatch(loginAuthUser(data.emailOrUsername, data.password));
+    dispatch(loginAuthUser(data, navigate));
   };
 
   return (

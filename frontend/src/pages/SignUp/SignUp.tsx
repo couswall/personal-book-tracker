@@ -26,13 +26,7 @@ export const SignUp = () => {
   const {loadings, errors: errorsMsg} = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const onSubmit = (data: ISignUpForm) => {
-    const newUser: IRegisterUserParams = {
-      fullName: data.fullName,
-      username: data.username,
-      email: data.email,
-      password: data.password
-    };
-    dispatch(registerUser(newUser));
+    dispatch(registerUser(data, navigate));
   };
   return (
     <ThemeProvider theme={lightTeam}>
