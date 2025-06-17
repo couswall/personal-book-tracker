@@ -21,10 +21,12 @@ export interface IUser {
 
 export interface IAuthSliceLoadings{
     loginLoading: boolean;
+    registerUserLoading: boolean;
 }
 
 export interface IAuthSliceErrors{
     loginErrorMsg?: string;
+    registerUserErrorMsg?: string;
 }
 
 export interface ILoginSuccessRes{
@@ -36,4 +38,11 @@ export interface ILoginFetchResponse{
     success: boolean;
     message: string;
     data: ILoginSuccessRes;
+}
+
+export interface IRegisterUserParams{
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
 }

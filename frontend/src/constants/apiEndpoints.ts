@@ -1,3 +1,4 @@
 export const urlWeb = {
-    login: 'auth/login'
+    login: 'auth/login',
+    registerUser: 'auth/register',
 };

@@ -13,6 +13,7 @@ import { lightTeam } from "../../styles/Theme"
 import { ILoginForm } from "./interfaces";
 import { publicRoutes } from "../../routes/routes";
 import { LOGIN_PAGE } from "./constants";
+import { ErrorAlert } from "../SignUp/ErrorAlert";
 
 export const Login = () => {
   const {register, handleSubmit, formState:{errors}} = useForm<ILoginForm>({
@@ -47,20 +48,7 @@ export const Login = () => {
           </Paragraph>
 
           {errorsMsg.loginErrorMsg && (
-            <FlexContainer 
-              Gap="0.25rem" 
-              BackgroundColor="#FEA08B" 
-              MarginTop="0.5rem" 
-              BorderRadius="0.5rem" 
-              Border="0.5px solid #AD2103"
-              Padding="0.25rem"
-              AlignItems="center"
-            >
-              <Icon className="fa-regular fa-circle-xmark" FontColor="#AD2103" FontSize="0.875rem"/>
-              <Paragraph TextAlign="center" FontColor="#AD2103" FontSize="0.875rem">
-                {errorsMsg.loginErrorMsg}
-              </Paragraph>
-            </FlexContainer>
+            <ErrorAlert errorMessage={errorsMsg.loginErrorMsg}/>
           )}
 
           <FormContainer

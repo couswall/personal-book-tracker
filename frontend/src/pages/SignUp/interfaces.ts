@@ -19,3 +19,7 @@ export interface IFormFieldProps {
   register: UseFormRegister<ISignUpForm>;
   errors: FieldErrors<ISignUpForm>;
 }
+
+export interface IErrorAlertProps{
+  errorMessage: string;
+}

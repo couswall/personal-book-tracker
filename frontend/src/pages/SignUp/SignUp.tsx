@@ -1,24 +1,39 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { ThemeProvider } from "styled-components"
 import { useState } from "react";
 import { lightTeam } from "../../styles/Theme"
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, FlexContainer, FormContainer, Icon, Input, Label, Paragraph, TitleH2 } from "../../components"
+import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "../../components"
 import { ErrorMessage } from "../Login/ErrorMessage";
 import { FormField } from "./FormField";
+import { ErrorAlert } from "./ErrorAlert";
 import { publicRoutes } from "../../routes/routes";
 import { schemaSignUpValidations } from './schemaSignUpValidations';
 import { ISignUpForm } from "./interfaces";
 import { SIGN_UP, SIGNUP_FORM } from "./constants";
+import { IRegisterUserParams } from "../../store/auth/interfaces";
+import { AppDispatch, RootState } from "../../store/store";
+import { registerUser } from "../../store";
 
 export const SignUp = () => {
+  const dispatch: AppDispatch = useDispatch();
   const {register, formState: {errors}, handleSubmit} = useForm<ISignUpForm>({
     resolver: yupResolver(schemaSignUpValidations)
   });
   const navigate = useNavigate();
+  const {loadings, errors: errorsMsg} = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const onSubmit = (data: ISignUpForm) => {};
+  const onSubmit = (data: ISignUpForm) => {
+    const newUser: IRegisterUserParams = {
+      fullName: data.fullName,
+      username: data.username,
+      email: data.email,
+      password: data.password
+    };
+    dispatch(registerUser(newUser));
+  };
   return (
     <ThemeProvider theme={lightTeam}>
       <FlexContainer JustifyContent="center" AlignItems="center" MinHeight="100vh">
@@ -38,6 +53,10 @@ export const SignUp = () => {
           <Paragraph FontSize="0.875rem" FontColor="#DA498D" TextAlign="center">
             {SIGN_UP.DESCRIPTION}
           </Paragraph>
+
+          {errorsMsg.registerUserErrorMsg && (
+            <ErrorAlert errorMessage={errorsMsg.registerUserErrorMsg}/>
+          )}
 
           <FormContainer
             FlexDirection="column"
@@ -117,8 +136,12 @@ export const SignUp = () => {
               </FlexContainer>
 
 
-              <Button type="submit">
-                {SIGN_UP.BTN_SUBMIT}
+              <Button type="submit" disabled={loadings.registerUserLoading}>
+                {loadings.registerUserLoading ? (
+                  <FlexContainer Width="100%" BackgroundColor="transparent" JustifyContent="center">
+                    <LoadingSpinner Width="25px" Padding="5px" BackGroundColor="#FFFFFE"/>
+                  </FlexContainer>
+                ) : (<>{SIGN_UP.BTN_SUBMIT}</>)}
               </Button>
 
               <FlexContainer JustifyContent="center" Gap="0.5rem" MarginTop="1.5rem">
