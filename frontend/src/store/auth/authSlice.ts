@@ -58,6 +58,13 @@ export const authSlice = createSlice({
             state.loadings.registerUserLoading = false;
             state.errors.registerUserErrorMsg = action.payload;
         },
+        onLogout: (state) => {
+            state.status = initialState.status;
+            state.user = initialState.user;
+            state.token = initialState.token;
+            state.loadings = initialState.loadings;
+            state.errors = initialState.errors;
+        },
     }
 });
 
@@ -68,4 +75,5 @@ export const {
     registerUserStart,
     registerUserSuccess,
     registerUserError,
+    onLogout,
 } = authSlice.actions;

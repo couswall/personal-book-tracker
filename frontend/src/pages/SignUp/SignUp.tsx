@@ -13,7 +13,6 @@ import { publicRoutes } from "../../routes/routes";
 import { schemaSignUpValidations } from './schemaSignUpValidations';
 import { ISignUpForm } from "./interfaces";
 import { SIGN_UP, SIGNUP_FORM } from "./constants";
-import { IRegisterUserParams } from "../../store/auth/interfaces";
 import { AppDispatch, RootState } from "../../store/store";
 import { registerUser } from "../../store";
 
