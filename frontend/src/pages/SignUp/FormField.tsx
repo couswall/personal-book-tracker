@@ -1,6 +1,6 @@
-import { FlexContainer, Icon, Input, Label } from "../../components";
-import { ErrorMessage } from "../Login/ErrorMessage";
-import { IFormFieldProps} from "./interfaces";
+import { FlexContainer, Icon, Input, Label } from "@components/index";
+import { ErrorMessage } from "@pages/Login/ErrorMessage";
+import { IFormFieldProps} from "@pages/SignUp/interfaces";
 
 export const FormField: React.FC<IFormFieldProps> = ({
     label,

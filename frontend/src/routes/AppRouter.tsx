@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from "react-router"
 import { useSelector } from "react-redux";
-import { MyBooks, Login, SignUp } from "../pages"
-import { RootState } from "../store/store";
-import { privateRoutes, publicRoutes } from "./routes";
-import { DashboardLayout } from "../views/DashboardLayout";
-import { AuthStatus } from "../store/auth/interfaces";
+import { MyBooks, Login, SignUp } from "@pages/index"
+import { RootState } from "@store/store";
+import { privateRoutes, publicRoutes } from "@routes/routes";
+import { DashboardLayout } from "@views/DashboardLayout";
+import { AuthStatus } from "@store/auth/interfaces";
 
 export const AppRouter = () => {
   const authStatus = useSelector((state: RootState) => state.auth.status);

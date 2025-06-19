@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { AppDispatch, RootState } from '../../../store/store';
-import { SubMenuContainer, SubMenuLink } from '../styles';
-import { TitleH4 } from '../../Typography';
-import { FlexContainer } from '../../FlexContainer';
-import { onLogout } from '../../../store';
-import { publicRoutes } from '../../../routes/routes';
-import { subMenuRoutes } from '../constants';
+import { AppDispatch, RootState } from '@store/store';
+import { SubMenuContainer, SubMenuLink } from '@components/Navbar/styles';
+import { TitleH4 } from '@components/Typography';
+import { FlexContainer } from '@components/FlexContainer';
+import { onLogout } from '@store/index';
+import { publicRoutes } from '@routes/routes';
+import { subMenuRoutes } from '@components/Navbar/constants';
 
 export const SubMenuNav = () => {
     const {user} = useSelector((state: RootState) => state.auth);

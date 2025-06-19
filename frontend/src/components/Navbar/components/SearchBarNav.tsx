@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux'
-import { FormContainer } from '../../FlexContainer'
-import { SearchBarContainer } from '../styles'
-import { Input, InputContainer } from '../../Input'
-import { Icon } from '../../Icon'
 import React from 'react'
-import { SearchBarNavProps } from './interfaces'
-import { RootState } from '../../../store/store'
+import { FormContainer } from '@components/FlexContainer'
+import { SearchBarContainer } from '@components/Navbar/styles'
+import { Input, InputContainer } from '@components/Input'
+import { Icon } from '@components/Icon'
+import { RootState } from '@store/store'
+import { SearchBarNavProps } from '@components/Navbar/components/interfaces'
 
 export const SearchBarNav: React.FC<SearchBarNavProps> = ({showSearchInput, setShowSearchInput, searchBarRef}) => {
     const {isDarkMode} = useSelector((state: RootState) => state.darkMode);

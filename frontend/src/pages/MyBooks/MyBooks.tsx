@@ -1,4 +1,4 @@
-import { FlexContainer, TitleH1 } from "../../components"
+import { FlexContainer, TitleH1 } from "@components/index"
 
 export const MyBooks = () => {
   return (

@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { NavigateFunction } from "react-router";
-import { AppDispatch } from "../store"
+import { AppDispatch } from "@store/store"
 import { 
     logginError, 
     loginStart,
@@ -8,11 +8,11 @@ import {
     registerUserError, 
     registerUserStart, 
     registerUserSuccess 
-} from "./authSlice";
-import { getEnvVariables } from "../../helpers/getEnvVariables";
-import { ILoginFetchResponse, ILoginParams, IRegisterUserParams } from "./interfaces";
-import { urlWeb } from "../../constants/apiEndpoints";
-import { privateRoutes } from "../../routes/routes";
+} from "@store/auth/authSlice";
+import { getEnvVariables } from "@helpers/getEnvVariables";
+import { ILoginFetchResponse, ILoginParams, IRegisterUserParams } from "@store/auth/interfaces";
+import { urlWeb } from "@constants/apiEndpoints";
+import { privateRoutes } from "@routes/routes";
 
 const apiUrl = getEnvVariables().api_url;
 

@@ -4,16 +4,16 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "../../components"
-import { ErrorMessage } from "./ErrorMessage";
-import { AppDispatch, RootState } from "../../store/store";
-import { loginAuthUser } from "../../store";
-import { schemaLoginValidations } from "./schemaLoginValidations";
-import { lightTeam } from "../../styles/Theme"
-import { ILoginForm } from "./interfaces";
-import { publicRoutes } from "../../routes/routes";
-import { LOGIN_PAGE } from "./constants";
-import { ErrorAlert } from "../SignUp/ErrorAlert";
+import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "@components/index"
+import { ErrorMessage } from "@pages/Login/ErrorMessage";
+import { AppDispatch, RootState } from "@store/store";
+import { loginAuthUser } from "@store/index";
+import { schemaLoginValidations } from "@pages/Login/schemaLoginValidations";
+import { lightTeam } from "@styles/Theme"
+import { ILoginForm } from "@pages/Login/interfaces";
+import { publicRoutes } from "@routes/routes";
+import { LOGIN_PAGE } from "@pages/Login/constants";
+import { ErrorAlert } from "@pages/SignUp/ErrorAlert";
 
 export const Login = () => {
   const {register, handleSubmit, formState:{errors}} = useForm<ILoginForm>({

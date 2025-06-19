@@ -3,18 +3,18 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { ThemeProvider } from "styled-components"
 import { useState } from "react";
-import { lightTeam } from "../../styles/Theme"
+import { lightTeam } from "@styles/Theme"
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "../../components"
-import { ErrorMessage } from "../Login/ErrorMessage";
-import { FormField } from "./FormField";
-import { ErrorAlert } from "./ErrorAlert";
-import { publicRoutes } from "../../routes/routes";
-import { schemaSignUpValidations } from './schemaSignUpValidations';
-import { ISignUpForm } from "./interfaces";
-import { SIGN_UP, SIGNUP_FORM } from "./constants";
-import { AppDispatch, RootState } from "../../store/store";
-import { registerUser } from "../../store";
+import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "@components/index";
+import { ErrorMessage } from "@pages/Login/ErrorMessage";
+import { FormField } from "@pages/SignUp/FormField";
+import { ErrorAlert } from "@pages/SignUp/ErrorAlert";
+import { publicRoutes } from "@routes/routes";
+import { schemaSignUpValidations } from '@pages/SignUp/schemaSignUpValidations';
+import { ISignUpForm } from "@pages/SignUp/interfaces";
+import { SIGN_UP, SIGNUP_FORM } from "@pages/SignUp/constants";
+import { AppDispatch, RootState } from "@store/store";
+import { registerUser } from "@store/index";
 
 export const SignUp = () => {
   const dispatch: AppDispatch = useDispatch();

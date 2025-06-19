@@ -10,7 +10,7 @@ import {
     REGISTER,
   } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { authSlice, darkModeSlice } from './';
+import { authSlice, darkModeSlice } from '@store/index';
 
 const persistConfig = {
   key: 'root',

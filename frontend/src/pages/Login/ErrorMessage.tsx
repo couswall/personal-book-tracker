@@ -1,4 +1,4 @@
-import { FlexContainer, Icon, Paragraph } from "../../components"
+import { FlexContainer, Icon, Paragraph } from "@components/index";
 
 export const ErrorMessage = ({message = ''}) => {
   return (

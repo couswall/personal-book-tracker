@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router"
-import { Container } from "../Containers"
-import { FlexContainer } from "../FlexContainer"
-import { TitleH1 } from "../Typography"
-import {NavbarStyled} from "./styles"
 import { useRef, useState } from "react"
-import { NavbarItems, SearchBarNav } from "./components"
+import { Container } from "@components/Containers"
+import { FlexContainer } from "@components/FlexContainer"
+import { TitleH1 } from "@components/Typography"
+import {NavbarStyled} from "@components/Navbar/styles"
+import { NavbarItems, SearchBarNav } from "@components/Navbar/components"
 
 export const Navbar = () => {
     const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
-import { ERROR_MESSAGES } from './constants';
-import { regularExs } from '../../constants/regExs';
+import { ERROR_MESSAGES } from '@pages/Login/constants';
+import { regularExs } from '@constants/regExs';
 
 export const schemaLoginValidations = yup.object().shape({
     emailOrUsername: yup.string()

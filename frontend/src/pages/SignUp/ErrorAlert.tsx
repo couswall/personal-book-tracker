@@ -1,5 +1,5 @@
-import { FlexContainer, Icon, Paragraph } from '../../components'
-import { IErrorAlertProps } from './interfaces'
+import { FlexContainer, Icon, Paragraph } from '@components/index'
+import { IErrorAlertProps } from '@pages/SignUp/interfaces'
 
 export const ErrorAlert: React.FC<IErrorAlertProps> = ({errorMessage}) => {
   return (

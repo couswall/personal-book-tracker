@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 import React, { useRef, useState } from "react"
-import { AppDispatch, RootState } from "../../../store/store";
-import { FlexContainer } from "../../FlexContainer";
-import { HamburgerContainer, NavbarElement, NavbarLink, NavbarList } from "../styles";
-import { navbarRoutes } from "../constants";
-import { Icon } from "../../Icon";
-import { toggleDarkMode } from "../../../store";
-import { NavbarItemsProps } from "./interfaces";
-import { SubMenuNav } from "./SubMenuNav";
-import { useClickOutside } from "../hooks/useClickOutside";
+import { AppDispatch, RootState } from "@store/store";
+import { FlexContainer } from "@components/FlexContainer";
+import { HamburgerContainer, NavbarElement, NavbarLink, NavbarList } from "@components/Navbar/styles";
+import { Icon } from "@components/Icon";
+import { SubMenuNav } from "@components/Navbar/components/SubMenuNav";
+import { useClickOutside } from "@components/Navbar/hooks/useClickOutside";
+import { toggleDarkMode } from "@store/index";
+import { navbarRoutes } from "@components/Navbar/constants";
+import { NavbarItemsProps } from "@components/Navbar/components/interfaces";
 
 
 export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setShowSearchInput, searchBarRef}) => {

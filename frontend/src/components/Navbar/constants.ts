@@ -1,4 +1,4 @@
-import { privateRoutes } from "../../routes/routes";
+import { privateRoutes } from "@routes/routes";
 
 export const navbarRoutes = [
     {label: 'Home', route: '/'},
