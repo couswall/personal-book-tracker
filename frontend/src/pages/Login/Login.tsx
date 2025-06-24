@@ -1,15 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ThemeProvider } from "styled-components"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "@components/index"
+import { 
+    Button, 
+    FlexContainer, 
+    FormContainer, 
+    DarkGreyIcon, 
+    Input, 
+    Label, 
+    LoadingSpinner, 
+    TitleH2, 
+    InputContainer, 
+    LightParagraph
+} from "@components/index"
 import { ErrorMessage } from "@pages/Login/ErrorMessage";
 import { AppDispatch, RootState } from "@store/store";
 import { loginAuthUser } from "@store/index";
 import { schemaLoginValidations } from "@pages/Login/schemaLoginValidations";
-import { lightTeam } from "@styles/Theme"
 import { ILoginForm } from "@pages/Login/interfaces";
 import { publicRoutes } from "@routes/routes";
 import { LOGIN_PAGE } from "@pages/Login/constants";
@@ -28,7 +37,6 @@ export const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={lightTeam}>
       <FlexContainer JustifyContent="center" AlignItems="center" MinHeight="100vh">
         <FlexContainer 
           JustifyContent="center" 
@@ -43,9 +51,9 @@ export const Login = () => {
           <TitleH2 FontSize="2rem" Margin="0px 0px 0.5rem 0px" TextAlign="center" LineHeight="1">
             {LOGIN_PAGE.TITLE}
           </TitleH2>
-          <Paragraph FontSize="0.875rem" FontColor="#DA498D" TextAlign="center">
+          <LightParagraph FontSize="0.875rem" TextAlign="center">
             {LOGIN_PAGE.DESCRIPTION}
-          </Paragraph>
+          </LightParagraph>
 
           {errorsMsg.loginErrorMsg && (
             <ErrorAlert errorMessage={errorsMsg.loginErrorMsg}/>
@@ -64,62 +72,70 @@ export const Login = () => {
               Width="100%"
             >
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
-                <Label FontSize="0.875rem" FontColor="#333333">
+                <Label FontSize="0.875rem">
                   {LOGIN_PAGE.FIELDS.EMAIL_USERNAME.LABEL}
                 </Label>
-                <FlexContainer 
+                <InputContainer 
                   Gap="0.5rem" 
                   Padding="1rem 0px" 
-                  BorderBottom={errors.emailOrUsername ? '1px solid #FA4032' : '1px solid #d9d9d9'} 
                   AlignItems="center" 
                   Width="100%"
+                  hasError={!!errors.emailOrUsername?.message}
                 >
-                  <Icon className="fa-solid fa-user" FontColor="#333333" FontSize="1rem"/>
-                  <Input 
+                  <DarkGreyIcon
+                    className="fa-solid fa-user" 
+                    FontSize="1rem"
+                  />
+                  <Input
+                    BackgroundColor="transparent"
                     Border="none" 
                     BorderRadius="0px"
                     FontSize="1rem"
                     placeholder={LOGIN_PAGE.FIELDS.EMAIL_USERNAME.PLACEHOLDER}
                     Width="100%"
-                    FontColor="#333333"
                     type="text"
                     {...register('emailOrUsername')}
                   />
-                </FlexContainer>
+                </InputContainer>
                 {errors.emailOrUsername?.message && <ErrorMessage message={errors.emailOrUsername.message}/>}
               </FlexContainer>
 
               <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
-                <Label FontSize="0.875rem" FontColor="#333333">
+                <Label FontSize="0.875rem">
                   {LOGIN_PAGE.FIELDS.PASSWORD.LABEL}
                 </Label>
-                <FlexContainer Gap="0.5rem" Padding="1rem 0px" BorderBottom="1px solid #d9d9d9" AlignItems="center" Width="100%">
-                  <Icon className="fa-solid fa-lock" FontColor="#333333" FontSize="1rem"/>
-                  <Input 
-                    Border="none" 
+                <InputContainer 
+                  Gap="0.5rem" 
+                  Padding="1rem 0px" 
+                  AlignItems="center" 
+                  Width="100%"
+                  hasError={!!errors.password?.message}
+                >
+                  <DarkGreyIcon className="fa-solid fa-lock" FontSize="1rem"/>
+                  <Input
+                    BackgroundColor="transparent"
+                    Border="none"
                     BorderRadius="0px"
                     FontSize="1rem"
                     placeholder={LOGIN_PAGE.FIELDS.PASSWORD.PLACEHOLDER}
                     Width="100%"
-                    FontColor="#333333"
                     type={showPassword ? 'text' : 'password'}
                     {...register('password')}
                   />
-                  <Icon 
+                  <DarkGreyIcon 
                     className={`fa-regular ${showPassword ? 'fa-eye':'fa-eye-slash'}`} 
-                    FontColor="#333333" 
                     FontSize="1rem"
                     Cursor="pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   />
-                </FlexContainer>
+                </InputContainer>
                 {errors.password?.message && <ErrorMessage message={errors.password.message}/>}
               </FlexContainer>
 
               <FlexContainer JustifyContent="end" MarginBottom="1rem">
-                <Paragraph FontSize="0.875rem" FontColor="#DA498D" Cursor="pointer">
+                <LightParagraph FontSize="0.875rem" Cursor="pointer">
                   {LOGIN_PAGE.FORGOT_PASSWORD}
-                </Paragraph>
+                </LightParagraph>
               </FlexContainer>
 
               <Button type="submit" disabled={loadings.loginLoading}>
@@ -131,24 +147,22 @@ export const Login = () => {
               </Button>
 
               <FlexContainer JustifyContent="center" Gap="0.5rem" MarginTop="1.5rem">
-                <Paragraph FontSize="0.875rem" FontColor="#DA498D" Cursor="pointer" TextAlign="center">
+                <LightParagraph FontSize="0.875rem" Cursor="pointer" TextAlign="center">
                     {LOGIN_PAGE.ACCOUNT_CTA}
-                </Paragraph>
-                <Paragraph 
+                </LightParagraph>
+                <LightParagraph 
                   FontSize="0.875rem" 
-                  FontColor="#DA498D" 
                   TextDecoration="underline"
                   Cursor="pointer" 
                   onClick={() => navigate(publicRoutes.signUp)}
                 >
                   {LOGIN_PAGE.SIGN_UP_HERE}
-                </Paragraph>
+                </LightParagraph>
               </FlexContainer>
             </FlexContainer>
           </FormContainer>
           
         </FlexContainer>
       </FlexContainer>
-    </ThemeProvider>
   )
 }

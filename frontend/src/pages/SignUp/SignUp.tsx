@@ -1,11 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
-import { ThemeProvider } from "styled-components"
 import { useState } from "react";
-import { lightTeam } from "@styles/Theme"
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, FlexContainer, FormContainer, Icon, Input, Label, LoadingSpinner, Paragraph, TitleH2 } from "@components/index";
+import { 
+  Button, 
+  DarkGreyIcon, 
+  FlexContainer, 
+  FormContainer, 
+  Input, 
+  InputContainer, 
+  Label, 
+  LoadingSpinner, 
+  Paragraph, 
+  TitleH2 
+} from "@components/index";
 import { ErrorMessage } from "@pages/Login/ErrorMessage";
 import { FormField } from "@pages/SignUp/FormField";
 import { ErrorAlert } from "@pages/SignUp/ErrorAlert";
@@ -28,14 +37,13 @@ export const SignUp = () => {
     dispatch(registerUser(data, navigate));
   };
   return (
-    <ThemeProvider theme={lightTeam}>
       <FlexContainer JustifyContent="center" AlignItems="center" MinHeight="100vh">
         <FlexContainer
           JustifyContent="center" 
           AlignItems="center" 
           FlexDirection="column"
           Padding="3.125rem 3.375rem"
-          BoxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px;"
+          BoxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
           BorderRadius="1rem"
           Width="720px"
           SmallPadding="2.125rem 2.375rem"
@@ -94,36 +102,35 @@ export const SignUp = () => {
                   errors={errors}        
                 />
                 <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
-                  <Label FontSize="0.875rem" FontColor="#333333">
+                  <Label FontSize="0.875rem">
                     {SIGNUP_FORM.PASSWORD.LABEL}
                   </Label>
-                  <FlexContainer 
+                  <InputContainer 
                     Gap="0.5rem" 
                     Padding="1rem 0px" 
-                    BorderBottom={errors.password ? '1px solid #FA4032' : '1px solid #d9d9d9'} 
                     AlignItems="center" 
                     Width="100%"
+                    hasError={!!errors.password}
                   >
-                    <Icon className="fa-solid fa-lock" FontColor="#333333" FontSize="1rem"/>
+                    <DarkGreyIcon className="fa-solid fa-lock" FontSize="1rem"/>
                     <Input 
                       Border="none" 
                       BorderRadius="0px"
                       FontSize="1rem"
                       placeholder={SIGNUP_FORM.PASSWORD.PLACEHOLDER}
                       Width="100%"
-                      FontColor="#333333"
+                      BackgroundColor="transparent"
                       type={showPassword ? 'text' : 'password'}
                       {...register('password')}
                       maxLength={16}
                     />
-                    <Icon 
+                    <DarkGreyIcon 
                       className={`fa-regular ${showPassword ? 'fa-eye':'fa-eye-slash'}`} 
-                      FontColor="#333333" 
                       FontSize="1rem"
                       Cursor="pointer"
                       onClick={() => setShowPassword(!showPassword)}
                     />
-                  </FlexContainer>
+                  </InputContainer>
                   {errors.password?.message && <ErrorMessage message={errors.password.message}/>}
                 </FlexContainer>
               </FlexContainer>
@@ -155,6 +162,5 @@ export const SignUp = () => {
           </FormContainer>
         </FlexContainer>
       </FlexContainer>
-    </ThemeProvider>
   )
 }

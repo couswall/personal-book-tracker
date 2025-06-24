@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BaseContainer } from "../FlexContainer";
+import { FlexContainer } from "@components/FlexContainer/index";
 
 interface IInputProps {
     error?: string | boolean;
@@ -24,11 +24,11 @@ interface IInputProps {
 
 export const Input = styled.input<IInputProps>`
     font-size: ${(props) => props.FontSize || '1rem'};
-    color: ${(props) => props.theme.colors.themeText || props.FontColor};
+    color: ${(props) => props.theme.colors.text.theme || props.FontColor};
     font-family: ${(props) => props.FontFamily || 'Inter'};
     width: ${(props) => props.Width || 'auto'};
     height: ${(props) => props.Height || 'auto'};
-    background-color: ${(props) => props.theme.colors.inputBackground || props.BackgroundColor};
+    background-color: ${(props) => props.BackgroundColor || props.theme.colors.inputBackground};
     padding: ${(props) => props.Padding || '0'};
     margin: ${(props) => props.Margin || '0'};
     max-width: ${(props) => props.MaxWidth};
@@ -67,7 +67,7 @@ interface ILabelProps {
 export const Label = styled.label<ILabelProps>`
     font-size: ${(props) => props.FontSize || "1rem"};
     font-weight: ${(props) => props.FontWeight || "normal"};
-    color: ${(props) => props.FontColor || "inherit"};
+    color: ${(props) => props.FontColor ? props.FontColor : props.theme.colors.input.labelColor};
     font-family: ${(props) => props.FontFamily || "Inter"};
     line-height: ${(props) => props.LineHeight || "1.5"};
     text-align: ${(props) => props.TextAlign || "left"};
@@ -75,6 +75,7 @@ export const Label = styled.label<ILabelProps>`
     padding: ${(props) => props.Padding || "0"};
 `;
 
-export const InputContainer = styled(BaseContainer)`
-    background-color: ${(props) => props.theme.colors.inputBackground};
+export const InputContainer = styled(FlexContainer)`
+    background-color: ${(props) => props.BackgroundColor || 'transparent'};
+    border-bottom: 1px solid ${(props) => props.hasError ? props.theme.colors.input.errorMsgText : '#d9d9d9'};
 `;

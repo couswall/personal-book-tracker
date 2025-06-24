@@ -28,6 +28,7 @@ interface IBaseContainerProps {
     BorderTop?:string;
     SmallPadding?: string;
     SmallFlexDir?: string;
+    hasError?: boolean;
 }
 
 export const BaseContainer = styled.div<IBaseContainerProps>`

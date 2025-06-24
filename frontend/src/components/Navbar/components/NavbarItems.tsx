@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react"
 import { AppDispatch, RootState } from "@store/store";
 import { FlexContainer } from "@components/FlexContainer";
 import { HamburgerContainer, NavbarElement, NavbarLink, NavbarList } from "@components/Navbar/styles";
-import { Icon } from "@components/Icon";
+import { LightIcon } from "@components/Icon";
 import { SubMenuNav } from "@components/Navbar/components/SubMenuNav";
 import { useClickOutside } from "@components/Navbar/hooks/useClickOutside";
 import { toggleDarkMode } from "@store/index";
@@ -35,18 +35,16 @@ export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setSho
             </NavbarList>
             <HamburgerContainer>
                 {isMenuOpen ? (
-                    <Icon
+                    <LightIcon
                         className="fa-solid fa-x" 
                         FontSize="1rem" 
-                        LightColor={true}
                         Cursor="pointer"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     />
                 ) : (
-                    <Icon 
+                    <LightIcon 
                         className="fa-solid fa-bars" 
                         FontSize="1rem" 
-                        LightColor={true}
                         Cursor="pointer"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     />
@@ -60,17 +58,15 @@ export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setSho
                 AlignItems="center"
             >
                 {(isDarkMode) ? (
-                    <Icon 
+                    <LightIcon 
                         className="fa-regular fa-sun" 
                         FontSize="1rem" 
-                        LightColor={true}
                         onClick={() => dispatch(toggleDarkMode())}
                     />
                 ) : (
-                    <Icon 
+                    <LightIcon 
                         className="fa-solid fa-moon" 
                         FontSize="1rem" 
-                        LightColor={true}
                         onClick={() => dispatch(toggleDarkMode())}
                     />
                 )}
@@ -84,11 +80,10 @@ export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setSho
                 onClick={() => setShowSearchInput(!showSearchInput)}
                 ref={searchBtnRef}
             >
-                <Icon 
+                <LightIcon 
                     className="fa-solid fa-magnifying-glass" 
                     FontSize="1rem"
                     Cursor="pointer"
-                    LightColor={true}
                 />
             </FlexContainer>
             <FlexContainer
@@ -100,11 +95,10 @@ export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setSho
                 onClick={() => setShowSubmenu(!showSubmenu)}
                 ref={subMenuBtnRef}
             >
-                <Icon 
+                <LightIcon 
                     className="fa-solid fa-user" 
                     FontSize="1rem"
                     Cursor="pointer"
-                    LightColor={true}
                 />
                 {showSubmenu && <SubMenuNav/>}
             </FlexContainer>

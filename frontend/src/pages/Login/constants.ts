@@ -4,7 +4,7 @@ export const LOGIN_PAGE = {
     FIELDS: {
         EMAIL_USERNAME: {
             LABEL: 'Email or Username',
-            PLACEHOLDER: 'Type your email or password',
+            PLACEHOLDER: 'Type your email or username',
         },
         PASSWORD: {
             LABEL: 'Password',
@@ -18,7 +18,7 @@ export const LOGIN_PAGE = {
 };
 
 export const ERROR_MESSAGES = {
-    REQUIRED: 'This is field is required',
+    REQUIRED: 'This field is required',
     EMAIL_USERNAME: {
         MIN_LENGTH: 'Email or username must be at least 3 characters long',
         BLANK_SPACES: 'Email or username cannot contain only blank spaces',

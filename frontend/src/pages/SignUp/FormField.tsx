@@ -1,4 +1,4 @@
-import { FlexContainer, Icon, Input, Label } from "@components/index";
+import { DarkGreyIcon, FlexContainer, Input, InputContainer, Label } from "@components/index";
 import { ErrorMessage } from "@pages/Login/ErrorMessage";
 import { IFormFieldProps} from "@pages/SignUp/interfaces";
 
@@ -14,28 +14,28 @@ export const FormField: React.FC<IFormFieldProps> = ({
 }) => {
   return (
     <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%">
-        <Label FontSize="0.875rem" FontColor="#333333">
+        <Label FontSize="0.875rem">
             {label}
         </Label>
-        <FlexContainer 
+        <InputContainer 
             Gap="0.5rem" Padding="1rem 0px" 
-            BorderBottom={errors[fieldName] ? '1px solid #FA4032' : '1px solid #d9d9d9'} 
             AlignItems="center" 
             Width="100%"
+            hasError={!!errors[fieldName]}
         >
-            <Icon className={iconClass} FontColor="#333333" FontSize="1rem"/>
+            <DarkGreyIcon className={iconClass} FontSize="1rem"/>
             <Input
                 Border="none" 
                 BorderRadius="0px"
                 FontSize="1rem"
                 placeholder={placeholder}
                 Width="100%"
-                FontColor="#333333"
+                BackgroundColor="transparent"
                 type={inputType}
                 {...register(fieldName)}
                 maxLength={inputMaxLength}
             />
-        </FlexContainer>
+        </InputContainer>
         {errors[fieldName]?.message && <ErrorMessage message={errors[fieldName].message}/>}
     </FlexContainer>
   )

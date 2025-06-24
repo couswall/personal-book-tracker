@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { MyBooks, Login, SignUp } from "@pages/index"
 import { RootState } from "@store/store";
 import { privateRoutes, publicRoutes } from "@routes/routes";
-import { DashboardLayout } from "@views/DashboardLayout";
+import { DashboardLayout, PublicLayout } from "@views/index";
 import { AuthStatus } from "@store/auth/interfaces";
 
 export const AppRouter = () => {
@@ -20,9 +20,11 @@ export const AppRouter = () => {
             </Route>
         ) : (
             <>
-              <Route path={publicRoutes.login} element={<Login/>}/>
-              <Route path={publicRoutes.signUp} element={<SignUp/>}/>
-              <Route path='/*' element={ <Navigate to={publicRoutes.login}/>} />
+              <Route element={<PublicLayout/>}>
+                <Route path={publicRoutes.login} element={<Login/>}/>
+                <Route path={publicRoutes.signUp} element={<SignUp/>}/>
+                <Route path='/*' element={ <Navigate to={publicRoutes.login}/>} />
+              </Route>
             </>
         )}
       </Routes>

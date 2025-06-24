@@ -21,7 +21,7 @@ export const TypographyBase = styled.p<ITypographyBaseProps>`
     font-weight: ${(props) => props.FontWeight || "normal"};
     color: ${(props) => props.LightColor 
                                 ? props.theme.colors.lightColor
-                                : props.FontColor || props.theme.colors.themeText};
+                                : props.FontColor || props.theme.colors.text.theme};
     font-family: ${(props) => props.theme.fonts.inter || props.FontFamily};
     line-height: ${(props) => props.LineHeight || "1.5"};
     text-align: ${(props) => props.TextAlign || "left"};
@@ -55,4 +55,12 @@ export const TitleH4 = styled(TypographyBase).attrs({as: 'h4'})`
 
 export const Paragraph = styled(TypographyBase)`
     font-size: ${(props) => props.FontSize || "1rem"};
+`;
+
+export const LightParagraph = styled(TypographyBase)`
+    color: ${(props) => props.theme.colors.text.light};
+`;
+
+export const ErrorText = styled(Paragraph)`
+    color: ${(props) => props.theme.colors.input.errorMsgText};
 `;
