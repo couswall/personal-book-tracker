@@ -65,10 +65,14 @@ export const authSlice = createSlice({
             state.loadings = initialState.loadings;
             state.errors = initialState.errors;
         },
+        cleanErrorMessages: (state) => {
+            state.errors = initialState.errors;
+        }
     }
 });
 
 export const {
+    cleanErrorMessages,
     loginStart,
     loginSuccess,
     logginError,

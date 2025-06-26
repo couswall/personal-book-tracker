@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { 
     Button, 
     FlexContainer, 
@@ -17,7 +17,7 @@ import {
 } from "@components/index"
 import { ErrorMessage } from "@pages/Login/ErrorMessage";
 import { AppDispatch, RootState } from "@store/store";
-import { loginAuthUser } from "@store/index";
+import { cleanErrorMessages, loginAuthUser } from "@store/index";
 import { schemaLoginValidations } from "@pages/Login/schemaLoginValidations";
 import { ILoginForm } from "@pages/Login/interfaces";
 import { publicRoutes } from "@routes/routes";
@@ -35,6 +35,12 @@ export const Login = () => {
   const onSubmit = (data: ILoginForm) => {
     dispatch(loginAuthUser(data, navigate));
   };
+
+  useEffect(() => {
+    if(errorsMsg.loginErrorMsg){
+      dispatch(cleanErrorMessages());
+    };
+  }, []);
 
   return (
       <FlexContainer JustifyContent="center" AlignItems="center" MinHeight="100vh">

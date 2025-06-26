@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { 
   Button, 
@@ -23,7 +23,7 @@ import { schemaSignUpValidations } from '@pages/SignUp/schemaSignUpValidations';
 import { ISignUpForm } from "@pages/SignUp/interfaces";
 import { SIGN_UP, SIGNUP_FORM } from "@pages/SignUp/constants";
 import { AppDispatch, RootState } from "@store/store";
-import { registerUser } from "@store/index";
+import { cleanErrorMessages, registerUser } from "@store/index";
 
 export const SignUp = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,6 +36,11 @@ export const SignUp = () => {
   const onSubmit = (data: ISignUpForm) => {
     dispatch(registerUser(data, navigate));
   };
+  useEffect(() => {
+    if(errorsMsg.registerUserErrorMsg){
+      dispatch(cleanErrorMessages());
+    };
+  }, []);
   return (
       <FlexContainer JustifyContent="center" AlignItems="center" MinHeight="100vh">
         <FlexContainer
