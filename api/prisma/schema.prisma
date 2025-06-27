@@ -20,5 +20,88 @@ model User{
   username    String      @unique
   email       String      @unique
   password    String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  deletedAt   DateTime?
+  bookshelves Bookshelf[]
+  notes       Note[]
+  reviews     Review[]
+}
+
+model Bookshelf{
+  id          Int             @id @default(autoincrement())
+  name        String
+  type        BookshelfType   @default(CUSTOM)    
+  userId      Int
+  user        User            @relation(fields: [userId], references: [id])
+  books       BookshelfBook[]
+  deletedAt   DateTime?
+}
+
+enum BookshelfType {
+  READ
+  CURRENTLY_READING
+  TO_BE_READ
+  CUSTOM
+}
+
+model BookshelfBook{
+  id                Int           @id @default(autoincrement())
+  bookshelfId       Int
+  bookshelf         Bookshelf     @relation(fields: [bookshelfId], references: [id])
+  bookId            Int
+  book              Book          @relation(fields: [bookId], references: [id])
+  readingProgress   Int           @default(0)
+  totalPages        Int?
+  readingStatus     ReadingStatus @default(TO_BE_READ)
+  deletedAt         DateTime?
+  
+  @@unique([bookshelfId, bookId])
+}
+
+enum ReadingStatus {
+  READ
+  CURRENTLY_READING
+  TO_BE_READ
+}
+
+model Book{
+  id                Int         @id @default(autoincrement())
+  googleBookId      String
+  title             String
+  author            String
+  description       String
+  publishedDate     DateTime?
+  coverImageUrl     String?
+  categories        String[]
+  averageRating     Float?      @default(0)
+  reviewCount       Int         @default(0)
+  reviews           Review[]
+  bookshelves       BookshelfBook[]
+  notes             Note[]
+}
+
+model Review{
+  id          Int       @id @default(autoincrement())
+  bookId      Int
+  book        Book      @relation(fields: [bookId], references: [id])
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  rating      Int       
+  review      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+}
+
+model Note{
+  id          Int     @id @default(autoincrement())
+  bookId      Int
+  book        Book    @relation(fields: [bookId], references: [id])
+  userId      Int
+  user        User    @relation(fields: [userId], references: [id])
+  content     String
+  createdAt   String
+  updatedAt   String
   deletedAt   DateTime?
 }
