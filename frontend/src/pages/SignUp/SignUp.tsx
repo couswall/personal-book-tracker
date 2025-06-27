@@ -34,7 +34,7 @@ export const SignUp = () => {
   const {loadings, errors: errorsMsg} = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const onSubmit = (data: ISignUpForm) => {
-    dispatch(registerUser(data, navigate));
+    dispatch(registerUser({newUser: data, navigate}));
   };
   useEffect(() => {
     if(errorsMsg.registerUserErrorMsg){

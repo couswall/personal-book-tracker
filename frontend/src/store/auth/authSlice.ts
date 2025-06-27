@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthStatus, IAuthSliceState, ILoginSuccessRes } from "@store/auth/interfaces";
+import { loginUser, registerUser } from "@store/auth/thunks";
 
 const initialState: IAuthSliceState = {
     status: AuthStatus.Checking,
@@ -24,40 +25,6 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        loginStart: (state) => {
-            state.status = AuthStatus.Checking;
-            state.loadings.loginLoading = true;
-            state.errors.loginErrorMsg = undefined;
-        },
-        loginSuccess: (state, action: PayloadAction<ILoginSuccessRes>) => {
-            state.status = AuthStatus.Authenticated;
-            state.user = action.payload.user;
-            state.token = action.payload.token;
-            state.loadings.loginLoading = false;
-            state.errors.loginErrorMsg = undefined;
-        },
-        logginError: (state, action: PayloadAction<string>) => {
-            state.status = AuthStatus.NoAuthenticated;
-            state.loadings.loginLoading = false;
-            state.errors.loginErrorMsg = action.payload;
-        },
-        registerUserStart: (state) => {
-            state.status = AuthStatus.Checking;
-            state.loadings.registerUserLoading = true;
-            state.errors.registerUserErrorMsg = undefined;
-        },
-        registerUserSuccess: (state, action: PayloadAction<ILoginSuccessRes>) => {
-            state.status = AuthStatus.Authenticated;
-            state.user = action.payload.user;
-            state.token = action.payload.token;
-            state.loadings.registerUserLoading = false;
-            state.errors.registerUserErrorMsg = undefined;
-        },
-        registerUserError: (state, action: PayloadAction<string>) => {
-            state.status = AuthStatus.NoAuthenticated;
-            state.loadings.registerUserLoading = false;
-            state.errors.registerUserErrorMsg = action.payload;
-        },
         onLogout: (state) => {
             state.status = initialState.status;
             state.user = initialState.user;
@@ -68,16 +35,51 @@ export const authSlice = createSlice({
         cleanErrorMessages: (state) => {
             state.errors = initialState.errors;
         }
-    }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(loginUser.pending, (state) => {
+                state.status = AuthStatus.Checking;
+                state.loadings.loginLoading = true;
+                state.errors.loginErrorMsg = undefined;
+            })
+            .addCase(loginUser.fulfilled, (state, action: PayloadAction<ILoginSuccessRes>) => {
+                state.status = AuthStatus.Authenticated;
+                state.user = action.payload.user;
+                state.token = action.payload.token;
+                state.loadings.loginLoading = false;
+                state.errors.loginErrorMsg = undefined;
+            })
+            .addCase(loginUser.rejected, (state, action) => {
+                state.status = AuthStatus.NoAuthenticated;
+                state.loadings.loginLoading = false;
+                state.errors.loginErrorMsg = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : 'Unknown error';
+            })
+            .addCase(registerUser.pending, (state) => {
+                state.status = AuthStatus.Checking;
+                state.loadings.registerUserLoading = true;
+                state.errors.registerUserErrorMsg = undefined;
+            })
+            .addCase(registerUser.fulfilled, (state, action: PayloadAction<ILoginSuccessRes>) => {
+                state.status = AuthStatus.Authenticated;
+                state.user = action.payload.user;
+                state.token = action.payload.token;
+                state.loadings.registerUserLoading = false;
+                state.errors.registerUserErrorMsg = undefined;
+            })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.status = AuthStatus.NoAuthenticated;
+                state.loadings.registerUserLoading = false;
+                state.errors.registerUserErrorMsg = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : 'Unknown error';
+            })
+    },
 });
 
 export const {
     cleanErrorMessages,
-    loginStart,
-    loginSuccess,
-    logginError,
-    registerUserStart,
-    registerUserSuccess,
-    registerUserError,
     onLogout,
 } = authSlice.actions;

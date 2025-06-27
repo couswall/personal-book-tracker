@@ -17,7 +17,7 @@ import {
 } from "@components/index"
 import { ErrorMessage } from "@pages/Login/ErrorMessage";
 import { AppDispatch, RootState } from "@store/store";
-import { cleanErrorMessages, loginAuthUser } from "@store/index";
+import { cleanErrorMessages, loginUser } from "@store/index";
 import { schemaLoginValidations } from "@pages/Login/schemaLoginValidations";
 import { ILoginForm } from "@pages/Login/interfaces";
 import { publicRoutes } from "@routes/routes";
@@ -33,7 +33,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const onSubmit = (data: ILoginForm) => {
-    dispatch(loginAuthUser(data, navigate));
+    dispatch(loginUser({credentials: data, navigate}));
   };
 
   useEffect(() => {
