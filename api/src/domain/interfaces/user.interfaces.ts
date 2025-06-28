@@ -4,6 +4,8 @@ export interface ICreateUserEntity{
     username: string;
     email: string;
     password: string;
+    createdAt: Date;
+    updatedAt: Date | null;
     deletedAt: Date | null;
 }
 
