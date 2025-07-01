@@ -6,7 +6,7 @@ export class BookEntity{
         public id: number,
         public googleId: string,
         public title: string,
-        public author: string,
+        public authors: string[],
         public description: string,
         public publishedDate: Date | null,
         public coverImageUrd: string | null,
