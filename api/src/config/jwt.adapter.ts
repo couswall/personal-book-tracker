@@ -1,5 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { envs } from '@config/envs';
+import { CustomError } from '@domain/errors/custom.error';
+import { ERROR_MESSAGES } from '@infrastructure/constants';
 
 interface IPayloadJWT{
     id: number;
@@ -18,6 +20,17 @@ export class JwtAdapter {
                 if(error) return resolve(undefined);
 
                 resolve(token);
+            });
+        });
+    };
+
+    static async validateToken(token: string): Promise<IPayloadJWT>{
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, JWT_SEED, (error, decode) => {
+                if(error) reject (
+                    CustomError.unauthorized(ERROR_MESSAGES.TOKEN.INVALID)
+                );
+                resolve(decode as IPayloadJWT);
             });
         });
     }

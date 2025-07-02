@@ -10,6 +10,8 @@ export const ERROR_MESSAGES = {
         }
     },
     TOKEN: {
-        CREATING: 'Error while creating token'
+        CREATING: 'Error while creating token',
+        INVALID: 'Invalid or expired token',
+        NO_TOKEN: 'No token sent',
     }
 }
