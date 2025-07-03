@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { SearchBookDto } from "@domain/dtos/index";
+import { GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
 import { BookRepository } from "@domain/repositories/book.repository";
-import { SearchBook } from "@domain/use-cases/index";
+import { SearchBook, GetBookById } from "@domain/use-cases/index";
 import { CustomError } from "@domain/errors/custom.error";
 import { PrintTypeEnum } from "@domain/interfaces/book.interfaces";
 
@@ -33,6 +33,26 @@ export class BookController{
             .then(data => res.status(200).json({
                 success: true,
                 message: 'Searching books successfully',
+                data,
+            }))
+            .catch(error => CustomError.handleError(error, res));
+    };
+
+    public getBookById = (req: Request, res: Response) => {
+        const [errorMsg, dto] = GetBookByIdDto.create(req.params.bookId);
+        if(errorMsg){
+            res.status(400).json({
+                success: false,
+                error: {message: errorMsg}
+            });
+            return;
+        }
+
+        new GetBookById(this.reposiotry)
+            .execute(dto!)
+            .then(data => res.status(200).json({
+                success: true,
+                message: `Book information with id ${data.id}`,
                 data,
             }))
             .catch(error => CustomError.handleError(error, res));

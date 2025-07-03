@@ -13,5 +13,8 @@ export const ERROR_MESSAGES = {
         CREATING: 'Error while creating token',
         INVALID: 'Invalid or expired token',
         NO_TOKEN: 'No token sent',
+    },
+    EXTERNAL_BOOKS_API:{
+        INTERNAL: 'Google books API error',
     }
 }
