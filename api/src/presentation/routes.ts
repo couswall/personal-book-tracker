@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { AuthRoutes } from "@presentation/auth/routes";
 import { BookRoutes } from "@presentation/book/routes";
+import { BookshelfRoutes } from "@presentation/bookshelf/routes";
 
 export class AppRoutes{
 
@@ -9,6 +10,7 @@ export class AppRoutes{
 
         router.use('/api/auth', AuthRoutes.routes);
         router.use('/api/book', BookRoutes.routes);
+        router.use('/api/bookshelf', BookshelfRoutes.routes);
 
         return router;
     }

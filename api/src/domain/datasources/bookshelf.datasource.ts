@@ -1,0 +1,6 @@
+import { BookshelfEntity } from "@domain/entities/index";
+import { CreateCustomBookShelfDto } from "@domain/dtos/bookshelf/createCustom-bookshelf.dto";
+
+export abstract class BookshelfDatasource{
+    abstract createCustom(createBookShelfDto: CreateCustomBookShelfDto): Promise<BookshelfEntity>;
+}

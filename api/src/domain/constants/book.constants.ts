@@ -10,5 +10,5 @@ export const BOOK_DTO_ERRORS = {
     },
     GET_BOOK_BY_ID: {
         REQUIRED: 'bookId is required',
-    }
+    },
 }
