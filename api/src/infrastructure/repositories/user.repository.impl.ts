@@ -1,5 +1,5 @@
 import { UserDatasource } from "@domain/datasources/user.datasource";
-import { CreateUserDto, LoginUserDto } from "@domain/dtos";
+import { CreateUserDto, GetUserByIdDto, LoginUserDto } from "@domain/dtos";
 import { UserEntity } from "@domain/entities/user.entity";
 import { UserRepository } from "@domain/repositories/user.repository";
 
@@ -14,5 +14,9 @@ export class UserRepositoryImpl implements UserRepository{
 
     login(loginUserDto: LoginUserDto): Promise<UserEntity> {
         return this.datasource.login(loginUserDto);
+    }
+
+    getById(getUserByIdDto: GetUserByIdDto): Promise<UserEntity> {
+        return this.datasource.getById(getUserByIdDto);
     }
 }

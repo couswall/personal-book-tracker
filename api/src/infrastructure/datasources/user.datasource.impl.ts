@@ -1,6 +1,6 @@
 import { prisma } from "@data/postgres";
 import { BCryptAdapter } from "@src/config";
-import { CreateUserDto, LoginUserDto } from "@domain/dtos";
+import { CreateUserDto, GetUserByIdDto, LoginUserDto } from "@domain/dtos/index";
 import { CustomError } from "@domain/errors/custom.error";
 import { UserEntity } from "@domain/entities/user.entity";
 import { UserDatasource } from "@domain/datasources/user.datasource";
@@ -29,6 +29,14 @@ export class UserDatasourceImpl implements UserDatasource{
             }
         });
 
+        await prisma.bookshelf.createMany({
+            data: [
+                {name: 'To be Read', type: 'TO_BE_READ', userId: newUser.id},
+                {name: 'Currently Reading', type: 'CURRENTLY_READING', userId: newUser.id},
+                {name: 'Read', type: 'READ', userId: newUser.id},
+            ],
+        });
+        
         return UserEntity.fromObject(newUser);
     }
 
@@ -47,6 +55,17 @@ export class UserDatasourceImpl implements UserDatasource{
         const passwordMatch = BCryptAdapter.compare(loginUserDto.password, user.password);
 
         if(!passwordMatch) throw CustomError.badRequest(ERROR_MESSAGES.USER.LOGIN.INVALID_CREDENTIALS);
+
+        return UserEntity.fromObject(user);
+    }
+
+    async getById(getUserByIdDto: GetUserByIdDto): Promise<UserEntity>{
+        const {id} = getUserByIdDto;
+        const user = await prisma.user.findFirst({
+            where: {id, deletedAt: null}
+        });
+
+        if(!user) throw CustomError.badRequest(ERROR_MESSAGES.USER.GET_BY_ID.NO_EXISTING);
 
         return UserEntity.fromObject(user);
     }

@@ -32,5 +32,9 @@ export const DTOS_ERRORS = {
             STRING: 'username or email field must be a string',
             BLANK_SPACES: 'username or email field cannot contain only blank spaces'
         }
+    },
+    GET_BY_ID: {
+        REQUIRED: 'id is required',
+        NUMBER: 'id must be a number',
     }
 }
