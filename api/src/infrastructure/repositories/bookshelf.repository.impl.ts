@@ -10,5 +10,9 @@ export class BookshelfRepositoryImpl implements BookshelfRepository{
 
     createCustom(createBookShelfDto: CreateCustomBookShelfDto): Promise<BookshelfEntity> {
         return this.datasource.createCustom(createBookShelfDto);
+    };
+
+    getMyBookshelves(userId: number): Promise<BookshelfEntity[]> {
+        return this.datasource.getMyBookshelves(userId);
     }
 };

@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { CustomError } from "@domain/errors/custom.error";
 import { CreateCustomBookShelfDto } from "@domain/dtos/index";
 import { BookshelfRepository } from "@domain/repositories/bookshelf.repository";
-import { CreateCustom } from "@domain/use-cases/bookshelf/createCustom-bookshelf";
 import { UserRepository } from "@domain/repositories/user.repository";
+import { GetMyBookShelves, CreateCustom } from "@domain/use-cases/index";
 
 export class BookshelfController{
     constructor(
@@ -34,5 +34,28 @@ export class BookshelfController{
             }))
             .catch(error => CustomError.handleError(error, res))
 
+    };
+
+    public getMyBookshelves = (req: Request, res: Response) => {
+        const userId = +req.params.userId;
+        if(!userId || isNaN(userId)){
+            res.status(400).json({
+                success: false,
+                error: {message: 'userId is mandatory and must be a number'}
+            });
+            return;
+        }
+
+        new GetMyBookShelves(this.repository, this.userRepository)
+            .execute(userId)
+            .then(bookshelves => res.status(200).json({
+                success: true,
+                message: 'Successfully fetched bookshelves.',
+                data: bookshelves.map(bookshelve => {
+                    const {deletedAt, userId, ...rest} = bookshelve;
+                    return {...rest};
+                }),
+            }))
+            .catch(error => CustomError.handleError(error, res));
     }
 }

@@ -1,6 +1,6 @@
 import { prisma } from "@/src/data/postgres";
 import { CustomError } from "@domain/errors/custom.error";
-import { BookshelfEntity } from "@domain/entities";
+import { BookshelfEntity, UserEntity } from "@domain/entities";
 import { BookshelfDatasource } from "@domain/datasources/bookshelf.datasource";
 import { CreateCustomBookShelfDto } from "@domain/dtos/index";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
@@ -25,5 +25,13 @@ export class BookshelfDatasourceImpl implements BookshelfDatasource{
         });
 
         return BookshelfEntity.fromObject(customBookshelf);
+    };
+
+    async getMyBookshelves(userId: number): Promise<BookshelfEntity[]> {
+        const bookshelves = await prisma.bookshelf.findMany({
+            where: {userId, deletedAt: null}
+        });
+
+        return BookshelfEntity.convertArray(bookshelves);
     }
 }

@@ -16,6 +16,7 @@ export class BookshelfRoutes{
         const bookshelfController = new BookshelfController(bookshelfRepository, userRepository);
 
         router.post('/createCustom', validateJWT, bookshelfController.createCustom);
+        router.get('/getMyBookshelves/:userId', [validateJWT], bookshelfController.getMyBookshelves);
 
         return router;
     };

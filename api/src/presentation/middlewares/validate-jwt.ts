@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { prisma } from "@/src/data/postgres";
 import { JwtAdapter } from "@config/jwt.adapter";
 import { CustomError } from "@domain/errors/custom.error";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
@@ -25,8 +26,28 @@ export const validateJWT = async (req: Request, res: Response, next: NextFunctio
     };
 
     try {
-        await JwtAdapter.validateToken(token);
+        const payload = await JwtAdapter.validateToken(token);
+    
+        if(!payload){
+            res.status(401).json({
+                success: false,
+                error: {message: ERROR_MESSAGES.TOKEN.INVALID}
+            });
+            return;
+        }
+
+        const user = await prisma.user.findFirst({where: {id: payload.id, deletedAt: null}});
+        
+        if(!user){
+            res.status(401).json({
+                success: false,
+                error: {message: ERROR_MESSAGES.TOKEN.INVALID_USER}
+            });
+            return;
+        }
+
         next();
+
     } catch (error) {
         if(error instanceof CustomError){
             res.status(error.statusCode).json({
@@ -35,6 +56,7 @@ export const validateJWT = async (req: Request, res: Response, next: NextFunctio
             });
             return;
         };
+        console.log(error);
         res.status(500).json('Internal server error while validating token');
     }
 

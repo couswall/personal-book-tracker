@@ -13,7 +13,7 @@ export class BookshelfEntity{
         public user?: UserEntity,
     ){};
 
-    public static fromObject(object: ICreateBookshelfEntity){
+    public static fromObject(object: ICreateBookshelfEntity): BookshelfEntity{
         return new BookshelfEntity(
             object.id,
             object.name,
@@ -24,4 +24,8 @@ export class BookshelfEntity{
             object.user,
         );
     };
+
+    public static convertArray(array: ICreateBookshelfEntity[]): BookshelfEntity[]{
+        return array.map(bookshelf => this.fromObject(bookshelf));
+    }
 }
