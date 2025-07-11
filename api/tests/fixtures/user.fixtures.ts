@@ -6,6 +6,8 @@ export const userObj = {
     username: 'testing_user',
     email: 'testingUser@google.com',
     password: 'Password$1234',
+    createdAt: new Date(),
+    updatedAt: null,
     deletedAt: null,
 };
 

@@ -2,9 +2,9 @@ import { prisma } from "@data/postgres";
 import { BCryptAdapter } from "@config/bcrypt.adapter";
 import { UserDatasourceImpl } from "@infrastructure/datasources/user.datasource.impl";
 import { UserEntity } from "@domain/entities/user.entity";
-import { CreateUserDto, LoginUserDto } from "@domain/dtos";
+import { CreateUserDto, GetUserByIdDto, LoginUserDto } from "@domain/dtos";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
-import { createUserDtoObj, loginUserDtoObj, mockUserPrisma } from "tests/fixtures";
+import { createUserDtoObj, loginUserDtoObj, mockUserPrisma, userObj } from "tests/fixtures";
 
 jest.mock('@data/postgres', () => ({
     prisma: {
@@ -12,6 +12,9 @@ jest.mock('@data/postgres', () => ({
             findFirst: jest.fn(),
             create: jest.fn(),
         },
+        bookshelf: {
+            createMany: jest.fn(),
+        }
     }
 }));
 
@@ -40,6 +43,7 @@ describe('user.datasource.impl tests', () => {
 
             expect(result).toBeInstanceOf(UserEntity);
             expect(prisma.user.create).toHaveBeenCalled();
+            expect(prisma.bookshelf.createMany).toHaveBeenCalled()
         });
         test('should throw an error if username already exists', async () => {
             const [,dto] = CreateUserDto.create(createUserDtoObj);
@@ -93,6 +97,28 @@ describe('user.datasource.impl tests', () => {
 
             await expect(userDatasourceImpl.login(dto!)).rejects.toThrow(
                 ERROR_MESSAGES.USER.LOGIN.INVALID_CREDENTIALS
+            );
+        });
+    });
+
+    describe('getById()', () => {
+        test('should return UserEntity if findFirst succeeds', async () => {
+            const [,dto] = GetUserByIdDto.create(userObj.id);
+
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma);
+
+            const result = await userDatasourceImpl.getById(dto!);
+
+            expect(result).toBeInstanceOf(UserEntity);
+            expect(prisma.user.findFirst).toHaveBeenCalled();
+        });
+        test('should throw an error when user with provided ID does not exists', async () => {
+            const [,dto] = GetUserByIdDto.create(userObj.id);
+
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
+
+            await expect(userDatasourceImpl.getById(dto!)).rejects.toThrow(
+                ERROR_MESSAGES.USER.GET_BY_ID.NO_EXISTING
             );
         });
     });
