@@ -10,6 +10,8 @@ describe('user.entity tests', () => {
             userObj.username,
             userObj.email,
             userObj.password,
+            userObj.createdAt,
+            userObj.updatedAt,
             userObj.deletedAt,
         );
 

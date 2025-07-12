@@ -16,8 +16,8 @@ export class CreateCustomBookShelfDto{
         if(!shelfName) return BOOK_SHELF_DTO_ERRORS.CREATE_CUSTOM_BOOKSHELF.SHELF_NAME.REQUIRED;
         if(typeof shelfName !== 'string') return BOOK_SHELF_DTO_ERRORS.CREATE_CUSTOM_BOOKSHELF.SHELF_NAME.STRING;
         if(shelfName.trim().length === 0) return BOOK_SHELF_DTO_ERRORS.CREATE_CUSTOM_BOOKSHELF.SHELF_NAME.BLANK_SPACES;
-        if(shelfName.length < 1) return BOOK_SHELF_DTO_ERRORS.CREATE_CUSTOM_BOOKSHELF.SHELF_NAME.MIN_LENGHT;
-        if(shelfName.length > 90) return BOOK_SHELF_DTO_ERRORS.CREATE_CUSTOM_BOOKSHELF.SHELF_NAME.MAX_LENGHT;
+        if(shelfName.length < 2) return BOOK_SHELF_DTO_ERRORS.CREATE_CUSTOM_BOOKSHELF.SHELF_NAME.MIN_LENGTH;
+        if(shelfName.length > 90) return BOOK_SHELF_DTO_ERRORS.CREATE_CUSTOM_BOOKSHELF.SHELF_NAME.MAX_LENGTH;
 
         return null;
     };
