@@ -17,6 +17,7 @@ describe('login-user use case test', () => {
     const mockUserRepository: jest.Mocked<UserRepository> = {
         create: jest.fn(),
         login: jest.fn(),
+        getById: jest.fn(),
     };
 
     beforeEach(() => {

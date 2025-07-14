@@ -11,7 +11,6 @@ describe('createCustom-bookshelf.dto test', () => {
         expect(dto).toBeInstanceOf(CreateCustomBookShelfDto);
     });
 
-    // TODO: Test userId and shelfId
     describe('userId validation', () => {
         test('should throw an error when userId is undefined', () => {
             const dtoObj = {shelfName: 'hello'};
