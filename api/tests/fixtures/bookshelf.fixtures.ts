@@ -18,3 +18,5 @@ export const createCustomBookshelfDto = {
     userId: bookshelfObj.id,
     shelfName: 'Custom bookshelf',
 };
+
+export const bookshelfPrisma = {...bookshelfObj};
