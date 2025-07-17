@@ -43,7 +43,7 @@ describe('bookshelf controller tests', () => {
     });
 
     describe('createCustom()', () => {
-        test('should return a 201 status and BookshelfEntity instance when created successfully', async () => {
+        test('should return a 201 status and bookshelf data when created successfully', async () => {
             mockRequest.body = {...createCustomBookshelfDto};
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma);
@@ -109,6 +109,54 @@ describe('bookshelf controller tests', () => {
                 error: {message: ERROR_MESSAGES.BOOKSHELF.CREATE_CUSTOM.EXISTING},
             });
         });
+    });
+    describe('getMyBookshelves()', () => {
+        test('should return a 200 status and bookshelves data', async () => {
+            const {userId} = createCustomBookshelfDto;
+            mockRequest.params = {userId: String(userId)};
 
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma);
+            (prisma.bookshelf.findMany as jest.Mock).mockResolvedValue([bookshelfPrisma]);
+
+            await new Promise<void>((resolve) => {
+                bookshelfController.getMyBookshelves(mockRequest as Request, mockResponse as Response);
+                setImmediate(resolve);
+            });
+
+            expect(mockResponse.status).toHaveBeenCalledWith(200);
+            expect(mockResponse.json).toHaveBeenCalledWith({
+                success: true,
+                message: expect.any(String),
+                data: expect.any(Array),
+            });
+        });
+        test('should throw a 400 error if params are empty', async () => {
+            mockRequest.params = {};
+
+            await bookshelfController.getMyBookshelves(mockRequest as Request, mockResponse as Response);
+
+            expect(mockResponse.status).toHaveBeenCalledWith(400);
+            expect(mockResponse.json).toHaveBeenCalledWith({
+                success: false,
+                error: {message: expect.any(String)}
+            })
+        });
+        test('should throw a 400 error when user with provided ID does not exist', async () => {
+            const {userId} = createCustomBookshelfDto;
+            mockRequest.params = {userId: String(userId)};
+
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
+
+            await new Promise<void>((resolve) => {
+                bookshelfController.getMyBookshelves(mockRequest as Request, mockResponse as Response);
+                setImmediate(resolve);
+            });
+
+            expect(mockResponse.status).toHaveBeenCalledWith(400);
+            expect(mockResponse.json).toHaveBeenCalledWith({
+                success: false,
+                error: {message: ERROR_MESSAGES.USER.GET_BY_ID.NO_EXISTING},
+            });
+        });
     });
 });

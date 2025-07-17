@@ -51,8 +51,8 @@ export class BookshelfController{
             .then(bookshelves => res.status(200).json({
                 success: true,
                 message: 'Successfully fetched bookshelves.',
-                data: bookshelves.map(bookshelve => {
-                    const {deletedAt, userId, ...rest} = bookshelve;
+                data: bookshelves.map(bookshelf => {
+                    const {deletedAt, userId, ...rest} = bookshelf;
                     return {...rest};
                 }),
             }))
