@@ -4,7 +4,7 @@ import { BCryptAdapter, JwtAdapter } from "@src/config";
 import { AuthController } from "@presentation/auth/controller";
 import { UserDatasourceImpl } from "@infrastructure/datasources/user.datasource.impl";
 import { UserRepositoryImpl } from "@infrastructure/repositories/user.repository.impl";
-import { createUserDtoObj, loginUserDtoObj, mockUserPrisma } from "tests/fixtures";
+import { bookshelfPrisma, createUserDtoObj, loginUserDtoObj, mockUserPrisma } from "tests/fixtures";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
 
 jest.mock('@data/postgres', () => ({
@@ -13,6 +13,9 @@ jest.mock('@data/postgres', () => ({
             findFirst: jest.fn(),
             create: jest.fn(),
         },
+        bookshelf: {
+            createMany: jest.fn(),
+        }
     }
 }));
 jest.mock('@config/bcrypt.adapter', () => ({
@@ -121,6 +124,7 @@ describe('auth controller tests', () => {
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
             (prisma.user.create as jest.Mock).mockResolvedValue(mockUserPrisma);
+            (prisma.bookshelf.createMany as jest.Mock).mockResolvedValue([bookshelfPrisma]);
             (BCryptAdapter.hash as jest.Mock).mockReturnValue('hashed-password');
             (JwtAdapter.generateToken as jest.Mock).mockResolvedValue(mockToken);
 

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "@/src/data/postgres";
+import { prisma } from "@data/postgres";
 import { JwtAdapter } from "@config/jwt.adapter";
 import { CustomError } from "@domain/errors/custom.error";
 import { ERROR_MESSAGES } from "@infrastructure/constants";

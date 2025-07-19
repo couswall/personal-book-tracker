@@ -17,6 +17,7 @@ describe('auth routes tests', () => {
 
     beforeEach(async() => {
         await prisma.user.deleteMany();
+        await prisma.bookshelf.deleteMany();
     });
 
     describe('/register endpoint', () => {
@@ -233,10 +234,11 @@ describe('auth routes tests', () => {
     });
     describe('/login endpoint', () => {
         test('should return a 200 status and user data after login', async () => {
-            await prisma.user.create({data: {
+            const newUser = await prisma.user.create({data: {
                 ...createUserDtoObj,
                 password: BCryptAdapter.hash(createUserDtoObj.password)
             }});
+            
 
             const {body} = await request(testServer.app)
                 .post('/api/auth/login')

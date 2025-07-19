@@ -43,7 +43,7 @@ describe('user.datasource.impl tests', () => {
 
             expect(result).toBeInstanceOf(UserEntity);
             expect(prisma.user.create).toHaveBeenCalled();
-            expect(prisma.bookshelf.createMany).toHaveBeenCalled()
+            expect(prisma.bookshelf.createMany).toHaveBeenCalled();
         });
         test('should throw an error if username already exists', async () => {
             const [,dto] = CreateUserDto.create(createUserDtoObj);
