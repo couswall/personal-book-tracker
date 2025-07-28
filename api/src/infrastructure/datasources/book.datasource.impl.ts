@@ -1,9 +1,11 @@
 import { AxiosError } from "axios";
-import { AxiosAdapter } from "@config/axios.adapter";
+import { prisma } from "@data/postgres";
 import { envs } from "@config/index";
+import { AxiosAdapter } from "@config/axios.adapter";
 import { CustomError } from "@domain/errors/custom.error";
 import { BookDatasource } from "@domain/datasources/book.datasource";
-import { GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
+import { FindByApiIdDto, GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
+import { BookEntity } from "@domain/entities/book.entity";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
 import { ISearchBookResponse, IGetBookByIdResponse } from "@domain/interfaces/book.interfaces";
 import { GoogleBook, ISearchGoogleResponse } from "@domain/interfaces/googleBook.interfaces";
@@ -81,5 +83,15 @@ export class BookDatasourceImpl implements BookDatasource{
             }
             throw CustomError.internalServer(ERROR_MESSAGES.EXTERNAL_BOOKS_API.INTERNAL);
         }
+    }
+
+    async findByApiId(findByApiIdDto: FindByApiIdDto): Promise<BookEntity> {
+        const existingBook = await prisma.book.findFirst({
+            where: {googleBookId: findByApiIdDto.apiBookId}
+        });
+
+        if(!existingBook) throw CustomError.badRequest(ERROR_MESSAGES.BOOK.FIND_BY_API_ID.NOT_FOUND);
+
+        return BookEntity.fromObject(existingBook)
     }
 }

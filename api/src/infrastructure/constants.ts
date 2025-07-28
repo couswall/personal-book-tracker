@@ -25,5 +25,10 @@ export const ERROR_MESSAGES = {
         CREATE_CUSTOM:{
             EXISTING: 'A booksheld with that name already exists',
         }
+    },
+    BOOK: {
+        FIND_BY_API_ID: {
+            NOT_FOUND: 'Book with provided ID does not exist',
+        }
     }
 }
