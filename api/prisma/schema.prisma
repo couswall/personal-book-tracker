@@ -67,13 +67,15 @@ enum ReadingStatus {
 
 model Book{
   id                Int         @id @default(autoincrement())
-  googleBookId      String
+  apiBookId         String      @unique
   title             String
+  subtitle          String?
   authors           String[]
-  description       String
+  description       String?
   publishedDate     DateTime?
   coverImageUrl     String?
   categories        String[]
+  pageCount         Int         @default(0)
   averageRating     Float?      @default(0)
   reviewCount       Int         @default(0)
   reviews           Review[]
