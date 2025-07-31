@@ -4,11 +4,11 @@ import { envs } from "@config/index";
 import { AxiosAdapter } from "@config/axios.adapter";
 import { CustomError } from "@domain/errors/custom.error";
 import { BookDatasource } from "@domain/datasources/book.datasource";
-import { FindByApiIdDto, GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
+import { GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
 import { BookEntity } from "@domain/entities/book.entity";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
-import { ISearchBookResponse, IGetBookByIdResponse } from "@domain/interfaces/book.interfaces";
-import { GoogleBook, ISearchGoogleResponse } from "@domain/interfaces/googleBook.interfaces";
+import { ISearchBookResponse, ICreateBookEntityFromObject } from "@domain/interfaces/book.interfaces";
+import { IBookFromAPI, ISearchFromAPIResponse } from "@domain/interfaces/apiBook.interfaces";
 
 export class BookDatasourceImpl implements BookDatasource{
     constructor(private readonly http: AxiosAdapter){};
@@ -23,7 +23,7 @@ export class BookDatasourceImpl implements BookDatasource{
         };
 
         try {
-            const data = await this.http.get<ISearchGoogleResponse>(
+            const data = await this.http.get<ISearchFromAPIResponse>(
                 `${envs.BOOKS_API}/volumes`,
                 {params}
             );
@@ -53,45 +53,54 @@ export class BookDatasourceImpl implements BookDatasource{
         }
     };
 
-    async getBookById(getBookByIdDto: GetBookByIdDto): Promise<IGetBookByIdResponse> {
+    async getBookById(getBookByIdDto: GetBookByIdDto): Promise<BookEntity> {
+        const {bookId} = getBookByIdDto;
+
+        const existingBook = await prisma.book.findUnique({
+            where: {apiBookId: bookId}
+        });
+
+        if(!existingBook){
+            const bookFromApi = await this.fetchByIdFromAPI(getBookByIdDto);
+            return bookFromApi;
+        }
+
+        return BookEntity.fromObject(existingBook);
+    }
+
+    async fetchByIdFromAPI(getBookByIdDto: GetBookByIdDto): Promise<BookEntity> {
         const {bookId} = getBookByIdDto;
 
         try {
-            const googleBook = await this.http.get<GoogleBook>(`${envs.BOOKS_API}/volumes/${bookId}`);
-            const {id, volumeInfo} = googleBook;
+            const googleBook = await this.http.get<IBookFromAPI>(`${envs.BOOKS_API}/volumes/${bookId}`);
+            const {id: apiBookId, volumeInfo} = googleBook;
             const bookImgCover = volumeInfo.imageLinks?.smallThumbnail ?? volumeInfo.imageLinks?.thumbnail;
 
-            const book = {
-                id,
+            const book: ICreateBookEntityFromObject = {
+                id: 0,
+                apiBookId,
                 title: volumeInfo.title,
-                subtitle: volumeInfo.subtitle,
+                subtitle: volumeInfo.subtitle ?? null,
                 authors: volumeInfo.authors,
-                publishedDate: volumeInfo.publishedDate,
-                description: volumeInfo.description,
-                coverImageUrl: bookImgCover,
+                publishedDate: new Date(volumeInfo.publishedDate),
+                description: volumeInfo.description ?? null,
+                coverImageUrl: bookImgCover ?? null,
                 categories: volumeInfo.categories,
+                pageCount: volumeInfo.pageCount ?? 0,
+                averageRating: volumeInfo.averageRating ?? 0,
+                reviewCount: 0,
             };
             
-            return book;
+            return BookEntity.fromObject(book);
 
         } catch (error) {
             if(error instanceof AxiosError){
                 const code: number = error.response?.data?.error?.code ?? 0;
                 if (code === 503) {
-                    throw CustomError.badRequest(`Book with id ${bookId} does not exist`);
+                    throw CustomError.badRequest(ERROR_MESSAGES.BOOK.GET_BOOK_BY_ID.NOT_FOUND);
                 }
             }
             throw CustomError.internalServer(ERROR_MESSAGES.EXTERNAL_BOOKS_API.INTERNAL);
         }
-    }
-
-    async findByApiId(findByApiIdDto: FindByApiIdDto): Promise<BookEntity> {
-        const existingBook = await prisma.book.findFirst({
-            where: {googleBookId: findByApiIdDto.apiBookId}
-        });
-
-        if(!existingBook) throw CustomError.badRequest(ERROR_MESSAGES.BOOK.FIND_BY_API_ID.NOT_FOUND);
-
-        return BookEntity.fromObject(existingBook)
     }
 }

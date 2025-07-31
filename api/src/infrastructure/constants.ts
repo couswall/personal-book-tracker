@@ -27,7 +27,7 @@ export const ERROR_MESSAGES = {
         }
     },
     BOOK: {
-        FIND_BY_API_ID: {
+        GET_BOOK_BY_ID: {
             NOT_FOUND: 'Book with provided ID does not exist',
         }
     }

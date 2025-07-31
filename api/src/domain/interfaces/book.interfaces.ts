@@ -26,27 +26,14 @@ export interface ISearchBookResponse{
     books: ISearchGoogleBook[];
 }
 
-export interface IGetBookByIdResponse{
-    id: string;
-    title: string;
-    subtitle?: string;
-    authors: string[];
-    publishedDate?: string;
-    description?: string;
-    coverImageUrl?: string;
-    categories: string[];
-}
-
-export interface IFindByApiIdDto{
-    apiBookId?: string;
-}
-
 export interface ICreateBookEntityFromObject{
     id: number;
-    googleBookId: string;
+    apiBookId: string;
     title: string;
+    subtitle: string | null;
     authors: string[];
     description: string | null;
+    pageCount: number;
     publishedDate: Date | null;
     coverImageUrl: string | null;
     categories: string[];

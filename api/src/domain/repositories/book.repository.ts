@@ -1,10 +1,9 @@
-import { FindByApiIdDto, GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
+import { GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
 import { BookEntity } from "@domain/entities/book.entity";
-import { IGetBookByIdResponse, ISearchBookResponse } from "@domain/interfaces/book.interfaces";
+import { ISearchBookResponse } from "@domain/interfaces/book.interfaces";
 
 export abstract class BookRepository {
     abstract search(searchBookDto: SearchBookDto): Promise<ISearchBookResponse>;
-    abstract getBookById(getBookByIdDto: GetBookByIdDto): Promise<IGetBookByIdResponse>;
-    abstract findByApiId(findByApiIdDto: FindByApiIdDto): Promise<BookEntity>;
-    // abstract create(): Promise<BookEntity>;
+    abstract getBookById(getBookByIdDto: GetBookByIdDto): Promise<BookEntity>;
+    abstract fetchByIdFromAPI(getBookByIdDto: GetBookByIdDto): Promise<BookEntity>
 }

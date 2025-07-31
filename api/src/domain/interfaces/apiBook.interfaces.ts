@@ -1,10 +1,10 @@
-export interface ISearchGoogleResponse {
+export interface ISearchFromAPIResponse {
     kind:       string;
     totalItems: number;
-    items:      GoogleBook[];
+    items:      IBookFromAPI[];
 }
 
-export interface GoogleBook {
+export interface IBookFromAPI {
     kind:       Kind;
     id:         string;
     etag:       string;

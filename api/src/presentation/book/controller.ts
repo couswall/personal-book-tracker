@@ -50,11 +50,14 @@ export class BookController{
 
         new GetBookById(this.reposiotry)
             .execute(dto!)
-            .then(data => res.status(200).json({
+            .then(bookEntity => {
+                const {bookshelves, reviews, notes, ...rest} = bookEntity;
+                res.status(200).json({
                 success: true,
-                message: `Book information with id ${data.id}`,
-                data,
-            }))
+                message: 'Getting book details successfully',
+                data: {...rest},
+            })
+            })
             .catch(error => CustomError.handleError(error, res));
     };
 }

@@ -4,7 +4,6 @@ export * from './user/getById-user.dto';
 
 export * from './book/search-book.dto';
 export * from './book/getBookById-book.dto';
-export * from './book/findByApiId-book.dto';
 
 export * from './bookshelf/createCustom-bookshelf.dto';
 
