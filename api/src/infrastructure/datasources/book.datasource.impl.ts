@@ -4,7 +4,7 @@ import { envs } from "@config/index";
 import { AxiosAdapter } from "@config/axios.adapter";
 import { CustomError } from "@domain/errors/custom.error";
 import { BookDatasource } from "@domain/datasources/book.datasource";
-import { GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
+import { CreateBookDto, GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
 import { BookEntity } from "@domain/entities/book.entity";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
 import { ISearchBookResponse, ICreateBookEntityFromObject } from "@domain/interfaces/book.interfaces";
@@ -57,7 +57,7 @@ export class BookDatasourceImpl implements BookDatasource{
         const {bookId} = getBookByIdDto;
 
         const existingBook = await prisma.book.findUnique({
-            where: {apiBookId: bookId}
+            where: {apiBookId: bookId, deletedAt: null}
         });
 
         if(!existingBook){
@@ -89,6 +89,7 @@ export class BookDatasourceImpl implements BookDatasource{
                 pageCount: volumeInfo.pageCount ?? 0,
                 averageRating: volumeInfo.averageRating ?? 0,
                 reviewCount: 0,
+                deletedAt: null,
             };
             
             return BookEntity.fromObject(book);
@@ -102,5 +103,17 @@ export class BookDatasourceImpl implements BookDatasource{
             }
             throw CustomError.internalServer(ERROR_MESSAGES.EXTERNAL_BOOKS_API.INTERNAL);
         }
+    };
+
+    async create(createBookDto: CreateBookDto): Promise<BookEntity> {
+        const existingBook = await prisma.book.findUnique({
+            where: {apiBookId: createBookDto.apiBookId, deletedAt: null}
+        });
+
+        if(existingBook) throw CustomError.badRequest(ERROR_MESSAGES.BOOK.CREATE.EXISTING);
+
+        const newBook = await prisma.book.create({data: createBookDto});
+
+        return BookEntity.fromObject(newBook);
     }
 }

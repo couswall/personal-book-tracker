@@ -19,6 +19,7 @@ export class BookEntity{
         public bookshelves: BookshelfBookEntity[] = [],
         public reviews: ReviewEntity[] = [],
         public notes: NoteEntity[] = [],
+        public deletedAt: Date | null = null,
     ){};
 
     public static fromObject(object: ICreateBookEntityFromObject): BookEntity{
@@ -38,6 +39,7 @@ export class BookEntity{
             object.bookshelves,
             object.reviews,
             object.notes,
+            object.deletedAt,
         );
     }
 }

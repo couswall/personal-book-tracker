@@ -1,7 +1,7 @@
 import { BookEntity } from "@/src/domain/entities/book.entity";
 import { BookDatasource } from "@domain/datasources/book.datasource";
 import { BookRepository } from "@domain/repositories/book.repository";
-import { GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
+import { CreateBookDto, GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
 import { ISearchBookResponse } from "@domain/interfaces/book.interfaces";
 
 export class BookRepositoryImpl implements BookRepository{
@@ -19,5 +19,9 @@ export class BookRepositoryImpl implements BookRepository{
 
     fetchByIdFromAPI(getBookByIdDto: GetBookByIdDto): Promise<BookEntity> {
         return this.datasource.fetchByIdFromAPI(getBookByIdDto);
+    }
+
+    create(createBookDto: CreateBookDto): Promise<BookEntity> {
+        return this.datasource.create(createBookDto);
     }
 }

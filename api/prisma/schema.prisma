@@ -50,7 +50,7 @@ model BookshelfBook{
   bookshelfId       Int
   bookshelf         Bookshelf     @relation(fields: [bookshelfId], references: [id])
   bookId            Int
-  book              Book          @relation(fields: [bookId], references: [id])
+  book              Book          @relation(fields: [bookId], references: [id], onDelete: Cascade)
   readingProgress   Int           @default(0)
   totalPages        Int?
   readingStatus     ReadingStatus @default(TO_BE_READ)
@@ -81,6 +81,7 @@ model Book{
   reviews           Review[]
   bookshelves       BookshelfBook[]
   notes             Note[]
+  deletedAt         DateTime?
 }
 
 model Review{

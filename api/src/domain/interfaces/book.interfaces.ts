@@ -39,7 +39,21 @@ export interface ICreateBookEntityFromObject{
     categories: string[];
     averageRating: number | null;
     reviewCount: number;
+    deletedAt: Date | null;
     bookshelves?: BookshelfBookEntity[];
     reviews?: ReviewEntity[];
     notes?: NoteEntity[];
+}
+
+export interface ICreateBookDtoObj{
+    apiBookId: string;
+    title: string;
+    subtitle: string | null;
+    authors: string[];
+    description: string | null;
+    publishedDate: Date | null;
+    coverImageUrl: string | null;
+    categories: string[];
+    averageRating: number;
+    reviewCount: number;
 }

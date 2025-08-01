@@ -29,6 +29,9 @@ export const ERROR_MESSAGES = {
     BOOK: {
         GET_BOOK_BY_ID: {
             NOT_FOUND: 'Book with provided ID does not exist',
+        },
+        CREATE: {
+            EXISTING: 'A book with provided apiBookId already exists',
         }
     }
 }

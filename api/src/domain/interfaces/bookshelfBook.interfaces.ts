@@ -1,5 +1,4 @@
 export interface IAddToBookshelfDto{
-    bookshelfId? : number;
-    bookId?: number;
+    bookshelfId? : number | string;
     apiBookId?: string;
 }
