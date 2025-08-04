@@ -82,7 +82,9 @@ export class BookDatasourceImpl implements BookDatasource{
                 title: volumeInfo.title,
                 subtitle: volumeInfo.subtitle ?? null,
                 authors: volumeInfo.authors,
-                publishedDate: new Date(volumeInfo.publishedDate),
+                publishedDate: volumeInfo.publishedDate && volumeInfo.publishedDate.length > 0 
+                    ? new Date(volumeInfo.publishedDate) 
+                    : null,
                 description: volumeInfo.description ?? null,
                 coverImageUrl: bookImgCover ?? null,
                 categories: volumeInfo.categories,
@@ -91,7 +93,6 @@ export class BookDatasourceImpl implements BookDatasource{
                 reviewCount: 0,
                 deletedAt: null,
             };
-            
             return BookEntity.fromObject(book);
 
         } catch (error) {

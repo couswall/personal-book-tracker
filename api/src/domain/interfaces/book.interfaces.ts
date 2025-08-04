@@ -56,4 +56,5 @@ export interface ICreateBookDtoObj{
     categories: string[];
     averageRating: number;
     reviewCount: number;
+    pageCount: number;
 }
