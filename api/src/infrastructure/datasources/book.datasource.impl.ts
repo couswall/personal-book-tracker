@@ -117,4 +117,18 @@ export class BookDatasourceImpl implements BookDatasource{
 
         return BookEntity.fromObject(newBook);
     }
+
+    async findOrCreateByApiId(apiBookId: string): Promise<BookEntity> {
+        let book = await this.getBookById({bookId: apiBookId});
+
+        if(book.id === 0){
+            const {id, bookshelves, reviews, notes, deletedAt, ...rest} = book;
+            const [error, dto] = CreateBookDto.create(rest);
+            if (error) throw CustomError.badRequest(error);
+            const newBook = await this.create(dto!);
+            book = newBook
+        }
+
+        return book;
+    }
 }

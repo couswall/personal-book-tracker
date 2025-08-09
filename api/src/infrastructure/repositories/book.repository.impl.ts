@@ -24,4 +24,8 @@ export class BookRepositoryImpl implements BookRepository{
     create(createBookDto: CreateBookDto): Promise<BookEntity> {
         return this.datasource.create(createBookDto);
     }
+
+    findOrCreateByApiId(apiBookId: string): Promise<BookEntity> {
+        return this.datasource.findOrCreateByApiId(apiBookId);
+    }
 }

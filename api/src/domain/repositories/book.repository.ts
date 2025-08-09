@@ -7,4 +7,5 @@ export abstract class BookRepository {
     abstract getBookById(getBookByIdDto: GetBookByIdDto): Promise<BookEntity>;
     abstract fetchByIdFromAPI(getBookByIdDto: GetBookByIdDto): Promise<BookEntity>;
     abstract create(createBookDto: CreateBookDto): Promise<BookEntity>;
+    abstract findOrCreateByApiId(apiBookId: string): Promise<BookEntity>;
 }
