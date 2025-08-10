@@ -52,7 +52,7 @@ export class BookshelfController{
                 success: true,
                 message: 'Successfully fetched bookshelves.',
                 data: bookshelves.map(bookshelf => {
-                    const {deletedAt, userId, ...rest} = bookshelf;
+                    const {deletedAt, userId,books, ...rest} = bookshelf;
                     return {...rest};
                 }),
             }))

@@ -24,6 +24,9 @@ export const ERROR_MESSAGES = {
     BOOKSHELF: {
         CREATE_CUSTOM:{
             EXISTING: 'A booksheld with that name already exists',
+        },
+        GET_BOOKSHELF_BY_ID:{
+            NOT_FOUND: 'Bookshelf with provided ID does not exist'
         }
     },
     BOOK: {
@@ -32,6 +35,12 @@ export const ERROR_MESSAGES = {
         },
         CREATE: {
             EXISTING: 'A book with provided apiBookId already exists',
+        }
+    },
+    BOOKSHELF_BOOK:{
+        ADD_TO_BOOKSHELF:{
+            ALREADY_ADDED: 'This book has already been added to a bookshelf.',
+            INVALID_READING_STATUS: 'Invalid reading status ID',
         }
     }
 }

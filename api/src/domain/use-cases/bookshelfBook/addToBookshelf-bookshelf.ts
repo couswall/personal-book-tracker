@@ -1,26 +1,25 @@
 import { BookshelfBookRepository } from "@domain/repositories/bookshelfBook.repository";
 import { BookRepository } from "@domain/repositories/book.repository";
-import { AddToBookshelfDto, CreateBookDto } from "@domain/dtos";
+import { BookshelfRepository } from "@domain/repositories/bookshelf.repository";
+import { AddToBookshelfDto } from "@domain/dtos";
 import { BookshelfBookEntity } from "@domain/entities";
-import { CustomError } from "@domain/errors/custom.error";
 import { AddToBookshelfUseCase } from "@domain/use-cases/interfaces/bookshelfBook.interfaces";
 
 export class AddToBookshelf implements AddToBookshelfUseCase{
     constructor(
         public readonly repository: BookshelfBookRepository,
-        public readonly bookRepository: BookRepository
+        public readonly bookRepository: BookRepository,
+        public readonly bookshelfRepository: BookshelfRepository,
     ){};
 
     async execute(addToBookshelfDto: AddToBookshelfDto): Promise<BookshelfBookEntity> {
 
-        const existingBook = await this.bookRepository.getBookById({bookId: addToBookshelfDto.apiBookId});
+        const {id, pageCount} = await this.bookRepository.findOrCreateByApiId(addToBookshelfDto.apiBookId);
+        const {type} = await this.bookshelfRepository.getBookshelfById(addToBookshelfDto.bookshelfId);
 
-        if(existingBook.id === 0){
-            const {id, bookshelves, reviews, notes, deletedAt, ...rest} = existingBook;
-            const [error, dto] = CreateBookDto.create(rest);
-            if (error) throw CustomError.badRequest(error);
-            await this.bookRepository.create(dto!);
-        }
+        addToBookshelfDto.bookId = id;
+        addToBookshelfDto.totalPages = pageCount;
+        addToBookshelfDto.bookshelfType = type;
 
         return this.repository.addToBookshelf(addToBookshelfDto);
     }

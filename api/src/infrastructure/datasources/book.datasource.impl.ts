@@ -110,7 +110,6 @@ export class BookDatasourceImpl implements BookDatasource{
         const existingBook = await prisma.book.findUnique({
             where: {apiBookId: createBookDto.apiBookId, deletedAt: null}
         });
-
         if(existingBook) throw CustomError.badRequest(ERROR_MESSAGES.BOOK.CREATE.EXISTING);
 
         const newBook = await prisma.book.create({data: createBookDto});

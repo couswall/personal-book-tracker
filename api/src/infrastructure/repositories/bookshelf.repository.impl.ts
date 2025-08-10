@@ -15,4 +15,8 @@ export class BookshelfRepositoryImpl implements BookshelfRepository{
     getMyBookshelves(userId: number): Promise<BookshelfEntity[]> {
         return this.datasource.getMyBookshelves(userId);
     }
+
+    getBookshelfById(bookshelfId: number): Promise<BookshelfEntity> {
+        return this.datasource.getBookshelfById(bookshelfId);
+    }
 };

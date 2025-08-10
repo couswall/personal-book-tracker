@@ -34,7 +34,7 @@ export class CreateBookDto{
         const descriptionError = isValidNullString('description', object.description, 3);
         if(descriptionError) return descriptionError;
 
-        if(object.publishedDate !== null && object.publishedDate !instanceof Date) 
+        if(object.publishedDate !== null && !(object.publishedDate instanceof Date)) 
             return BOOK_DTO_ERRORS.CREATE_BOOK.PUBLISHED_DATE.REQUIRED;
         
         const categoriesError = isValidStringArray('categories', object.categories);
@@ -43,13 +43,13 @@ export class CreateBookDto{
         const coverImageUrlError = isValidNullString('coverImageUrl', object.coverImageUrl);
         if(coverImageUrlError) return coverImageUrlError;
         
-        if(!object.averageRating) return BOOK_DTO_ERRORS.CREATE_BOOK.AVERAGE_RATING.REQUIRED;
+        if(object.averageRating === undefined || object.averageRating === null) return BOOK_DTO_ERRORS.CREATE_BOOK.AVERAGE_RATING.REQUIRED;
         if(typeof object.averageRating !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.AVERAGE_RATING.REQUIRED;
         
-        if(!object.reviewCount) return BOOK_DTO_ERRORS.CREATE_BOOK.REVIEW_COUNT.REQUIRED;
+        if(object.reviewCount === undefined || object.reviewCount === null) return BOOK_DTO_ERRORS.CREATE_BOOK.REVIEW_COUNT.REQUIRED;
         if(typeof object.reviewCount !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.REVIEW_COUNT.REQUIRED;
         
-        if(!object.pageCount) return BOOK_DTO_ERRORS.CREATE_BOOK.PAGE_COUNT.REQUIRED;
+        if(object.pageCount === undefined || object.pageCount === null) return BOOK_DTO_ERRORS.CREATE_BOOK.PAGE_COUNT.REQUIRED;
         if(typeof object.pageCount !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.PAGE_COUNT.REQUIRED;
         
         return undefined;

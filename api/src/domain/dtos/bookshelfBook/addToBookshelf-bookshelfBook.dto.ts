@@ -1,28 +1,38 @@
-import { BOOKSHELF_BOOK_DTO_ERRORS } from "@domain/constants/bookshelfBook.constants";
+import { isValidRequiredNumber, isValidString } from "@domain/dtos/book/helpers";
 import { IAddToBookshelfDto } from "@domain/interfaces/bookshelfBook.interfaces";
 
 export class AddToBookshelfDto{
     constructor(
         public readonly bookshelfId: number,
         public readonly apiBookId: string,
+        public bookId?: number,
+        public totalPages?: number | null,
+        public bookshelfType?: string,
     ){};
 
     static create(object: IAddToBookshelfDto): [string?, AddToBookshelfDto?]{
-        let {bookshelfId, apiBookId} = object;
+        let {bookshelfId, apiBookId, bookId, bookshelfType, totalPages = null} = object;
         
-        if(!bookshelfId) return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.BOOKSHELF_ID.REQUIRED];
-        if(Array.isArray(bookshelfId)) return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.BOOKSHELF_ID.NUMBER];
-        bookshelfId = +bookshelfId
-        if(isNaN(bookshelfId)) return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.BOOKSHELF_ID.NUMBER];
-   
-        if(!apiBookId) return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.API_BOOK_ID.REQUIRED];
-        if(typeof apiBookId !== 'string') return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.API_BOOK_ID.STRING];
+        const [bookshelfIdError, parsedBookshelfId = 0] = isValidRequiredNumber('bookshelfId', bookshelfId);
+        if(bookshelfIdError) return [bookshelfIdError];
+        bookshelfId = parsedBookshelfId;
         
-        apiBookId = apiBookId.trim();
-        if(apiBookId.trim().length === 0) return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.API_BOOK_ID.BLANK_SPACES];
-        if(apiBookId.length < 3) return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.API_BOOK_ID.MIN_LENGTH];
-        if(apiBookId.length > 15) return [BOOKSHELF_BOOK_DTO_ERRORS.ADD_TO_BOOKSHELF.API_BOOK_ID.MAX_LENGTH];
+        const [apiBookIdError, trimmedApiBookId = ''] = isValidString('apiBookId', apiBookId, 3, 15, true);
+        if(apiBookIdError) return [apiBookIdError];
+        apiBookId = trimmedApiBookId;
 
-        return [undefined, new AddToBookshelfDto(bookshelfId, apiBookId)];
+        if(bookId){
+            const [bookIdError, parsedBookId = 0] = isValidRequiredNumber('bookId', bookId);
+            if(bookIdError) return [bookIdError];
+            bookId = parsedBookId;
+        }
+
+        if(bookshelfType){
+            const [bookshelfTypeError, trimmedBookshelfType = ''] = isValidString('bookshelfType', bookshelfType);
+            if(bookshelfTypeError) return [bookshelfTypeError];
+            bookshelfType = trimmedBookshelfType;
+        }
+        
+        return [undefined, new AddToBookshelfDto(bookshelfId, apiBookId, bookId, totalPages, bookshelfType)];
     }
 };

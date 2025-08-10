@@ -1,4 +1,4 @@
-import { ReadingStatus } from "@/generated/prisma";
+import { IBookshelfBookFromObject } from "@domain/interfaces/bookshelfBook.interfaces";
 
 export class BookshelfBookEntity{
     constructor(
@@ -7,7 +7,18 @@ export class BookshelfBookEntity{
         public bookId: number,
         public readingProgress: number = 0,
         public totalPages: number | null,
-        public readingStatus: ReadingStatus = 'TO_BE_READ',
         public deletedAt: Date | null,
     ){};
+
+    static fromObject(object: IBookshelfBookFromObject): BookshelfBookEntity{
+        const {id, bookshelfId, bookId, readingProgress, totalPages, deletedAt} = object;
+        return new BookshelfBookEntity(
+            id, 
+            bookshelfId, 
+            bookId, 
+            readingProgress, 
+            totalPages, 
+            deletedAt,
+        );
+    }
 }

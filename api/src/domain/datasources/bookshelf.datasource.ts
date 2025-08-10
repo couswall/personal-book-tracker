@@ -4,4 +4,5 @@ import { CreateCustomBookShelfDto } from "@domain/dtos/bookshelf/createCustom-bo
 export abstract class BookshelfDatasource{
     abstract createCustom(createBookShelfDto: CreateCustomBookShelfDto): Promise<BookshelfEntity>;
     abstract getMyBookshelves(userId: number): Promise<BookshelfEntity[]>;
+    abstract getBookshelfById(bookshelfId: number): Promise<BookshelfEntity>;
 }
