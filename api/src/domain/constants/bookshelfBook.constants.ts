@@ -9,3 +9,5 @@ export const BOOKSHELF_BOOK_DTO_ERRORS = {
         },
     },
 };
+
+export const INVALID_OBJECT_ERROR = 'Invalid object';

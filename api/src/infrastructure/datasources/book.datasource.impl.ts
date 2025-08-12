@@ -55,9 +55,13 @@ export class BookDatasourceImpl implements BookDatasource{
 
     async getBookById(getBookByIdDto: GetBookByIdDto): Promise<BookEntity> {
         const {bookId} = getBookByIdDto;
+        
+        const isNumericId = !isNaN(Number(bookId));
 
-        const existingBook = await prisma.book.findUnique({
-            where: {apiBookId: bookId, deletedAt: null}
+        const existingBook = await prisma.book.findFirst({
+            where: isNumericId
+                ? { id: Number(bookId), deletedAt: null }
+                : { apiBookId: bookId, deletedAt: null }
         });
 
         if(!existingBook){

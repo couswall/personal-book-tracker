@@ -20,7 +20,8 @@ export class BookshelfBookRoutes{
         const bookshelfRepository = new BookshelfRepositoryImpl(new BookshelfDatasourceImpl());
         const bookshelfController = new BookshelfBookController(repository, bookRepository, bookshelfRepository);
 
-        router.put('/addToBookshelf',[validateJWT],bookshelfController.addToBookshelf);
+        router.post('/addToBookshelf', [validateJWT], bookshelfController.addToBookshelf);
+        router.put('/updateBookshelf', [validateJWT], bookshelfController.updateBookshelf);
 
         return router;
     }

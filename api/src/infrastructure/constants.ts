@@ -41,6 +41,9 @@ export const ERROR_MESSAGES = {
         ADD_TO_BOOKSHELF:{
             ALREADY_ADDED: 'This book has already been added to a bookshelf.',
             INVALID_READING_STATUS: 'Invalid reading status ID',
+        },
+        UPDATE_BOOKSHELF:{
+            NOT_FOUND: 'Bookshelf book with provided ID does not exist',
         }
     }
 }

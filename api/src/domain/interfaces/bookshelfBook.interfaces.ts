@@ -11,10 +11,10 @@ export interface IBookshelfBookFromObject{
     bookshelfId: number;
     bookId: number;
     readingProgress: number;
-    // currentPage: number | null;
+    currentPage: number | null;
     totalPages: number | null;
-    // startReadingDate: Date | null;
-    // endReadingDate: Date | null;
+    startReadingDate: Date | null;
+    endReadingDate: Date | null;
     deletedAt: Date | null;
 }
 
