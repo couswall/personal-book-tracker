@@ -56,8 +56,8 @@ export const isValidRequiredNumber = (
     fieldName: string,
     field?: number | string,
 ): [string?, number?]=> {
-    if(!field) return [`${fieldName} is required`];
-    if(Array.isArray(field)) return [`${fieldName} must be a number`];
+    if(field === undefined || field === null) return [`${fieldName} is required`];
+    if(Array.isArray(field) || typeof field === 'boolean') return [`${fieldName} must be a number`];
     field = +field
     if(isNaN(field)) return [`${fieldName} must be a number`];
 

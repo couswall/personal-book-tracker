@@ -11,6 +11,15 @@ export interface IBookshelfBookFromObject{
     bookshelfId: number;
     bookId: number;
     readingProgress: number;
+    // currentPage: number | null;
     totalPages: number | null;
+    // startReadingDate: Date | null;
+    // endReadingDate: Date | null;
     deletedAt: Date | null;
+}
+
+export interface IUpdateBookshelfDto{
+    bookshelfBookId?: number | string;
+    bookshelfId? : number | string;
+    bookshelfType?: string;
 }

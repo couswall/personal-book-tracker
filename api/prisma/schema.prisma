@@ -52,7 +52,10 @@ model BookshelfBook{
   bookId            Int
   book              Book          @relation(fields: [bookId], references: [id], onDelete: Cascade)
   readingProgress   Int           @default(0)
+  currentPage       Int?
   totalPages        Int?
+  startReadingDate  DateTime?
+  endReadingDate    DateTime?
   deletedAt         DateTime?
   
   @@unique([bookshelfId, bookId])
