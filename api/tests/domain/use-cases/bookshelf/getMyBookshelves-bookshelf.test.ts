@@ -10,6 +10,7 @@ describe('getMyBookshelves-bookshelf use case tests', () => {
     const mockBookshelfRepository: jest.Mocked<BookshelfRepository> = {
         createCustom: jest.fn(),
         getMyBookshelves: jest.fn(),
+        getBookshelfById: jest.fn(),
     };
     const mockUserRepository: jest.Mocked<UserRepository> = {
         create: jest.fn(),

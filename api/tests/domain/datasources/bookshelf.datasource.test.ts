@@ -13,6 +13,10 @@ describe('bookshelf datasource tests', () => {
         async getMyBookshelves(userId: number): Promise<BookshelfEntity[]> {
             return [bookshelfEntity];
         }
+
+        async getBookshelfById(bookshelfId: number): Promise<BookshelfEntity> {
+            return bookshelfEntity;
+        }
     };
 
     const mockBookshelfDatasource = new MockBookshelfDatasource();
@@ -36,5 +40,11 @@ describe('bookshelf datasource tests', () => {
 
         expect(Array.isArray(result)).toBeTruthy();
         expect(result[0]).toBeInstanceOf(BookshelfEntity);
+    });
+
+    test('getBookshelfById() should return a BookshelfEntity instance', async () => {
+        const result = await mockBookshelfDatasource.getBookshelfById(bookshelfEntity.id);
+
+        expect(result).toBeInstanceOf(BookshelfEntity);
     });
 });

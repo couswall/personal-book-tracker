@@ -12,6 +12,10 @@ describe('bookshelf.repository tests', () => {
         async getMyBookshelves(userId: number): Promise<BookshelfEntity[]> {
             return [bookshelfEntity];
         }
+
+        async getBookshelfById(bookshelfId: number): Promise<BookshelfEntity> {
+            return bookshelfEntity;
+        }
     }
 
     const mockBookshelfRepository = new MockBookshelfRepository();
@@ -35,5 +39,11 @@ describe('bookshelf.repository tests', () => {
 
         expect(Array.isArray(result)).toBeTruthy();
         expect(result[0]).toBeInstanceOf(BookshelfEntity);
+    });
+
+    test('getBookshelfById() should return a BookshelfEntity instance', async () => {
+        const result = await mockBookshelfRepository.getBookshelfById(bookshelfEntity.id);
+
+        expect(result).toBeInstanceOf(BookshelfEntity);
     });
 });
