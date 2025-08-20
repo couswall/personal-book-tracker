@@ -8,9 +8,6 @@ export const BOOK_DTO_ERRORS = {
         PRINT_TYPE: {TYPE: 'printType must be all, books or magazines',},
         MAX_RESULTS: {NUMBER: 'maxResults must be a number',}
     },
-    GET_BOOK_BY_ID: {
-        REQUIRED: 'bookId is required',
-    },
     CREATE_BOOK: {
         SUBTITLE: {
             STRING: 'subtitle must be a string',

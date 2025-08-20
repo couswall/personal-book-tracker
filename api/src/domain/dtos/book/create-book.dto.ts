@@ -19,10 +19,10 @@ export class CreateBookDto{
 
     static validate(object: ICreateBookDtoObj): string | undefined{
 
-        const [apiBookIdError] = isValidString('apiBookId', object.apiBookId, 2);
+        const [apiBookIdError] = isValidString('apiBookId', object.apiBookId, 2, 50, true);
         if(apiBookIdError) return apiBookIdError;
 
-        const [titleError] = isValidString('title', object.title, 1);
+        const [titleError] = isValidString('title', object.title, 1, 80, true);
         if(titleError) return titleError;
 
         const subtitleError = isValidNullString('subtitle', object.subtitle, 3, 100);
@@ -34,23 +34,23 @@ export class CreateBookDto{
         const descriptionError = isValidNullString('description', object.description, 3);
         if(descriptionError) return descriptionError;
 
-        if(object.publishedDate !== null && !(object.publishedDate instanceof Date)) 
+        if(object.publishedDate !== null && !(object.publishedDate instanceof Date))
             return BOOK_DTO_ERRORS.CREATE_BOOK.PUBLISHED_DATE.REQUIRED;
         
         const categoriesError = isValidStringArray('categories', object.categories);
         if(categoriesError) return categoriesError;
 
-        const coverImageUrlError = isValidNullString('coverImageUrl', object.coverImageUrl);
+        const coverImageUrlError = isValidNullString('coverImageUrl', object.coverImageUrl, 3);
         if(coverImageUrlError) return coverImageUrlError;
         
         if(object.averageRating === undefined || object.averageRating === null) return BOOK_DTO_ERRORS.CREATE_BOOK.AVERAGE_RATING.REQUIRED;
-        if(typeof object.averageRating !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.AVERAGE_RATING.REQUIRED;
+        if(typeof object.averageRating !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.AVERAGE_RATING.NUMBER;
         
         if(object.reviewCount === undefined || object.reviewCount === null) return BOOK_DTO_ERRORS.CREATE_BOOK.REVIEW_COUNT.REQUIRED;
-        if(typeof object.reviewCount !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.REVIEW_COUNT.REQUIRED;
+        if(typeof object.reviewCount !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.REVIEW_COUNT.NUMBER;
         
         if(object.pageCount === undefined || object.pageCount === null) return BOOK_DTO_ERRORS.CREATE_BOOK.PAGE_COUNT.REQUIRED;
-        if(typeof object.pageCount !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.PAGE_COUNT.REQUIRED;
+        if(typeof object.pageCount !== 'number') return BOOK_DTO_ERRORS.CREATE_BOOK.PAGE_COUNT.NUMBER;
         
         return undefined;
     };

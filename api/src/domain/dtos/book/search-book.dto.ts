@@ -1,4 +1,6 @@
+import { isValidRequiredNumber, isValidString } from "@domain/dtos/book/helpers";
 import { BOOK_DTO_ERRORS } from "@domain/constants/book.constants";
+import { INVALID_OBJECT_ERROR } from "@domain/constants/bookshelfBook.constants";
 import { ISearchBookDto, PrintTypeEnum } from "@domain/interfaces/book.interfaces";
 
 
@@ -10,31 +12,25 @@ export class SearchBookDto{
         public readonly maxResults: number = 10,
     ){};
 
-    static validate(object: ISearchBookDto): string | null{
-        const {searchText, page, printType, maxResults} = object;
+    static create(object: ISearchBookDto | undefined): [string?, SearchBookDto?]{
+        if(!object) return [INVALID_OBJECT_ERROR];
+        let {searchText, page, printType, maxResults} = object;
         
-        if(!searchText) return BOOK_DTO_ERRORS.SEARCH_BOOK.SEARCH_TEXT.REQUIRED;
-        if(searchText.trim().length === 0) return BOOK_DTO_ERRORS.SEARCH_BOOK.SEARCH_TEXT.BLANK_SPACES;
+        const [searchTextError, trimmedSearchText = ''] = isValidString('searchText', searchText, 1, 50, true);
+        if(searchTextError) return [searchTextError]
+        searchText = trimmedSearchText;
 
-        if(typeof page !== 'undefined' && (typeof page !== 'number' || isNaN(page))) 
-            return BOOK_DTO_ERRORS.SEARCH_BOOK.PAGE.NUMBER;
-        
+        const [pageError, parsedPage] = isValidRequiredNumber('page', page, true);
+        if(pageError) return[pageError];
+        page = parsedPage;
+
         if(printType && !Object.values(PrintTypeEnum).includes(printType)) 
-            return BOOK_DTO_ERRORS.SEARCH_BOOK.PRINT_TYPE.TYPE;
-
-        if(typeof maxResults !== 'undefined' && (typeof maxResults !== 'number' || isNaN(maxResults))) 
-            return BOOK_DTO_ERRORS.SEARCH_BOOK.MAX_RESULTS.NUMBER;
+            return [BOOK_DTO_ERRORS.SEARCH_BOOK.PRINT_TYPE.TYPE];
         
-        return null;
-    };
+        const [maxResultError, parsedMaxResult] = isValidRequiredNumber('maxResults', maxResults, true);
+        if(maxResultError) return[maxResultError];
+        maxResults = parsedMaxResult;
 
-    static create(object: ISearchBookDto): [string?, SearchBookDto?]{
-        const {searchText, page, printType, maxResults} = object;
-        
-        const errorMsg = SearchBookDto.validate(object);
-
-        if(errorMsg) return [errorMsg];
-
-        return [undefined, new SearchBookDto(searchText.trim(), page, printType, maxResults)];
+        return [undefined, new SearchBookDto(searchText, page, printType, maxResults)];
     };
 }

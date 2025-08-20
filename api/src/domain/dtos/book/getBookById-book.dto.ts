@@ -1,14 +1,14 @@
-import { BOOK_DTO_ERRORS } from "@domain/constants/book.constants";
+import { isValidString } from "@domain/dtos/book/helpers";
 
 export class GetBookByIdDto{
     constructor(
         public readonly bookId: string,
     ){};
 
-    static create(bookId: string): [string?, GetBookByIdDto?]{
+    static create(bookId?: string): [string?, GetBookByIdDto?]{
+        const [bookIdError, trimmedBookId = ''] = isValidString('bookId', bookId, 0, 30, true);
+        if(bookIdError) return [bookIdError];
 
-        if(!bookId) return [BOOK_DTO_ERRORS.GET_BOOK_BY_ID.REQUIRED];
-
-        return [undefined, new GetBookByIdDto(bookId.trim())];
+        return [undefined, new GetBookByIdDto(trimmedBookId)];
     }
 };

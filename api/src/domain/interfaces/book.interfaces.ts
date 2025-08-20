@@ -14,7 +14,7 @@ export enum PrintTypeEnum {
 };
 
 export interface ISearchBookDto{
-    searchText: string;
+    searchText?: string;
     page?: number;
     printType?: PrintTypeEnum;
     maxResults?: number;
