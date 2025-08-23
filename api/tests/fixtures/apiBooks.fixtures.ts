@@ -27,6 +27,10 @@ export const searchAPIResponseObj: ISearchFromAPIResponse = {
         previewLink: "https://books.example.com/effective-typescript/preview",
         infoLink: "https://books.example.com/effective-typescript/info",
         canonicalVolumeLink: "https://books.example.com/effective-typescript",
+        imageLinks: {
+          smallThumbnail: 'https://small-thumb.jpg',
+          thumbnail: 'https://thumb.jpg'
+        }
       },
       saleInfo: {
         country: Country.MX,
@@ -61,7 +65,7 @@ export const searchAPIResponseObj: ISearchFromAPIResponse = {
         title: "JavaScript: The Good Parts",
         authors: ["Douglas Crockford"],
         publisher: "O'Reilly Media",
-        publishedDate: "2008-05-01",
+        publishedDate: "",
         readingModes: { text: true, image: true },
         pageCount: 176,
         printType: "BOOK",

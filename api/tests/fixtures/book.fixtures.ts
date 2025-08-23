@@ -18,6 +18,7 @@ export const bookObj = {
 };
 
 export const bookEntity = BookEntity.fromObject(bookObj);
+export const mockBookPrisma = {...bookObj};
 
 export const searchingResponse = {
     page: 1,
