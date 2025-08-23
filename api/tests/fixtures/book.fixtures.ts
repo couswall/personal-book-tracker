@@ -58,8 +58,8 @@ export const createBookDtoObj = {
 };
 
 export const searchBookDtoObj = {
-    searchText: 'deep work',
-    page: 2,
+    searchText: 'clean code',
+    page: 1,
     printType: PrintTypeEnum.Books,
     maxResults: 10,
-}
+};

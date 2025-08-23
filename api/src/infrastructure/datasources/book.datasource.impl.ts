@@ -1,7 +1,6 @@
 import { AxiosError } from "axios";
 import { prisma } from "@data/postgres";
 import { envs } from "@config/index";
-import { AxiosAdapter } from "@config/axios.adapter";
 import { CustomError } from "@domain/errors/custom.error";
 import { BookDatasource } from "@domain/datasources/book.datasource";
 import { CreateBookDto, GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
@@ -9,9 +8,10 @@ import { BookEntity } from "@domain/entities/book.entity";
 import { ERROR_MESSAGES } from "@infrastructure/constants";
 import { ISearchBookResponse, ICreateBookEntityFromObject } from "@domain/interfaces/book.interfaces";
 import { IBookFromAPI, ISearchFromAPIResponse } from "@domain/interfaces/apiBook.interfaces";
+import { HttpClient } from "@config/interfaces";
 
 export class BookDatasourceImpl implements BookDatasource{
-    constructor(private readonly http: AxiosAdapter){};
+    constructor(private readonly http: HttpClient){};
 
     async search(searchBookDto: SearchBookDto): Promise<ISearchBookResponse> {
 

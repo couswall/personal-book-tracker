@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { HttpClient } from "@config/interfaces";
 
-export class AxiosAdapter{
+export class AxiosAdapter implements HttpClient{
     private readonly instance: AxiosInstance;
 
     constructor(config?: AxiosRequestConfig) {
