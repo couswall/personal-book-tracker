@@ -85,13 +85,13 @@ export class BookDatasourceImpl implements BookDatasource{
                 apiBookId,
                 title: volumeInfo.title,
                 subtitle: volumeInfo.subtitle ?? null,
-                authors: volumeInfo.authors,
+                authors: volumeInfo.authors ?? [],
                 publishedDate: volumeInfo.publishedDate && volumeInfo.publishedDate.length > 0 
                     ? new Date(volumeInfo.publishedDate) 
                     : null,
                 description: volumeInfo.description ?? null,
                 coverImageUrl: bookImgCover ?? null,
-                categories: volumeInfo.categories,
+                categories: volumeInfo.categories ?? [],
                 pageCount: volumeInfo.pageCount ?? 0,
                 averageRating: volumeInfo.averageRating ?? 0,
                 reviewCount: 0,
