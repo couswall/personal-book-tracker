@@ -53,10 +53,10 @@ export class BookController{
             .then(bookEntity => {
                 const {bookshelves, reviews, notes, ...rest} = bookEntity;
                 res.status(200).json({
-                success: true,
-                message: 'Getting book details successfully',
-                data: {...rest},
-            })
+                    success: true,
+                    message: 'Getting book details successfully',
+                    data: {...rest},
+                })
             })
             .catch(error => CustomError.handleError(error, res));
     };
