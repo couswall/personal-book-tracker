@@ -2,7 +2,7 @@ export interface IAddToBookshelfDto{
     bookshelfId? : number | string;
     apiBookId?: string;
     bookId?: number;
-    totalPages?: number;
+    totalPages?: number | null;
     bookshelfType?: string;
 }
 
