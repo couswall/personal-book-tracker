@@ -1,6 +1,6 @@
-import { BookshelfType } from '@/generated/prisma';
-import { BookshelfBookEntity } from '@domain/entities';
-import { IUpdateBookshelfDto } from '@domain/interfaces/bookshelfBook.interfaces';
+import {BookshelfType} from '@/generated/prisma';
+import {BookshelfBookEntity} from '@domain/entities';
+import {IUpdateBookshelfDto} from '@domain/interfaces/bookshelfBook.interfaces';
 
 export const bookshelfBookObject = {
     id: 101,
@@ -9,9 +9,9 @@ export const bookshelfBookObject = {
     readingProgress: 45,
     currentPage: 135,
     totalPages: 300,
-    startReadingDate: new Date("2025-08-01"),
+    startReadingDate: new Date('2025-08-01'),
     endReadingDate: null,
-    deletedAt: null
+    deletedAt: null,
 };
 
 export const bookshelfBookEntity = BookshelfBookEntity.fromObject(bookshelfBookObject);
@@ -25,4 +25,6 @@ export const updateBookshelfDtoObject: IUpdateBookshelfDto = {
     bookshelfBookId: 1,
     bookshelfId: 1,
     bookshelfType: BookshelfType.CUSTOM,
-}
+};
+
+export const bookshelfBookPrisma = {...bookshelfBookObject};
