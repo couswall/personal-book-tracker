@@ -1,20 +1,25 @@
-import { AxiosError } from "axios";
-import { prisma } from "@data/postgres";
-import { envs } from "@config/index";
-import { CustomError } from "@domain/errors/custom.error";
-import { BookDatasource } from "@domain/datasources/book.datasource";
-import { CreateBookDto, GetBookByIdDto, SearchBookDto } from "@domain/dtos/index";
-import { BookEntity } from "@domain/entities/book.entity";
-import { ERROR_MESSAGES } from "@infrastructure/constants";
-import { ISearchBookResponse, ICreateBookEntityFromObject } from "@domain/interfaces/book.interfaces";
-import { IBookFromAPI, ISearchFromAPIResponse } from "@domain/interfaces/apiBook.interfaces";
-import { HttpClient } from "@config/interfaces";
+import {AxiosError} from 'axios';
+import {prisma} from '@data/postgres';
+import {envs} from '@config/index';
+import {CustomError} from '@domain/errors/custom.error';
+import {BookDatasource} from '@domain/datasources/book.datasource';
+import {CreateBookDto, GetBookByIdDto, SearchBookDto} from '@domain/dtos/index';
+import {BookEntity} from '@domain/entities/book.entity';
+import {ERROR_MESSAGES} from '@infrastructure/constants';
+import {
+    ISearchBookResponse,
+    ICreateBookEntityFromObject,
+} from '@domain/interfaces/book.interfaces';
+import {
+    IBookFromAPI,
+    ISearchFromAPIResponse,
+} from '@domain/interfaces/apiBook.interfaces';
+import {HttpClient} from '@config/interfaces';
 
-export class BookDatasourceImpl implements BookDatasource{
-    constructor(private readonly http: HttpClient){};
+export class BookDatasourceImpl implements BookDatasource {
+    constructor(private readonly http: HttpClient) {}
 
     async search(searchBookDto: SearchBookDto): Promise<ISearchBookResponse> {
-
         const params = {
             q: searchBookDto.searchText,
             startIndex: (searchBookDto.page - 1) * searchBookDto.maxResults,
@@ -28,43 +33,45 @@ export class BookDatasourceImpl implements BookDatasource{
                 {params}
             );
 
-            if(data.totalItems === 0 || !data.items) return {
-                page: searchBookDto.page,
-                maxResults: searchBookDto.maxResults,
-                books: []
-            };
-            
-            const formatBooks = data.items.map(googleBook => ({
+            if (data.totalItems === 0 || !data.items)
+                return {
+                    page: searchBookDto.page,
+                    maxResults: searchBookDto.maxResults,
+                    books: [],
+                };
+
+            const formatBooks = data.items.map((googleBook) => ({
                 id: googleBook.id,
                 title: googleBook.volumeInfo.title,
                 authors: googleBook.volumeInfo.authors,
-                imageCover: 
+                imageCover:
                     googleBook.volumeInfo.imageLinks?.smallThumbnail ??
-                    googleBook.volumeInfo.imageLinks?.thumbnail ?? undefined
+                    googleBook.volumeInfo.imageLinks?.thumbnail ??
+                    undefined,
             }));
 
             return {
                 page: searchBookDto.page,
                 maxResults: searchBookDto.maxResults,
                 books: formatBooks,
-            }
+            };
         } catch (error) {
             throw CustomError.internalServer(ERROR_MESSAGES.EXTERNAL_BOOKS_API.INTERNAL);
         }
-    };
+    }
 
     async getBookById(getBookByIdDto: GetBookByIdDto): Promise<BookEntity> {
         const {bookId} = getBookByIdDto;
-        
+
         const isNumericId = !isNaN(Number(bookId));
 
         const existingBook = await prisma.book.findFirst({
             where: isNumericId
-                ? { id: Number(bookId), deletedAt: null }
-                : { apiBookId: bookId, deletedAt: null }
+                ? {id: Number(bookId), deletedAt: null}
+                : {apiBookId: bookId, deletedAt: null},
         });
 
-        if(!existingBook){
+        if (!existingBook) {
             const bookFromApi = await this.fetchByIdFromAPI(getBookByIdDto);
             return bookFromApi;
         }
@@ -76,9 +83,12 @@ export class BookDatasourceImpl implements BookDatasource{
         const {bookId} = getBookByIdDto;
 
         try {
-            const googleBook = await this.http.get<IBookFromAPI>(`${envs.BOOKS_API}/volumes/${bookId}`);
+            const googleBook = await this.http.get<IBookFromAPI>(
+                `${envs.BOOKS_API}/volumes/${bookId}`
+            );
             const {id: apiBookId, volumeInfo} = googleBook;
-            const bookImgCover = volumeInfo.imageLinks?.smallThumbnail ?? volumeInfo.imageLinks?.thumbnail;
+            const bookImgCover =
+                volumeInfo.imageLinks?.smallThumbnail ?? volumeInfo.imageLinks?.thumbnail;
 
             const book: ICreateBookEntityFromObject = {
                 id: 0,
@@ -86,9 +96,10 @@ export class BookDatasourceImpl implements BookDatasource{
                 title: volumeInfo.title,
                 subtitle: volumeInfo.subtitle ?? null,
                 authors: volumeInfo.authors ?? [],
-                publishedDate: volumeInfo.publishedDate && volumeInfo.publishedDate.length > 0 
-                    ? new Date(volumeInfo.publishedDate) 
-                    : null,
+                publishedDate:
+                    volumeInfo.publishedDate && volumeInfo.publishedDate.length > 0
+                        ? new Date(volumeInfo.publishedDate)
+                        : null,
                 description: volumeInfo.description ?? null,
                 coverImageUrl: bookImgCover ?? null,
                 categories: volumeInfo.categories ?? [],
@@ -98,23 +109,25 @@ export class BookDatasourceImpl implements BookDatasource{
                 deletedAt: null,
             };
             return BookEntity.fromObject(book);
-
         } catch (error) {
-            if(error instanceof AxiosError){
+            if (error instanceof AxiosError) {
                 const code: number = error.response?.data?.error?.code ?? 0;
                 if (code === 503) {
-                    throw CustomError.badRequest(ERROR_MESSAGES.BOOK.GET_BOOK_BY_ID.NOT_FOUND);
+                    throw CustomError.badRequest(
+                        ERROR_MESSAGES.BOOK.GET_BOOK_BY_ID.NOT_FOUND
+                    );
                 }
             }
             throw CustomError.internalServer(ERROR_MESSAGES.EXTERNAL_BOOKS_API.INTERNAL);
         }
-    };
+    }
 
     async create(createBookDto: CreateBookDto): Promise<BookEntity> {
         const existingBook = await prisma.book.findUnique({
-            where: {apiBookId: createBookDto.apiBookId, deletedAt: null}
+            where: {apiBookId: createBookDto.apiBookId, deletedAt: null},
         });
-        if(existingBook) throw CustomError.badRequest(ERROR_MESSAGES.BOOK.CREATE.EXISTING);
+        if (existingBook)
+            throw CustomError.badRequest(ERROR_MESSAGES.BOOK.CREATE.EXISTING);
 
         const newBook = await prisma.book.create({data: createBookDto});
 
@@ -124,12 +137,12 @@ export class BookDatasourceImpl implements BookDatasource{
     async findOrCreateByApiId(apiBookId: string): Promise<BookEntity> {
         let book = await this.getBookById({bookId: apiBookId});
 
-        if(book.id === 0){
+        if (book.id === 0) {
             const {id, bookshelves, reviews, notes, deletedAt, ...rest} = book;
             const [error, dto] = CreateBookDto.create(rest);
             if (error) throw CustomError.badRequest(error);
             const newBook = await this.create(dto!);
-            book = newBook
+            book = newBook;
         }
 
         return book;

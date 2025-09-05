@@ -1,6 +1,6 @@
-import { AddToBookshelfDto } from "@domain/dtos";
-import { addToBookshelfDtoObject } from "@tests/fixtures";
-import { IAddToBookshelfDto } from "@domain/interfaces/bookshelfBook.interfaces";
+import {AddToBookshelfDto} from '@domain/dtos';
+import {addToBookshelfDtoObject} from '@tests/fixtures';
+import {IAddToBookshelfDto} from '@domain/interfaces/bookshelfBook.interfaces';
 
 describe('AddToBookshelfDto create() tests', () => {
     test('should return an AddToBookshelfDto from a valid object', () => {
@@ -16,7 +16,7 @@ describe('AddToBookshelfDto create() tests', () => {
             ...addToBookshelfDtoObject,
             bookId: 123,
             totalPages: 300,
-            bookshelfType: 'reading'
+            bookshelfType: 'reading',
         };
 
         const [error, dto] = AddToBookshelfDto.create(completeObject);
@@ -32,7 +32,7 @@ describe('AddToBookshelfDto create() tests', () => {
     test('should return an AddToBookshelfDto with null totalPages', () => {
         const objectWithNullPages = {
             ...addToBookshelfDtoObject,
-            totalPages: null
+            totalPages: null,
         };
 
         const [error, dto] = AddToBookshelfDto.create(objectWithNullPages);
@@ -45,7 +45,7 @@ describe('AddToBookshelfDto create() tests', () => {
         const objectWithWhitespace: IAddToBookshelfDto = {
             bookshelfId: 5,
             apiBookId: '  api123  ',
-            bookshelfType: '  reading  '
+            bookshelfType: '  reading  ',
         };
 
         const [error, dto] = AddToBookshelfDto.create(objectWithWhitespace);
@@ -56,8 +56,8 @@ describe('AddToBookshelfDto create() tests', () => {
     });
     test('should handle string bookshelfId and convert to number', () => {
         const objectWithStringId: IAddToBookshelfDto = {
-          bookshelfId: '5',
-          apiBookId: 'apiBookId123'
+            bookshelfId: '5',
+            apiBookId: 'apiBookId123',
         };
 
         const [error, dto] = AddToBookshelfDto.create(objectWithStringId);
@@ -69,9 +69,9 @@ describe('AddToBookshelfDto create() tests', () => {
 
     test('should handle string bookId and convert to number', () => {
         const objectWithStringBookId: IAddToBookshelfDto = {
-          bookshelfId: 5,
-          apiBookId: 'apiBookId123',
-          bookId: '123' as unknown as number
+            bookshelfId: 5,
+            apiBookId: 'apiBookId123',
+            bookId: '123' as unknown as number,
         };
 
         const [error, dto] = AddToBookshelfDto.create(objectWithStringBookId);
@@ -83,7 +83,9 @@ describe('AddToBookshelfDto create() tests', () => {
 
     describe('bookshelfId validation', () => {
         test('should return an error when bookshelfId is missing', () => {
-            const invalidObject = {apiBookId: 'apiBookId123'} as unknown as IAddToBookshelfDto;
+            const invalidObject = {
+                apiBookId: 'apiBookId123',
+            } as unknown as IAddToBookshelfDto;
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
 
             expect(error).toBe('bookshelfId is required');
@@ -93,7 +95,7 @@ describe('AddToBookshelfDto create() tests', () => {
         test('should return an error when bookshelfId is not a number', () => {
             const invalidObject: IAddToBookshelfDto = {
                 bookshelfId: 'not-a-number',
-                apiBookId: 'apiBookId123'
+                apiBookId: 'apiBookId123',
             };
 
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
@@ -104,44 +106,42 @@ describe('AddToBookshelfDto create() tests', () => {
     });
 
     describe('apiBookId  validation', () => {
-        test("should return an error when apiBookId is missing", () => {
+        test('should return an error when apiBookId is missing', () => {
             const invalidObject = {bookshelfId: 5} as unknown as IAddToBookshelfDto;
 
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
 
-            expect(error).toBe("apiBookId is required");
+            expect(error).toBe('apiBookId is required');
             expect(dto).toBeUndefined();
         });
 
-        test("should return an error when apiBookId is too short", () => {
+        test('should return an error when apiBookId is an empty string', () => {
             const invalidObject: IAddToBookshelfDto = {
                 bookshelfId: 5,
-                apiBookId: "ab",
+                apiBookId: '',
             };
 
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
 
-            expect(error).toBe("apiBookId must contain at least 3 characters long");
+            expect(error).toBe('apiBookId is required');
             expect(dto).toBeUndefined();
         });
 
-        test("should return an error when apiBookId is too long", () => {
-            const invalidObject = {bookshelfId: 5, apiBookId: "a".repeat(16),};
+        test('should return an error when apiBookId is too long', () => {
+            const invalidObject = {bookshelfId: 5, apiBookId: 'a'.repeat(16)};
 
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
 
-            expect(error).toBe("apiBookId must contain at most 15 characters long");
+            expect(error).toBe('apiBookId must contain at most 15 characters long');
             expect(dto).toBeUndefined();
         });
 
-        test("should return an error when apiBookId contains only whitespace", () => {
-            const invalidObject = {bookshelfId: 5, apiBookId: "   ",};
+        test('should return an error when apiBookId contains only whitespace', () => {
+            const invalidObject = {bookshelfId: 5, apiBookId: '   '};
 
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
 
-            expect(error).toBe(
-                "apiBookId must not contain only blank spaces"
-            );
+            expect(error).toBe('apiBookId must not contain only blank spaces');
             expect(dto).toBeUndefined();
         });
     });
@@ -151,7 +151,7 @@ describe('AddToBookshelfDto create() tests', () => {
             const invalidObject: IAddToBookshelfDto = {
                 bookshelfId: 5,
                 apiBookId: 'apiBookId123',
-                bookId: 'not-a-number' as unknown as number
+                bookId: 'not-a-number' as unknown as number,
             };
 
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
@@ -166,7 +166,7 @@ describe('AddToBookshelfDto create() tests', () => {
             const invalidObject: IAddToBookshelfDto = {
                 bookshelfId: 5,
                 apiBookId: 'apiBookId123',
-                bookshelfType: 123 as unknown as string
+                bookshelfType: 123 as unknown as string,
             };
 
             const [error, dto] = AddToBookshelfDto.create(invalidObject);
