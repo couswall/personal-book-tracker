@@ -1,7 +1,7 @@
-import { LoginUserDto } from "@domain/dtos";
-import { DTOS_ERRORS } from "@domain/constants/user.constants";
-import { ILoginUserDto } from "@domain/interfaces/user.interfaces";
-import { loginUserDtoObj } from "tests/fixtures";
+import {LoginUserDto} from '@domain/dtos';
+import {DTOS_ERRORS} from '@domain/constants/user.constants';
+import {ILoginUserDto} from '@domain/interfaces/user.interfaces';
+import {loginUserDtoObj} from '@tests/fixtures';
 
 describe('login-user.dto tests', () => {
     test('should create a LoginUserDto instance from a valid object', () => {
@@ -13,14 +13,20 @@ describe('login-user.dto tests', () => {
 
     describe('emailOrUsername validation', () => {
         test('should throw an error when emailOrUsername property is undefined', () => {
-            const newObj = {...loginUserDtoObj, emailOrUsername: undefined} as unknown as ILoginUserDto;
+            const newObj = {
+                ...loginUserDtoObj,
+                emailOrUsername: undefined,
+            } as unknown as ILoginUserDto;
             const [error, dto] = LoginUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.LOGIN_USER.EMAIL_USERNAME.REQUIRED);
             expect(dto).toBeUndefined();
         });
         test('should throw an error when emailOrUsername property is not a string', () => {
-            const newObj = {...loginUserDtoObj, emailOrUsername: [true]} as unknown as ILoginUserDto;
+            const newObj = {
+                ...loginUserDtoObj,
+                emailOrUsername: [true],
+            } as unknown as ILoginUserDto;
             const [error, dto] = LoginUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.LOGIN_USER.EMAIL_USERNAME.STRING);
@@ -37,14 +43,20 @@ describe('login-user.dto tests', () => {
 
     describe('password validation', () => {
         test('should throw an error when password property is undefined', () => {
-            const newObj = {...loginUserDtoObj, password: undefined} as unknown as ILoginUserDto;
+            const newObj = {
+                ...loginUserDtoObj,
+                password: undefined,
+            } as unknown as ILoginUserDto;
             const [error, dto] = LoginUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.PASSWORD.REQUIRED);
             expect(dto).toBeUndefined();
         });
         test('should throw an error when password property is not a string', () => {
-            const newObj = {...loginUserDtoObj, password: [true]} as unknown as ILoginUserDto;
+            const newObj = {
+                ...loginUserDtoObj,
+                password: [true],
+            } as unknown as ILoginUserDto;
             const [error, dto] = LoginUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.PASSWORD.STRING);

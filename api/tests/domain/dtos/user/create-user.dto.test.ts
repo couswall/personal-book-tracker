@@ -1,10 +1,9 @@
-import { CreateUserDto } from "@domain/dtos";
-import { createUserDtoObj } from "tests/fixtures";
-import { DTOS_ERRORS } from "@domain/constants/user.constants";
-import { ICreateUserDto } from "@domain/interfaces/user.interfaces";
+import {CreateUserDto} from '@domain/dtos';
+import {createUserDtoObj} from '@tests/fixtures';
+import {DTOS_ERRORS} from '@domain/constants/user.constants';
+import {ICreateUserDto} from '@domain/interfaces/user.interfaces';
 
 describe('create-user.dto', () => {
-
     test('should create a CreateUserDto instance from a valid object', () => {
         const [error, dto] = CreateUserDto.create(createUserDtoObj);
 
@@ -14,14 +13,20 @@ describe('create-user.dto', () => {
 
     describe('fullName validation', () => {
         test('should throw an error when fullName property is undefined', () => {
-            const newObj = {...createUserDtoObj, fullName: undefined} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                fullName: undefined,
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.FULLNAME.REQUIRED);
             expect(dto).toBeUndefined();
         });
         test('should throw an error when fullName property is not a string', () => {
-            const newObj = {...createUserDtoObj, fullName: 1234} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                fullName: 1234,
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.FULLNAME.STRING);
@@ -59,14 +64,20 @@ describe('create-user.dto', () => {
 
     describe('username validation', () => {
         test('should throw an error when username property is undefined', () => {
-            const newObj = {...createUserDtoObj, username: undefined} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                username: undefined,
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.USERNAME.REQUIRED);
             expect(dto).toBeUndefined();
         });
         test('should throw an error when username property is not a string', () => {
-            const newObj = {...createUserDtoObj, username: true} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                username: true,
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.USERNAME.STRING);
@@ -97,14 +108,20 @@ describe('create-user.dto', () => {
 
     describe('email validation', () => {
         test('should throw an error when email property is undefined', () => {
-            const newObj = {...createUserDtoObj, email: undefined} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                email: undefined,
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.EMAIL.REQUIRED);
             expect(dto).toBeUndefined();
         });
         test('should throw an error when email property is not a string', () => {
-            const newObj = {...createUserDtoObj, email: [true]} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                email: [true],
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.EMAIL.STRING);
@@ -121,14 +138,20 @@ describe('create-user.dto', () => {
 
     describe('password validation', () => {
         test('should throw an error when password property is undefined', () => {
-            const newObj = {...createUserDtoObj, password: undefined} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                password: undefined,
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.PASSWORD.REQUIRED);
             expect(dto).toBeUndefined();
         });
         test('should throw an error when password property is not a string', () => {
-            const newObj = {...createUserDtoObj, password: [true]} as unknown as ICreateUserDto;
+            const newObj = {
+                ...createUserDtoObj,
+                password: [true],
+            } as unknown as ICreateUserDto;
             const [error, dto] = CreateUserDto.create(newObj);
 
             expect(error).toBe(DTOS_ERRORS.CREATE_USER.PASSWORD.STRING);
@@ -142,4 +165,4 @@ describe('create-user.dto', () => {
             expect(dto).toBeUndefined();
         });
     });
-})
+});

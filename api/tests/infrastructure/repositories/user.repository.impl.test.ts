@@ -1,11 +1,10 @@
-import { CreateUserDto, GetUserByIdDto, LoginUserDto } from "@domain/dtos";
-import { UserEntity } from "@domain/entities/user.entity";
-import { UserDatasource } from "@domain/datasources/user.datasource";
-import { UserRepositoryImpl } from "@infrastructure/repositories/user.repository.impl";
-import { createUserDtoObj, loginUserDtoObj, userEntity, userObj } from "tests/fixtures";
+import {CreateUserDto, GetUserByIdDto, LoginUserDto} from '@domain/dtos';
+import {UserEntity} from '@domain/entities/user.entity';
+import {UserDatasource} from '@domain/datasources/user.datasource';
+import {UserRepositoryImpl} from '@infrastructure/repositories/user.repository.impl';
+import {createUserDtoObj, loginUserDtoObj, userEntity, userObj} from '@tests/fixtures';
 
 describe('user.repository.impl tests', () => {
-
     const mockUserDatasource: jest.Mocked<UserDatasource> = {
         create: jest.fn(),
         login: jest.fn(),
@@ -25,7 +24,7 @@ describe('user.repository.impl tests', () => {
         expect(mockUserDatasource.create).toHaveBeenCalledWith(dto!);
     });
 
-    test('login() should call datasource.login() and return a UserEntity', async() => {
+    test('login() should call datasource.login() and return a UserEntity', async () => {
         const [, dto] = LoginUserDto.create(loginUserDtoObj);
 
         mockUserDatasource.login.mockResolvedValue(userEntity);
@@ -37,12 +36,12 @@ describe('user.repository.impl tests', () => {
     });
 
     test('getById() method should return an UserEntity instance', async () => {
-        const [,dto] = GetUserByIdDto.create(userObj.id);
+        const [, dto] = GetUserByIdDto.create(userObj.id);
 
         mockUserDatasource.getById.mockResolvedValue(userEntity);
 
         const result = await mockUserDatasource.getById(dto!);
-        
+
         expect(result).toBeInstanceOf(UserEntity);
         expect(mockUserDatasource.getById).toHaveBeenCalledWith(dto);
     });

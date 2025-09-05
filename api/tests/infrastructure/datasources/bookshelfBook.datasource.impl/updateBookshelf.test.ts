@@ -1,5 +1,5 @@
 import {prisma} from '@tests/setup';
-import {BookshelfType} from '@/generated/prisma';
+import {BookshelfType} from '@prisma/client';
 import {UpdateBookshelfDto} from '@domain/dtos';
 import {BookshelfBookDatasourceImpl} from '@infrastructure/datasources/bookshelfBook.datasource.impl';
 import {BookshelfBookEntity} from '@domain/entities';

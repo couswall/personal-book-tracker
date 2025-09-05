@@ -1,8 +1,8 @@
-import { BookshelfType } from "@/generated/prisma";
-import { UserEntity } from "@domain/entities/user.entity";
-import { ICreateBookshelfEntity } from "@domain/interfaces/bookshelf.interfaces";
+import {BookshelfType} from '@prisma/client';
+import {UserEntity} from '@domain/entities/user.entity';
+import {ICreateBookshelfEntity} from '@domain/interfaces/bookshelf.interfaces';
 
-export class BookshelfEntity{
+export class BookshelfEntity {
     constructor(
         public id: number,
         public name: string,
@@ -10,10 +10,10 @@ export class BookshelfEntity{
         public userId: number,
         public books: BookshelfEntity[] = [],
         public deletedAt: Date | null,
-        public user?: UserEntity,
-    ){};
+        public user?: UserEntity
+    ) {}
 
-    public static fromObject(object: ICreateBookshelfEntity): BookshelfEntity{
+    public static fromObject(object: ICreateBookshelfEntity): BookshelfEntity {
         return new BookshelfEntity(
             object.id,
             object.name,
@@ -21,11 +21,11 @@ export class BookshelfEntity{
             object.userId,
             object.books,
             object.deletedAt,
-            object.user,
+            object.user
         );
-    };
+    }
 
-    public static convertArray(array: ICreateBookshelfEntity[]): BookshelfEntity[]{
-        return array.map(bookshelf => this.fromObject(bookshelf));
+    public static convertArray(array: ICreateBookshelfEntity[]): BookshelfEntity[] {
+        return array.map((bookshelf) => this.fromObject(bookshelf));
     }
 }

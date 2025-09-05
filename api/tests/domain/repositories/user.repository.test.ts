@@ -1,10 +1,10 @@
-import { UserRepository } from "@domain/repositories/user.repository";
-import { CreateUserDto, GetUserByIdDto, LoginUserDto } from "@domain/dtos";
-import { UserEntity } from "@domain/entities/user.entity";
-import { createUserDtoObj, loginUserDtoObj, userEntity, userObj } from "tests/fixtures";
+import {UserRepository} from '@domain/repositories/user.repository';
+import {CreateUserDto, GetUserByIdDto, LoginUserDto} from '@domain/dtos';
+import {UserEntity} from '@domain/entities/user.entity';
+import {createUserDtoObj, loginUserDtoObj, userEntity, userObj} from '@tests/fixtures';
 
 describe('user.repository tests', () => {
-    class MockUserRepository implements UserRepository{
+    class MockUserRepository implements UserRepository {
         async create(createUserDto: CreateUserDto): Promise<UserEntity> {
             return userEntity;
         }
@@ -25,26 +25,26 @@ describe('user.repository tests', () => {
     });
 
     test('create method should return an UserEntity instance', async () => {
-        const [,dto] = CreateUserDto.create(createUserDtoObj);
+        const [, dto] = CreateUserDto.create(createUserDtoObj);
 
         const result = await mockUserRepository.create(dto!);
-        
+
         expect(result).toBeInstanceOf(UserEntity);
     });
 
     test('login method should return an UserEntity instance', async () => {
-        const [,dto] = LoginUserDto.create(loginUserDtoObj);
+        const [, dto] = LoginUserDto.create(loginUserDtoObj);
 
         const result = await mockUserRepository.login(dto!);
-        
+
         expect(result).toBeInstanceOf(UserEntity);
     });
 
     test('getById() method should return an UserEntity instance', async () => {
-        const [,dto] = GetUserByIdDto.create(userObj.id);
+        const [, dto] = GetUserByIdDto.create(userObj.id);
 
         const result = await mockUserRepository.getById(dto!);
-        
+
         expect(result).toBeInstanceOf(UserEntity);
     });
 });

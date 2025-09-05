@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
-import { prisma } from "@data/postgres";
-import { BookshelfController } from "@presentation/bookshelf/controller";
-import { UserDatasourceImpl } from "@infrastructure/datasources/user.datasource.impl";
-import { UserRepositoryImpl } from "@infrastructure/repositories/user.repository.impl";
-import { BookshelfDatasourceImpl } from "@infrastructure/datasources/bookshelf.datasource.impl";
-import { BookshelfRepositoryImpl } from "@infrastructure/repositories/bookshelf.repository.impl";
-import { bookshelfPrisma, createCustomBookshelfDto, mockUserPrisma } from "tests/fixtures";
-import { ERROR_MESSAGES } from "@infrastructure/constants";
+import {Request, Response} from 'express';
+import {prisma} from '@data/postgres';
+import {BookshelfController} from '@presentation/bookshelf/controller';
+import {UserDatasourceImpl} from '@infrastructure/datasources/user.datasource.impl';
+import {UserRepositoryImpl} from '@infrastructure/repositories/user.repository.impl';
+import {BookshelfDatasourceImpl} from '@infrastructure/datasources/bookshelf.datasource.impl';
+import {BookshelfRepositoryImpl} from '@infrastructure/repositories/bookshelf.repository.impl';
+import {bookshelfPrisma, createCustomBookshelfDto, mockUserPrisma} from '@tests/fixtures';
+import {ERROR_MESSAGES} from '@infrastructure/constants';
 
 jest.mock('@data/postgres', () => ({
     prisma: {
         user: {
             findFirst: jest.fn(),
         },
-        bookshelf:{
+        bookshelf: {
             create: jest.fn(),
             findFirst: jest.fn(),
             findMany: jest.fn(),
@@ -25,7 +25,10 @@ describe('bookshelf controller tests', () => {
     const userRepository = new UserRepositoryImpl(new UserDatasourceImpl());
     const bookshelfDatasource = new BookshelfDatasourceImpl();
     const bookshelfRepository = new BookshelfRepositoryImpl(bookshelfDatasource);
-    const bookshelfController = new BookshelfController(bookshelfRepository, userRepository);
+    const bookshelfController = new BookshelfController(
+        bookshelfRepository,
+        userRepository
+    );
 
     let mockRequest: Partial<Request> = {
         body: {},
@@ -51,7 +54,10 @@ describe('bookshelf controller tests', () => {
             (prisma.bookshelf.create as jest.Mock).mockResolvedValue(bookshelfPrisma);
 
             await new Promise<void>((resolve) => {
-                bookshelfController.createCustom(mockRequest as Request, mockResponse as Response);
+                bookshelfController.createCustom(
+                    mockRequest as Request,
+                    mockResponse as Response
+                );
                 setImmediate(resolve);
             });
 
@@ -60,7 +66,7 @@ describe('bookshelf controller tests', () => {
                 success: true,
                 message: expect.any(String),
                 data: expect.objectContaining({
-                    id: expect.any(Number), 
+                    id: expect.any(Number),
                     name: expect.any(String),
                 }),
             });
@@ -68,7 +74,10 @@ describe('bookshelf controller tests', () => {
         test('should throw a 400 error when request body is empty', async () => {
             mockRequest.body = {};
 
-            await bookshelfController.createCustom(mockRequest as Request, mockResponse as Response);
+            await bookshelfController.createCustom(
+                mockRequest as Request,
+                mockResponse as Response
+            );
 
             expect(mockResponse.status).toHaveBeenCalledWith(400);
             expect(mockResponse.json).toHaveBeenCalledWith({
@@ -82,7 +91,10 @@ describe('bookshelf controller tests', () => {
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
 
             await new Promise<void>((resolve) => {
-                bookshelfController.createCustom(mockRequest as Request, mockResponse as Response);
+                bookshelfController.createCustom(
+                    mockRequest as Request,
+                    mockResponse as Response
+                );
                 setImmediate(resolve);
             });
 
@@ -99,7 +111,10 @@ describe('bookshelf controller tests', () => {
             (prisma.bookshelf.findFirst as jest.Mock).mockResolvedValue(bookshelfPrisma);
 
             await new Promise<void>((resolve) => {
-                bookshelfController.createCustom(mockRequest as Request, mockResponse as Response);
+                bookshelfController.createCustom(
+                    mockRequest as Request,
+                    mockResponse as Response
+                );
                 setImmediate(resolve);
             });
 
@@ -119,7 +134,10 @@ describe('bookshelf controller tests', () => {
             (prisma.bookshelf.findMany as jest.Mock).mockResolvedValue([bookshelfPrisma]);
 
             await new Promise<void>((resolve) => {
-                bookshelfController.getMyBookshelves(mockRequest as Request, mockResponse as Response);
+                bookshelfController.getMyBookshelves(
+                    mockRequest as Request,
+                    mockResponse as Response
+                );
                 setImmediate(resolve);
             });
 
@@ -133,13 +151,16 @@ describe('bookshelf controller tests', () => {
         test('should throw a 400 error if params are empty', async () => {
             mockRequest.params = {};
 
-            await bookshelfController.getMyBookshelves(mockRequest as Request, mockResponse as Response);
+            await bookshelfController.getMyBookshelves(
+                mockRequest as Request,
+                mockResponse as Response
+            );
 
             expect(mockResponse.status).toHaveBeenCalledWith(400);
             expect(mockResponse.json).toHaveBeenCalledWith({
                 success: false,
-                error: {message: expect.any(String)}
-            })
+                error: {message: expect.any(String)},
+            });
         });
         test('should throw a 400 error when user with provided ID does not exist', async () => {
             const {userId} = createCustomBookshelfDto;
@@ -148,7 +169,10 @@ describe('bookshelf controller tests', () => {
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
 
             await new Promise<void>((resolve) => {
-                bookshelfController.getMyBookshelves(mockRequest as Request, mockResponse as Response);
+                bookshelfController.getMyBookshelves(
+                    mockRequest as Request,
+                    mockResponse as Response
+                );
                 setImmediate(resolve);
             });
 

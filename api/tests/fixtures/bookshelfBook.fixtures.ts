@@ -1,4 +1,4 @@
-import {BookshelfType} from '@/generated/prisma';
+import {BookshelfType} from '@prisma/client';
 import {BookshelfBookEntity} from '@domain/entities';
 import {IUpdateBookshelfDto} from '@domain/interfaces/bookshelfBook.interfaces';
 

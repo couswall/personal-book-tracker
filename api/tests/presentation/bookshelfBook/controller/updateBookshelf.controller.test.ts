@@ -8,7 +8,6 @@ import {
 } from '@tests/fixtures';
 import {ERROR_MESSAGES} from '@infrastructure/constants';
 import {INVALID_OBJECT_ERROR} from '@domain/constants/bookshelfBook.constants';
-import {BookshelfType} from '@/generated/prisma';
 
 describe('BookshelfBookController.updateBookshelf tests', () => {
     const {controller, mockRequest, mockResponse, mockHttpAdapter} =

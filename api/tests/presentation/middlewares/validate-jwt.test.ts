@@ -1,15 +1,15 @@
-import { NextFunction, Request, Response } from "express";
-import { prisma } from "@data/postgres";
-import { JwtAdapter } from "@config/jwt.adapter";
-import { validateJWT } from "@presentation/middlewares/validate-jwt";
-import { CustomError } from "@domain/errors/custom.error";
-import { ERROR_MESSAGES } from "@infrastructure/constants";
-import { mockUserPrisma } from "tests/fixtures";
+import {NextFunction, Request, Response} from 'express';
+import {prisma} from '@data/postgres';
+import {JwtAdapter} from '@config/jwt.adapter';
+import {validateJWT} from '@presentation/middlewares/validate-jwt';
+import {CustomError} from '@domain/errors/custom.error';
+import {ERROR_MESSAGES} from '@infrastructure/constants';
+import {mockUserPrisma} from '@tests/fixtures';
 
 jest.mock('@config/jwt.adapter', () => ({
     JwtAdapter: {
         validateToken: jest.fn(),
-    }
+    },
 }));
 
 jest.mock('@data/postgres', () => ({
@@ -17,7 +17,7 @@ jest.mock('@data/postgres', () => ({
         user: {
             findFirst: jest.fn(),
         },
-    }
+    },
 }));
 
 describe('validate-jwt middleware test', () => {
@@ -37,14 +37,14 @@ describe('validate-jwt middleware test', () => {
     test('should call next() when token is valid', async () => {
         (mockRequest.header as jest.Mock).mockReturnValue('Bearer any-token');
         (JwtAdapter.validateToken as jest.Mock).mockResolvedValue(mockPayload);
-        (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma)
+        (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma);
 
         await validateJWT(mockRequest as Request, mockResponse as Response, mockNextFn);
 
         expect(mockNextFn).toHaveBeenCalled();
-        expect(prisma.user.findFirst).toHaveBeenCalledWith(
-            {where: {id: mockPayload.id, deletedAt: null}}
-        );
+        expect(prisma.user.findFirst).toHaveBeenCalledWith({
+            where: {id: mockPayload.id, deletedAt: null},
+        });
     });
 
     test('should throw a 401 error when token is not provided', async () => {
@@ -56,7 +56,7 @@ describe('validate-jwt middleware test', () => {
         expect(mockResponse.status).toHaveBeenCalledWith(401);
         expect(mockResponse.json).toHaveBeenCalledWith({
             success: false,
-            error: {message: ERROR_MESSAGES.TOKEN.NO_TOKEN}
+            error: {message: ERROR_MESSAGES.TOKEN.NO_TOKEN},
         });
     });
 
@@ -69,7 +69,7 @@ describe('validate-jwt middleware test', () => {
         expect(mockResponse.status).toHaveBeenCalledWith(401);
         expect(mockResponse.json).toHaveBeenCalledWith({
             success: false,
-            error: {message: ERROR_MESSAGES.TOKEN.NO_TOKEN}
+            error: {message: ERROR_MESSAGES.TOKEN.NO_TOKEN},
         });
     });
 
@@ -82,7 +82,7 @@ describe('validate-jwt middleware test', () => {
         expect(mockResponse.status).toHaveBeenCalledWith(401);
         expect(mockResponse.json).toHaveBeenCalledWith({
             success: false,
-            error: {message: ERROR_MESSAGES.TOKEN.NO_TOKEN}
+            error: {message: ERROR_MESSAGES.TOKEN.NO_TOKEN},
         });
     });
 
@@ -98,14 +98,14 @@ describe('validate-jwt middleware test', () => {
         expect(mockResponse.status).toHaveBeenCalledWith(401);
         expect(mockResponse.json).toHaveBeenCalledWith({
             success: false,
-            error: {message: ERROR_MESSAGES.TOKEN.INVALID}
+            error: {message: ERROR_MESSAGES.TOKEN.INVALID},
         });
     });
 
     test('should throw a 401 error when prisma user is not found', async () => {
         (mockRequest.header as jest.Mock).mockReturnValue('Bearer any-token');
         (JwtAdapter.validateToken as jest.Mock).mockResolvedValue(mockPayload);
-        (prisma.user.findFirst as jest.Mock).mockResolvedValue(null)
+        (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
 
         await validateJWT(mockRequest as Request, mockResponse as Response, mockNextFn);
 
@@ -113,7 +113,7 @@ describe('validate-jwt middleware test', () => {
         expect(mockResponse.status).toHaveBeenCalledWith(401);
         expect(mockResponse.json).toHaveBeenCalledWith({
             success: false,
-            error: {message: ERROR_MESSAGES.TOKEN.INVALID_USER}
+            error: {message: ERROR_MESSAGES.TOKEN.INVALID_USER},
         });
     });
 });

@@ -1,8 +1,8 @@
-import { BookshelfRepositoryImpl } from "@infrastructure/repositories/bookshelf.repository.impl";
-import { BookshelfDatasource } from "@domain/datasources/bookshelf.datasource";
-import { CreateCustomBookShelfDto } from "@domain/dtos";
-import { BookshelfEntity } from "@domain/entities";
-import { bookshelfEntity, bookshelfObj, createCustomBookshelfDto } from "tests/fixtures";
+import {BookshelfRepositoryImpl} from '@infrastructure/repositories/bookshelf.repository.impl';
+import {BookshelfDatasource} from '@domain/datasources/bookshelf.datasource';
+import {CreateCustomBookShelfDto} from '@domain/dtos';
+import {BookshelfEntity} from '@domain/entities';
+import {bookshelfEntity, bookshelfObj, createCustomBookshelfDto} from '@tests/fixtures';
 
 describe('bookshelf.repository.impl tests', () => {
     const mockDatasource: jest.Mocked<BookshelfDatasource> = {
@@ -29,18 +29,20 @@ describe('bookshelf.repository.impl tests', () => {
     });
 
     test('getMyBookshelves() should call datasource.getMyBookshelves() and return an array of BookshelfEntity', async () => {
-
         mockDatasource.getMyBookshelves.mockResolvedValue([bookshelfEntity]);
 
-        const result = await mockRepositoryImpl.getMyBookshelves(createCustomBookshelfDto.userId);
+        const result = await mockRepositoryImpl.getMyBookshelves(
+            createCustomBookshelfDto.userId
+        );
 
-        expect(mockDatasource.getMyBookshelves).toHaveBeenCalledWith(createCustomBookshelfDto.userId);
+        expect(mockDatasource.getMyBookshelves).toHaveBeenCalledWith(
+            createCustomBookshelfDto.userId
+        );
         expect(Array.isArray(result)).toBeTruthy();
         expect(result[0]).toBeInstanceOf(BookshelfEntity);
     });
 
     test('getBookshelfById() should call datasource.getBookshelfById() and return a BookshelfEntity', async () => {
-
         mockDatasource.getBookshelfById.mockResolvedValue(bookshelfEntity);
 
         const result = await mockRepositoryImpl.getBookshelfById(bookshelfObj.id);
@@ -48,5 +50,4 @@ describe('bookshelf.repository.impl tests', () => {
         expect(mockDatasource.getBookshelfById).toHaveBeenCalledWith(bookshelfObj.id);
         expect(result).toBeInstanceOf(BookshelfEntity);
     });
-
 });

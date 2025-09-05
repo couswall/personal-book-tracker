@@ -1,6 +1,6 @@
-import { BookshelfType } from "generated/prisma";
-import {BookshelfEntity} from "@domain/entities";
-import { bookshelfObj } from "tests/fixtures";
+import {BookshelfType} from '@prisma/client';
+import {BookshelfEntity} from '@domain/entities';
+import {bookshelfObj} from '@tests/fixtures';
 
 describe('bookshelf.entity tests', () => {
     test('should create a BookshelfEntity from valid properties', () => {
@@ -11,7 +11,7 @@ describe('bookshelf.entity tests', () => {
             bookshelfObj.userId,
             bookshelfObj.books,
             bookshelfObj.deletedAt,
-            bookshelfObj.user,
+            bookshelfObj.user
         );
 
         expect(newBookshelfEntity).toBeInstanceOf(BookshelfEntity);
@@ -25,7 +25,7 @@ describe('bookshelf.entity tests', () => {
             bookshelfObj.userId,
             bookshelfObj.books,
             bookshelfObj.deletedAt,
-            bookshelfObj.user,
+            bookshelfObj.user
         );
 
         expect(newBookshelfEntity).toBeInstanceOf(BookshelfEntity);
@@ -40,7 +40,7 @@ describe('bookshelf.entity tests', () => {
             bookshelfObj.userId,
             undefined,
             bookshelfObj.deletedAt,
-            bookshelfObj.user,
+            bookshelfObj.user
         );
 
         expect(newBookshelfEntity).toBeInstanceOf(BookshelfEntity);

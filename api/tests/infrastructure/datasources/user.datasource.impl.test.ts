@@ -1,10 +1,15 @@
-import { prisma } from "@data/postgres";
-import { BCryptAdapter } from "@config/bcrypt.adapter";
-import { UserDatasourceImpl } from "@infrastructure/datasources/user.datasource.impl";
-import { UserEntity } from "@domain/entities/user.entity";
-import { CreateUserDto, GetUserByIdDto, LoginUserDto } from "@domain/dtos";
-import { ERROR_MESSAGES } from "@infrastructure/constants";
-import { createUserDtoObj, loginUserDtoObj, mockUserPrisma, userObj } from "tests/fixtures";
+import {prisma} from '@data/postgres';
+import {BCryptAdapter} from '@config/bcrypt.adapter';
+import {UserDatasourceImpl} from '@infrastructure/datasources/user.datasource.impl';
+import {UserEntity} from '@domain/entities/user.entity';
+import {CreateUserDto, GetUserByIdDto, LoginUserDto} from '@domain/dtos';
+import {ERROR_MESSAGES} from '@infrastructure/constants';
+import {
+    createUserDtoObj,
+    loginUserDtoObj,
+    mockUserPrisma,
+    userObj,
+} from '@tests/fixtures';
 
 jest.mock('@data/postgres', () => ({
     prisma: {
@@ -14,18 +19,17 @@ jest.mock('@data/postgres', () => ({
         },
         bookshelf: {
             createMany: jest.fn(),
-        }
-    }
+        },
+    },
 }));
 
 jest.mock('@config/bcrypt.adapter', () => ({
     BCryptAdapter: {
         compare: jest.fn(),
-    }
+    },
 }));
 
 describe('user.datasource.impl tests', () => {
-    
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -34,7 +38,7 @@ describe('user.datasource.impl tests', () => {
 
     describe('create()', () => {
         test('should return UserEntity when created successfully', async () => {
-            const [,dto] = CreateUserDto.create(createUserDtoObj);
+            const [, dto] = CreateUserDto.create(createUserDtoObj);
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
             (prisma.user.create as jest.Mock).mockResolvedValue(mockUserPrisma);
@@ -46,7 +50,7 @@ describe('user.datasource.impl tests', () => {
             expect(prisma.bookshelf.createMany).toHaveBeenCalled();
         });
         test('should throw an error if username already exists', async () => {
-            const [,dto] = CreateUserDto.create(createUserDtoObj);
+            const [, dto] = CreateUserDto.create(createUserDtoObj);
 
             (prisma.user.findFirst as jest.Mock)
                 .mockResolvedValueOnce(mockUserPrisma)
@@ -57,7 +61,7 @@ describe('user.datasource.impl tests', () => {
             );
         });
         test('should throw an error if email already exists', async () => {
-            const [,dto] = CreateUserDto.create(createUserDtoObj);
+            const [, dto] = CreateUserDto.create(createUserDtoObj);
 
             (prisma.user.findFirst as jest.Mock)
                 .mockResolvedValueOnce(null)
@@ -70,7 +74,7 @@ describe('user.datasource.impl tests', () => {
     });
     describe('login()', () => {
         test('should return UserEntity if login succeeds', async () => {
-            const [,dto] = LoginUserDto.create(loginUserDtoObj);
+            const [, dto] = LoginUserDto.create(loginUserDtoObj);
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma);
             (BCryptAdapter.compare as jest.Mock).mockReturnValue(true);
@@ -81,7 +85,7 @@ describe('user.datasource.impl tests', () => {
             expect(prisma.user.findFirst).toHaveBeenCalled();
         });
         test('should throw an error if user does not exists', async () => {
-            const [,dto] = LoginUserDto.create(loginUserDtoObj);
+            const [, dto] = LoginUserDto.create(loginUserDtoObj);
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
 
@@ -90,7 +94,7 @@ describe('user.datasource.impl tests', () => {
             );
         });
         test('should throw an error if password is invalid', async () => {
-            const [,dto] = LoginUserDto.create(loginUserDtoObj);
+            const [, dto] = LoginUserDto.create(loginUserDtoObj);
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma);
             (BCryptAdapter.compare as jest.Mock).mockReturnValue(false);
@@ -103,7 +107,7 @@ describe('user.datasource.impl tests', () => {
 
     describe('getById()', () => {
         test('should return UserEntity if findFirst succeeds', async () => {
-            const [,dto] = GetUserByIdDto.create(userObj.id);
+            const [, dto] = GetUserByIdDto.create(userObj.id);
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(mockUserPrisma);
 
@@ -113,7 +117,7 @@ describe('user.datasource.impl tests', () => {
             expect(prisma.user.findFirst).toHaveBeenCalled();
         });
         test('should throw an error when user with provided ID does not exists', async () => {
-            const [,dto] = GetUserByIdDto.create(userObj.id);
+            const [, dto] = GetUserByIdDto.create(userObj.id);
 
             (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
 

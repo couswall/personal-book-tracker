@@ -1,11 +1,11 @@
-import { UserRepository } from "@domain/repositories/user.repository";
-import { BookshelfRepository } from "@domain/repositories/bookshelf.repository";
-import { CreateCustom } from "@domain/use-cases";
-import { CreateCustomBookShelfDto } from "@domain/dtos";
-import { BookshelfEntity } from "@domain/entities";
-import { CustomError } from "@domain/errors/custom.error";
-import { bookshelfEntity, createCustomBookshelfDto, userEntity } from "tests/fixtures";
-import { ERROR_MESSAGES } from "@infrastructure/constants";
+import {UserRepository} from '@domain/repositories/user.repository';
+import {BookshelfRepository} from '@domain/repositories/bookshelf.repository';
+import {CreateCustom} from '@domain/use-cases';
+import {CreateCustomBookShelfDto} from '@domain/dtos';
+import {BookshelfEntity} from '@domain/entities';
+import {CustomError} from '@domain/errors/custom.error';
+import {bookshelfEntity, createCustomBookshelfDto, userEntity} from '@tests/fixtures';
+import {ERROR_MESSAGES} from '@infrastructure/constants';
 
 describe('createCustom-bookshelf use case test', () => {
     const mockBookshelfRepository: jest.Mocked<BookshelfRepository> = {
@@ -29,10 +29,15 @@ describe('createCustom-bookshelf use case test', () => {
         mockUserRepository.getById.mockResolvedValue(userEntity);
         mockBookshelfRepository.createCustom.mockResolvedValue(bookshelfEntity);
 
-        const result = await new CreateCustom(mockBookshelfRepository,mockUserRepository).execute(dto!);
+        const result = await new CreateCustom(
+            mockBookshelfRepository,
+            mockUserRepository
+        ).execute(dto!);
 
         expect(result).toBeInstanceOf(BookshelfEntity);
-        expect(mockUserRepository.getById).toHaveBeenCalledWith({id: createCustomBookshelfDto.userId})
+        expect(mockUserRepository.getById).toHaveBeenCalledWith({
+            id: createCustomBookshelfDto.userId,
+        });
     });
 
     test('should throw a 400 error status when user with provided ID does not exist', async () => {
@@ -43,7 +48,10 @@ describe('createCustom-bookshelf use case test', () => {
         );
         mockBookshelfRepository.createCustom.mockResolvedValue(bookshelfEntity);
 
-        await expect(new CreateCustom(mockBookshelfRepository,mockUserRepository).execute(dto!))
-            .rejects.toThrow(CustomError.badRequest(ERROR_MESSAGES.USER.GET_BY_ID.NO_EXISTING))
+        await expect(
+            new CreateCustom(mockBookshelfRepository, mockUserRepository).execute(dto!)
+        ).rejects.toThrow(
+            CustomError.badRequest(ERROR_MESSAGES.USER.GET_BY_ID.NO_EXISTING)
+        );
     });
-})
+});

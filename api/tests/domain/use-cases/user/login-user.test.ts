@@ -1,16 +1,16 @@
-import { JwtAdapter } from "@config/jwt.adapter";
-import { LoginUserDto } from "@domain/dtos";
-import { UserRepository } from "@domain/repositories/user.repository";
-import { LoginUser } from "@domain/use-cases";
-import { UserEntity } from "@domain/entities/user.entity";
-import { CustomError } from "@domain/errors/custom.error";
-import { ERROR_MESSAGES } from "@infrastructure/constants";
-import { loginUserDtoObj, userEntity } from "tests/fixtures";
+import {JwtAdapter} from '@config/jwt.adapter';
+import {LoginUserDto} from '@domain/dtos';
+import {UserRepository} from '@domain/repositories/user.repository';
+import {LoginUser} from '@domain/use-cases';
+import {UserEntity} from '@domain/entities/user.entity';
+import {CustomError} from '@domain/errors/custom.error';
+import {ERROR_MESSAGES} from '@infrastructure/constants';
+import {loginUserDtoObj, userEntity} from '@tests/fixtures';
 
 jest.mock('@config/jwt.adapter', () => ({
     JwtAdapter: {
         generateToken: jest.fn(),
-    }
+    },
 }));
 
 describe('login-user use case test', () => {

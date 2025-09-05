@@ -1,6 +1,6 @@
-import { BookshelfType } from "generated/prisma";
-import { BookshelfEntity } from "@domain/entities";
-import { userEntity } from "tests/fixtures/user.fixtures";
+import {BookshelfType} from '@prisma/client';
+import {BookshelfEntity} from '@domain/entities';
+import {userEntity} from 'tests/fixtures/user.fixtures';
 
 export const bookshelfObj = {
     id: 1,
@@ -9,7 +9,7 @@ export const bookshelfObj = {
     userId: 1,
     deletedAt: null,
     books: [],
-    user: userEntity
+    user: userEntity,
 };
 
 export const bookshelfEntity = BookshelfEntity.fromObject(bookshelfObj);

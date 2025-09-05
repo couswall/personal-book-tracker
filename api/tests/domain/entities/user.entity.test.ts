@@ -1,8 +1,7 @@
-import { UserEntity } from "@domain/entities/user.entity";
-import { userObj } from "tests/fixtures";
+import {UserEntity} from '@domain/entities/user.entity';
+import {userObj} from '@tests/fixtures';
 
 describe('user.entity tests', () => {
-
     test('should create an UserEntity intance from valid properties', () => {
         const userEntity = new UserEntity(
             userObj.id,
@@ -12,7 +11,7 @@ describe('user.entity tests', () => {
             userObj.password,
             userObj.createdAt,
             userObj.updatedAt,
-            userObj.deletedAt,
+            userObj.deletedAt
         );
 
         expect(userEntity).toBeInstanceOf(UserEntity);

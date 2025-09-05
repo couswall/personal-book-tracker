@@ -1,12 +1,12 @@
-import { BookshelfType } from "@/generated/prisma";
-import { BookshelfEntity, UserEntity } from "@domain/entities";
+import {BookshelfType} from '@prisma/client';
+import {BookshelfEntity, UserEntity} from '@domain/entities';
 
-export interface ICreateCustomBookShelfDto{
+export interface ICreateCustomBookShelfDto {
     userId?: number;
     shelfName?: string;
 }
 
-export interface ICreateBookshelfEntity{
+export interface ICreateBookshelfEntity {
     id: number;
     name: string;
     type: BookshelfType;
