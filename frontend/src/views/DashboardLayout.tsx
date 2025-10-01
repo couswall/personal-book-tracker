@@ -1,20 +1,20 @@
-import { Outlet } from 'react-router'
-import { useSelector } from 'react-redux'
-import { ThemeProvider } from 'styled-components'
-import { FlexContainer, Navbar } from '@components/index'
-import { darkTheme, lightTeam } from '@styles/Theme'
-import { RootState } from '@store/store'
+import {Outlet} from 'react-router';
+import {useSelector} from 'react-redux';
+import {ThemeProvider} from 'styled-components';
+import {FlexContainer, Navbar} from '@components/index';
+import {darkTheme, lightTeam} from '@styles/Theme';
+import {RootState} from '@store/store';
 
 export const DashboardLayout = () => {
-  const {isDarkMode} = useSelector((state: RootState) => state.darkMode);
-  return (
-    <>
-      <ThemeProvider theme={isDarkMode ? darkTheme : lightTeam}>
-        <FlexContainer FlexDirection='column' BackgroundColor='transparent'>
-            <Navbar/>
-            <Outlet/>
-        </FlexContainer>
-      </ThemeProvider>
-    </>
-  )
-}
+    const {isDarkMode} = useSelector((state: RootState) => state.darkMode);
+    return (
+        <>
+            <ThemeProvider theme={isDarkMode ? darkTheme : lightTeam}>
+                <FlexContainer FlexDirection="column">
+                    <Navbar />
+                    <Outlet />
+                </FlexContainer>
+            </ThemeProvider>
+        </>
+    );
+};

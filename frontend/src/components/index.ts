@@ -7,3 +7,4 @@ export * from './Navbar/Navbar';
 export * from './Navbar/styles';
 export * from './Containers/index';
 export * from './Loaders/index';
+export * from './Image/index';
