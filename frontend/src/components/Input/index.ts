@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FlexContainer } from "@components/FlexContainer/index";
+import styled from 'styled-components';
+import {FlexContainer} from '@components/FlexContainer/index';
 
 interface IInputProps {
     error?: string | boolean;
@@ -11,12 +11,12 @@ interface IInputProps {
     Height?: string;
     Padding?: string;
     Margin?: string;
-    MaxWidth?:string;
+    MaxWidth?: string;
     Border?: string;
     BorderRadius?: string;
     Outline?: string;
-    MediumWidth?:string;
-    SmallWidth?:string;
+    MediumWidth?: string;
+    SmallWidth?: string;
     XSmallWidth?: string;
     LightColor?: boolean;
     PHColor?: string;
@@ -32,25 +32,22 @@ export const Input = styled.input<IInputProps>`
     padding: ${(props) => props.Padding || '0'};
     margin: ${(props) => props.Margin || '0'};
     max-width: ${(props) => props.MaxWidth};
-    border: ${(props) => 
-        props.error ? '2px solid red' : props.Border || '1px solid #ccc'};
+    border: ${(props) => (props.error ? '2px solid red' : props.Border || '1px solid #ccc')};
     border-radius: ${(props) => props.BorderRadius || '4px'};
     box-sizing: border-box;
     outline: ${(props) => props.Outline || 'none'};
-    
-    &::placeholder{
-        color: ${(props) => props.LightColor ? props.theme.colors.lightColor : props.PHColor};
 
+    &::placeholder {
+        color: ${(props) => (props.LightColor ? props.theme.colors.lightColor : props.PHColor)};
     }
-    
-    @media(max-width: 991.98px){
+
+    @media (max-width: 991.98px) {
         width: ${(props) => props.MediumWidth};
     }
 
-    @media (max-width: 575.98px){
+    @media (max-width: 575.98px) {
         width: ${(props) => props.XSmallWidth};
     }
-
 `;
 
 interface ILabelProps {
@@ -65,17 +62,18 @@ interface ILabelProps {
 }
 
 export const Label = styled.label<ILabelProps>`
-    font-size: ${(props) => props.FontSize || "1rem"};
-    font-weight: ${(props) => props.FontWeight || "normal"};
-    color: ${(props) => props.FontColor ? props.FontColor : props.theme.colors.input.labelColor};
-    font-family: ${(props) => props.FontFamily || "Inter"};
-    line-height: ${(props) => props.LineHeight || "1.5"};
-    text-align: ${(props) => props.TextAlign || "left"};
-    margin: ${(props) => props.Margin || "0"};
-    padding: ${(props) => props.Padding || "0"};
+    font-size: ${(props) => props.FontSize || '1rem'};
+    font-weight: ${(props) => props.FontWeight || 'normal'};
+    color: ${(props) => (props.FontColor ? props.FontColor : props.theme.colors.input.labelColor)};
+    font-family: ${(props) => props.FontFamily || 'Inter'};
+    line-height: ${(props) => props.LineHeight || '1.5'};
+    text-align: ${(props) => props.TextAlign || 'left'};
+    margin: ${(props) => props.Margin || '0'};
+    padding: ${(props) => props.Padding || '0'};
 `;
 
 export const InputContainer = styled(FlexContainer)`
     background-color: ${(props) => props.BackgroundColor || 'transparent'};
-    border-bottom: 1px solid ${(props) => props.hasError ? props.theme.colors.input.errorMsgText : '#d9d9d9'};
+    border-bottom: 1px solid
+        ${(props) => (props.hasError ? props.theme.colors.input.errorMsgText : '#d9d9d9')};
 `;

@@ -1,6 +1,5 @@
-import styled from "styled-components";
-import { FlexContainer } from "../FlexContainer";
-import { Paragraph, TitleH4 } from "../Typography";
+import styled from 'styled-components';
+import {FlexContainer, Paragraph, TitleH4, LighterIconWrapper, Input} from '@components/index';
 
 export const NavbarStyled = styled(FlexContainer).attrs({as: 'nav'})`
     background-color: ${(props) => props.theme.colors.primaryColor};
@@ -12,7 +11,7 @@ export const NavbarList = styled.ul`
     align-items: center;
     background-color: inherit;
     gap: 1.5rem;
-    
+
     @media (max-width: 991.98px) {
         opacity: 0;
         flex-direction: column;
@@ -57,32 +56,27 @@ export const NavbarLink = styled(TitleH4).attrs({as: 'p'})`
         opacity: 0.6;
     }
     @media (max-width: 575.98px) {
-
     }
 `;
 
-export const HamburgerContainer = styled(FlexContainer)`
+export const HamburgerContainer = styled(LighterIconWrapper)`
     display: none;
-    
+
     @media (max-width: 991.98px) {
         display: flex;
-        justify-content: start;
-        align-items: start;
-        background-color: inherit;
-        gap: 1.5rem;
     }
 `;
 
 export const SearchBarContainer = styled(FlexContainer)`
     background-color: ${(props) => props.theme.colors.searchBarContainer};
-    
-    padding:0;
+
+    padding: 0;
     height: 0;
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s ease-out;
 
-    &.expand-search-bar{
+    &.expand-search-bar {
         padding: 1.5rem;
         height: max-content;
         opacity: 0.9;
@@ -97,5 +91,19 @@ export const SubMenuContainer = styled(FlexContainer)`
 export const SubMenuLink = styled(Paragraph)`
     &:hover {
         text-decoration: underline;
+    }
+`;
+
+export const SearchInputWrapper = styled(FlexContainer)`
+    background-color: ${(props) => props.BackgroundColor || props.theme.colors.primaryLighter};
+
+    @media (max-width: 991.98px) {
+        cursor: pointer;
+    }
+`;
+
+export const SearchInputNavbar = styled(Input)`
+    @media (max-width: 991.98px) {
+        display: none;
     }
 `;

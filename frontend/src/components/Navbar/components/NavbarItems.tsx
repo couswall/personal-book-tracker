@@ -1,107 +1,70 @@
-import { useNavigate } from "react-router"
-import { useDispatch, useSelector } from "react-redux"
-import React, { useRef, useState } from "react"
-import { AppDispatch, RootState } from "@store/store";
-import { FlexContainer } from "@components/FlexContainer";
-import { HamburgerContainer, NavbarElement, NavbarLink, NavbarList } from "@components/Navbar/styles";
-import { LightIcon } from "@components/Icon";
-import { SubMenuNav } from "@components/Navbar/components/SubMenuNav";
-import { useClickOutside } from "@components/Navbar/hooks/useClickOutside";
-import { toggleDarkMode } from "@store/index";
-import { navbarRoutes } from "@components/Navbar/constants";
-import { NavbarItemsProps } from "@components/Navbar/components/interfaces";
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigate} from 'react-router';
+import React, {useRef} from 'react';
+import {AppDispatch, RootState} from '@store/store';
+import {FlexContainer, TitleH1, LightIcon} from '@components/index';
+import {NavbarElement, NavbarLink, NavbarList} from '@components/Navbar/styles';
+import {useClickOutside} from '@components/Navbar/hooks/useClickOutside';
+import {toggleDarkMode} from '@store/index';
+import {navbarRoutes} from '@components/Navbar/constants';
+import {NavbarItemsProps} from '@components/Navbar/components/interfaces';
 
-
-export const NavbarItems: React.FC<NavbarItemsProps> = ({showSearchInput, setShowSearchInput, searchBarRef}) => {
+export const NavbarItems: React.FC<NavbarItemsProps> = ({
+    setShowSearchInput,
+    searchBarRef,
+    isMenuOpen,
+}) => {
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
     const {isDarkMode} = useSelector((state: RootState) => state.darkMode);
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-    const [showSubmenu, setShowSubmenu] = useState<boolean>(false);
-    const subMenuBtnRef = useRef<HTMLDivElement | null>(null);
     const searchBtnRef = useRef<HTMLDivElement | null>(null);
-    useClickOutside([subMenuBtnRef], () => setShowSubmenu(false));
     useClickOutside([searchBtnRef, searchBarRef], () => setShowSearchInput(false));
     return (
-        <FlexContainer BackgroundColor="inherit" AlignItems="center" Gap="1rem">
+        <FlexContainer BackgroundColor="inherit" AlignItems="center" Gap="1.75rem">
+            <FlexContainer
+                BackgroundColor="inherit"
+                AlignItems="center"
+                Gap="0.5rem"
+                Width="fit-content"
+                Cursor="pointer"
+                onClick={() => navigate('/')}
+            >
+                <LightIcon className="fa-solid fa-book" FontSize="1rem" />
+                <TitleH1 FontSize="1.25rem" FontColor="#FFFFFE">
+                    {'Book Tracker'}
+                </TitleH1>
+            </FlexContainer>
             <NavbarList className={isMenuOpen ? 'show-menu' : ''}>
                 {navbarRoutes.map((item, index) => (
                     <NavbarElement key={index} onClick={() => navigate(item.route)}>
-                        <NavbarLink FontWeight="300" FontSize="1rem" FontColor='#FFFFFE'>
+                        <NavbarLink FontWeight="300" FontSize="1rem" FontColor="#FFFFFE">
                             {item.label}
                         </NavbarLink>
                     </NavbarElement>
                 ))}
+                <LightIcon
+                    className="fa-solid fa-magnifying-glass"
+                    FontSize="1rem"
+                    Cursor="pointer"
+                    Display="none"
+                    LgDisplay="block"
+                />
+                <LightIcon
+                    className={isDarkMode ? 'fa-regular fa-sun' : 'fa-solid fa-moon'}
+                    Cursor="pointer"
+                    FontSize="1rem"
+                    Display="none"
+                    LgDisplay="block"
+                    onClick={() => dispatch(toggleDarkMode())}
+                />
+                <LightIcon
+                    className="fa-solid fa-user"
+                    FontSize="1rem"
+                    Cursor="pointer"
+                    Display="none"
+                    LgDisplay="block"
+                />
             </NavbarList>
-            <HamburgerContainer>
-                {isMenuOpen ? (
-                    <LightIcon
-                        className="fa-solid fa-x" 
-                        FontSize="1rem" 
-                        Cursor="pointer"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    />
-                ) : (
-                    <LightIcon 
-                        className="fa-solid fa-bars" 
-                        FontSize="1rem" 
-                        Cursor="pointer"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    />
-                )}
-            </HamburgerContainer>
-            <FlexContainer 
-                Width="1rem" 
-                Height='1rem' 
-                BackgroundColor="inherit" 
-                Cursor="pointer" 
-                AlignItems="center"
-            >
-                {(isDarkMode) ? (
-                    <LightIcon 
-                        className="fa-regular fa-sun" 
-                        FontSize="1rem" 
-                        onClick={() => dispatch(toggleDarkMode())}
-                    />
-                ) : (
-                    <LightIcon 
-                        className="fa-solid fa-moon" 
-                        FontSize="1rem" 
-                        onClick={() => dispatch(toggleDarkMode())}
-                    />
-                )}
-            </FlexContainer>
-            <FlexContainer 
-                Width="1rem" 
-                Height="1rem" 
-                BackgroundColor="inherit" 
-                Cursor="pointer" 
-                AlignItems="center"
-                onClick={() => setShowSearchInput(!showSearchInput)}
-                ref={searchBtnRef}
-            >
-                <LightIcon 
-                    className="fa-solid fa-magnifying-glass" 
-                    FontSize="1rem"
-                    Cursor="pointer"
-                />
-            </FlexContainer>
-            <FlexContainer
-                Width="1rem" 
-                Height="1rem" 
-                BackgroundColor="inherit" 
-                AlignItems="center"
-                Position="relative"
-                onClick={() => setShowSubmenu(!showSubmenu)}
-                ref={subMenuBtnRef}
-            >
-                <LightIcon 
-                    className="fa-solid fa-user" 
-                    FontSize="1rem"
-                    Cursor="pointer"
-                />
-                {showSubmenu && <SubMenuNav/>}
-            </FlexContainer>
         </FlexContainer>
-)
-}
+    );
+};

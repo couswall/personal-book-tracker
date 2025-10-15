@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import {RefObject} from 'react';
 
 export interface SearchBarNavProps {
     showSearchInput: boolean;
@@ -6,6 +6,11 @@ export interface SearchBarNavProps {
     searchBarRef: RefObject<HTMLDivElement>;
 }
 
-export interface NavbarItemsProps extends SearchBarNavProps{
-    
+export interface NavbarItemsProps extends SearchBarNavProps {
+    isMenuOpen: boolean;
+}
+
+export interface NavbarIconsProps {
+    isMenuOpen: boolean;
+    setIsMenuOpen: (value: boolean) => void;
 }

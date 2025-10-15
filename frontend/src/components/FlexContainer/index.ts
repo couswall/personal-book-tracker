@@ -27,6 +27,7 @@ interface IBaseContainerProps {
     Bottom?: string;
     Left?: string;
     BorderTop?: string;
+    LgDisplay?: string;
     SmallPadding?: string;
     SmallFlexDir?: string;
     hasError?: boolean;
@@ -71,6 +72,10 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     overflow: ${(props) => props.Overflow || 'unset'};
     filter: ${(props) => props.Filter};
 
+    @media (max-width: 991.98px) {
+        display: ${(props) => props.LgDisplay};
+    }
+
     @media (max-width: 575.98px) {
         padding: ${(props) => props.SmallPadding};
     }
@@ -84,9 +89,13 @@ export const FlexContainer = styled(BaseContainer)<IFlexContainerProps>`
     justify-content: ${(props) => props.JustifyContent || 'flex-start'};
     gap: ${(props) => props.Gap};
 
+    @media (max-width: 991.98px) {
+        display: ${(props) => props.LgDisplay || 'flex'};
+    }
+
     @media (max-width: 575.98px) {
         flex-direction: ${(props) => props.SmallFlexDir};
     }
 `;
 
-export const FormContainer = styled(BaseContainer).attrs({as: 'form'})``;
+export const FormContainer = styled(FlexContainer).attrs({as: 'form'})``;
