@@ -33,11 +33,14 @@ interface IBaseContainerProps {
     hasError?: boolean;
     Overflow?: string;
     Filter?: string;
+    HBackgroundColor?: string;
+    ZIndex?: string;
 }
 
 export interface IFlexContainerProps extends IBaseContainerProps {
     FlexWrap?: string;
     FlexDirection?: string;
+    Flex?: string;
 }
 
 export const BaseContainer = styled.div<IBaseContainerProps>`
@@ -71,6 +74,11 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     right: ${(props) => props.Right};
     overflow: ${(props) => props.Overflow || 'unset'};
     filter: ${(props) => props.Filter};
+    z-index: ${(props) => props.ZIndex};
+
+    &: hover {
+        background-color: ${(props) => props.HBackgroundColor};
+    }
 
     @media (max-width: 991.98px) {
         display: ${(props) => props.LgDisplay};
@@ -85,6 +93,7 @@ export const FlexContainer = styled(BaseContainer)<IFlexContainerProps>`
     display: ${(props) => props.Display || 'flex'};
     flex-direction: ${(props) => props.FlexDirection || 'row'};
     flex-wrap: ${(props) => props.FlexWrap || 'nowrap'};
+    flex: ${(props) => props.Flex || 'unset'};
     align-items: ${(props) => props.AlignItems || 'stretch'};
     justify-content: ${(props) => props.JustifyContent || 'flex-start'};
     gap: ${(props) => props.Gap};

@@ -8,7 +8,6 @@ import {
     ButtonTransparent,
     FlexContainer,
     Icon,
-    LightParagraph,
     LoadingSpinner,
     Paragraph,
     TitleH1,
@@ -127,9 +126,9 @@ export const Book = () => {
                 </FlexContainer>
                 {book.categories.length > 0 && (
                     <FlexContainer Gap="0.5rem" AlignItems="start">
-                        <LightParagraph FontWeight="400" FontSize="0.875rem">
+                        <Paragraph FontWeight="400" FontSize="0.875rem" FontColorVariant="light">
                             {'Categories: '}
-                        </LightParagraph>
+                        </Paragraph>
                         <FlexContainer FlexWrap="wrap" Gap="1rem">
                             {book.categories.map((category, index) => (
                                 <Paragraph
@@ -144,13 +143,13 @@ export const Book = () => {
                         </FlexContainer>
                     </FlexContainer>
                 )}
-                <LightParagraph FontWeight="400" FontSize="0.875rem">
+                <Paragraph FontWeight="400" FontSize="0.875rem" FontColorVariant="light">
                     {`${book.pageCount} pages`}
-                </LightParagraph>
+                </Paragraph>
                 {book.publishedDate && (
-                    <LightParagraph FontWeight="400" FontSize="0.875rem">
+                    <Paragraph FontWeight="400" FontSize="0.875rem" FontColorVariant="light">
                         {`Published on ${formatIsoDate(book.publishedDate)}`}
-                    </LightParagraph>
+                    </Paragraph>
                 )}
             </FlexContainer>
         </FlexContainer>

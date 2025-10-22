@@ -4,6 +4,7 @@ interface ITypographyBaseProps {
     FontSize?: string;
     FontWeight?: string;
     FontColor?: string;
+    FontColorVariant?: keyof ThemeTextColorVariants;
     FontFamily?: string;
     FontStyle?: string;
     LineHeight?: string;
@@ -18,15 +19,29 @@ interface ITypographyBaseProps {
     Border?: string;
     BorderRadius?: string;
     BackgroundColor?: string;
+    WhiteSpace?: string;
+    TextOverflow?: string;
+    Overflow?: string;
+    HTextDecoration?: string;
 }
+
+type ThemeTextColorVariants = {
+    light: string;
+    error: string;
+    default: string;
+};
 
 export const TypographyBase = styled.p<ITypographyBaseProps>`
     font-size: ${(props) => props.FontSize || '1rem'};
     font-weight: ${(props) => props.FontWeight || 'normal'};
-    color: ${(props) =>
-        props.LightColor
-            ? props.theme.colors.lightColor
-            : props.FontColor || props.theme.colors.text.theme};
+    color: ${(props) => {
+        const colorMap: ThemeTextColorVariants = {
+            light: props.theme.colors.text.light,
+            error: props.theme.colors.input.errorMsgText,
+            default: props.theme.colors.text.theme,
+        };
+        return props.FontColor || colorMap[props.FontColorVariant || 'default'];
+    }};
     font-family: ${(props) => props.theme.fonts.inter || props.FontFamily};
     font-style: ${(props) => props.FontStyle || 'normal'};
     line-height: ${(props) => props.LineHeight || '1.5'};
@@ -40,6 +55,13 @@ export const TypographyBase = styled.p<ITypographyBaseProps>`
     border: ${(props) => props.Border};
     border-radius: ${(props) => props.BorderRadius};
     background-color: ${(props) => props.BackgroundColor};
+    white-space: ${(props) => props.WhiteSpace};
+    text-overflow: ${(props) => props.TextOverflow};
+    overflow: ${(props) => props.Overflow};
+
+    &: hover {
+        text-decoration: ${(props) => props.HTextDecoration};
+    }
 `;
 
 export const TitleH1 = styled(TypographyBase).attrs({as: 'h1'})`
@@ -64,12 +86,4 @@ export const TitleH4 = styled(TypographyBase).attrs({as: 'h4'})`
 
 export const Paragraph = styled(TypographyBase)`
     font-size: ${(props) => props.FontSize || '1rem'};
-`;
-
-export const LightParagraph = styled(TypographyBase)`
-    color: ${(props) => props.theme.colors.text.light};
-`;
-
-export const ErrorText = styled(Paragraph)`
-    color: ${(props) => props.theme.colors.input.errorMsgText};
 `;
