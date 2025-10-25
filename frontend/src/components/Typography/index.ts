@@ -27,6 +27,7 @@ interface ITypographyBaseProps {
 
 type ThemeTextColorVariants = {
     light: string;
+    white: string;
     error: string;
     default: string;
 };
@@ -37,6 +38,7 @@ export const TypographyBase = styled.p<ITypographyBaseProps>`
     color: ${(props) => {
         const colorMap: ThemeTextColorVariants = {
             light: props.theme.colors.text.light,
+            white: props.theme.colors.lightColor,
             error: props.theme.colors.input.errorMsgText,
             default: props.theme.colors.text.theme,
         };

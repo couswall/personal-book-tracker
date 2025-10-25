@@ -1,15 +1,27 @@
-import {useForm} from 'react-hook-form';
+import {FieldValues, useForm} from 'react-hook-form';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
+import {useEffect} from 'react';
+import {AppDispatch, RootState} from '@store/store';
 import {useDebounce} from '@components/Navbar/hooks/useDebounce';
-import {FlexContainer, FormContainer, LightIcon, Paragraph} from '@components/index';
+import {
+    FlexContainer,
+    FormContainer,
+    LightIcon,
+    LoadingSpinner,
+    Paragraph,
+} from '@components/index';
 import {SearchInputWrapper, SearchInputNavbar} from '@components/Navbar/styles';
 import {CoverBookImg} from '@pages/Book/components/index';
-import {searchingBookMock} from '@components/Navbar/constants';
+import {searchBook} from '@store/index';
 
 export const SearchingNavbar = () => {
-    const {register, watch, reset} = useForm({defaultValues: {searchText: ''}});
+    const dispatch: AppDispatch = useDispatch();
+    const {register, watch, reset, handleSubmit} = useForm({defaultValues: {searchText: ''}});
     const searchText = watch('searchText');
     const navigate = useNavigate();
+    const {token} = useSelector((state: RootState) => state.auth);
+    const {searchBookData, loading} = useSelector((state: RootState) => state.searchBook);
     const debouncedValue = useDebounce(searchText);
     const truncatedSearchText =
         debouncedValue.length > 18 ? debouncedValue.substring(0, 18) + '...' : debouncedValue;
@@ -19,9 +31,25 @@ export const SearchingNavbar = () => {
         reset();
     };
 
+    const onSubmit = (data: FieldValues) => {
+        console.log(data);
+    };
+
+    useEffect(() => {
+        if (debouncedValue.length > 2) {
+            const params = {searchText: debouncedValue, maxResults: 5};
+            dispatch(searchBook({token, params}));
+        }
+    }, [debouncedValue]);
+
     return (
         <>
-            <FormContainer BackgroundColor="inherit" Position="relative" Width="350px">
+            <FormContainer
+                BackgroundColor="inherit"
+                Position="relative"
+                Width="350px"
+                onSubmit={handleSubmit(onSubmit)}
+            >
                 <SearchInputWrapper
                     Gap="0.5rem"
                     Padding="0.5rem 0.875rem"
@@ -30,7 +58,11 @@ export const SearchingNavbar = () => {
                     BorderRadius="0.75rem"
                     Height="35px"
                 >
-                    <LightIcon className="fa-solid fa-magnifying-glass" FontSize="1rem" />
+                    {loading ? (
+                        <LoadingSpinner Width="1rem" Padding="3px" BackGroundColor="#FFFFFE" />
+                    ) : (
+                        <LightIcon className="fa-solid fa-magnifying-glass" FontSize="1rem" />
+                    )}
                     <SearchInputNavbar
                         placeholder="Search books"
                         Height="100%"
@@ -51,14 +83,14 @@ export const SearchingNavbar = () => {
                         BoxShadow="rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px"
                         ZIndex="2"
                     >
-                        {searchingBookMock.map((book) => (
+                        {searchBookData?.books.map((book) => (
                             <FlexContainer
                                 key={book.id}
                                 Gap="0.5rem"
                                 Padding="0.5rem"
                                 Cursor="pointer"
                                 HBackgroundColor="rgba(112, 112, 112, 0.2)"
-                                onClick={() => handleSelectOption(book.id)}
+                                onClick={() => handleSelectOption(String(book.id))}
                             >
                                 <CoverBookImg
                                     imgSrc={book.imageCover}
@@ -83,13 +115,15 @@ export const SearchingNavbar = () => {
                                     >
                                         {book.title}
                                     </Paragraph>
-                                    <Paragraph
-                                        FontSize="0.75rem"
-                                        WhiteSpace="nowrap"
-                                        Width="100%"
-                                        Overflow="hidden"
-                                        TextOverflow="ellipsis"
-                                    >{`by ${book.authors.join(',')}`}</Paragraph>
+                                    {book.authors && (
+                                        <Paragraph
+                                            FontSize="0.75rem"
+                                            WhiteSpace="nowrap"
+                                            Width="100%"
+                                            Overflow="hidden"
+                                            TextOverflow="ellipsis"
+                                        >{`by ${book.authors.join(',')}`}</Paragraph>
+                                    )}
                                 </FlexContainer>
                             </FlexContainer>
                         ))}

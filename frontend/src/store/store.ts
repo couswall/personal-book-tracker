@@ -1,39 +1,40 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import { authSlice, darkModeSlice, getBookByIdSlice } from "@store/index";
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import {authSlice, darkModeSlice, getBookByIdSlice, searchBookSlice} from '@store/index';
 
 const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["auth", "darkMode"],
+    key: 'root',
+    storage,
+    whitelist: ['auth', 'darkMode'],
 };
 
 const rootReducer = combineReducers({
-  darkMode: darkModeSlice.reducer,
-  auth: authSlice.reducer,
-  getBookById: getBookByIdSlice.reducer,
+    darkMode: darkModeSlice.reducer,
+    auth: authSlice.reducer,
+    getBookById: getBookByIdSlice.reducer,
+    searchBook: searchBookSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
 });
 
 export const persistor = persistStore(store);
