@@ -5,8 +5,20 @@ export interface IGetReducerBase {
     error?: string;
 }
 
-export interface ISearchBookReducer extends IGetReducerBase {
-    searchBookData: ISearchingRes | null;
+export interface ISearchBookReducer {
+    searchBookData: ISearchBookData;
+    loadings: ISearchBookLoadings;
+    error?: string;
+}
+
+export interface ISearchBookLoadings {
+    page: boolean;
+    navbar: boolean;
+}
+
+export interface ISearchBookData {
+    page: ISearchingRes | null;
+    navbar: ISearchingRes | null;
 }
 
 export interface ISearchBook {

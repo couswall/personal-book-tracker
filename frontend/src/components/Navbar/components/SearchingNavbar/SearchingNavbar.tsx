@@ -11,9 +11,10 @@ import {
     LoadingSpinner,
     Paragraph,
 } from '@components/index';
+import {BookInfoCard} from '@pages/Search/BookInfoCard';
 import {SearchInputWrapper, SearchInputNavbar} from '@components/Navbar/styles';
-import {CoverBookImg} from '@pages/Book/components/index';
 import {searchBook} from '@store/index';
+import {privateRoutes} from '@routes/routes';
 
 export const SearchingNavbar = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -21,24 +22,20 @@ export const SearchingNavbar = () => {
     const searchText = watch('searchText');
     const navigate = useNavigate();
     const {token} = useSelector((state: RootState) => state.auth);
-    const {searchBookData, loading} = useSelector((state: RootState) => state.searchBook);
+    const {searchBookData, loadings} = useSelector((state: RootState) => state.searchBook);
     const debouncedValue = useDebounce(searchText);
     const truncatedSearchText =
         debouncedValue.length > 18 ? debouncedValue.substring(0, 18) + '...' : debouncedValue;
 
-    const handleSelectOption = (bookId: string) => {
-        navigate(`/book/${bookId}`);
-        reset();
-    };
-
     const onSubmit = (data: FieldValues) => {
-        console.log(data);
+        navigate(privateRoutes.search, {state: data});
+        reset();
     };
 
     useEffect(() => {
         if (debouncedValue.length > 2) {
             const params = {searchText: debouncedValue, maxResults: 5};
-            dispatch(searchBook({token, params}));
+            dispatch(searchBook({token, params, isNavbarSearch: true}));
         }
     }, [debouncedValue]);
 
@@ -58,7 +55,7 @@ export const SearchingNavbar = () => {
                     BorderRadius="0.75rem"
                     Height="35px"
                 >
-                    {loading ? (
+                    {loadings.navbar ? (
                         <LoadingSpinner Width="1rem" Padding="3px" BackGroundColor="#FFFFFE" />
                     ) : (
                         <LightIcon className="fa-solid fa-magnifying-glass" FontSize="1rem" />
@@ -83,49 +80,13 @@ export const SearchingNavbar = () => {
                         BoxShadow="rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px"
                         ZIndex="2"
                     >
-                        {searchBookData?.books.map((book) => (
-                            <FlexContainer
+                        {searchBookData.navbar?.books.map((book) => (
+                            <BookInfoCard
                                 key={book.id}
-                                Gap="0.5rem"
-                                Padding="0.5rem"
-                                Cursor="pointer"
-                                HBackgroundColor="rgba(112, 112, 112, 0.2)"
-                                onClick={() => handleSelectOption(String(book.id))}
-                            >
-                                <CoverBookImg
-                                    imgSrc={book.imageCover}
-                                    width="50px"
-                                    height="50px"
-                                    flex="none"
-                                />
-
-                                <FlexContainer
-                                    FlexDirection="column"
-                                    Gap="0.25rem"
-                                    Overflow="hidden"
-                                    BackgroundColor="transparent"
-                                >
-                                    <Paragraph
-                                        FontSize="0.875rem"
-                                        FontWeight="600"
-                                        WhiteSpace="nowrap"
-                                        Width="100%"
-                                        Overflow="hidden"
-                                        TextOverflow="ellipsis"
-                                    >
-                                        {book.title}
-                                    </Paragraph>
-                                    {book.authors && (
-                                        <Paragraph
-                                            FontSize="0.75rem"
-                                            WhiteSpace="nowrap"
-                                            Width="100%"
-                                            Overflow="hidden"
-                                            TextOverflow="ellipsis"
-                                        >{`by ${book.authors.join(',')}`}</Paragraph>
-                                    )}
-                                </FlexContainer>
-                            </FlexContainer>
+                                book={book}
+                                imageHeight="50px"
+                                onClickOption={() => reset()}
+                            />
                         ))}
                         <FlexContainer Padding="0.5rem" JustifyContent="center" AlignItems="center">
                             <Paragraph

@@ -19,6 +19,8 @@ interface ButtonProps {
     Cursor?: string;
     DisabledBackGC?: string;
     DisabledFontColor?: string;
+    Flex?: string;
+    MaxWidth?: string;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -35,6 +37,8 @@ export const Button = styled.button<ButtonProps>`
     outline: ${(props) => props.Outline || 'none'};
     cursor: ${(props) => props.Cursor || 'pointer'};
     text-decoration: ${(props) => props.TextDecoration || 'none'};
+    flex: ${(props) => props.Flex};
+    max-width: ${(props) => props.MaxWidth};
 
     transition: background-color 0.2s ease;
 

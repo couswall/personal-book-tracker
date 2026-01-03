@@ -2,6 +2,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useForm} from 'react-hook-form';
 import {useNavigate} from 'react-router';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {AppDispatch, RootState} from '@store/store';
 import {useEffect, useState} from 'react';
 import {
     Button,
@@ -15,14 +16,13 @@ import {
     InputContainer,
     Paragraph,
 } from '@components/index';
+import {ErrorAlert} from '@pages/SignUp/ErrorAlert';
 import {ErrorMessage} from '@pages/Login/ErrorMessage';
-import {AppDispatch, RootState} from '@store/store';
 import {cleanErrorMessages, loginUser} from '@store/index';
 import {schemaLoginValidations} from '@pages/Login/schemaLoginValidations';
-import {ILoginForm} from '@pages/Login/interfaces';
 import {publicRoutes} from '@routes/routes';
 import {LOGIN_PAGE} from '@pages/Login/constants';
-import {ErrorAlert} from '@pages/SignUp/ErrorAlert';
+import {ILoginForm} from '@pages/Login/interfaces';
 
 export const Login = () => {
     const {
@@ -53,7 +53,7 @@ export const Login = () => {
                 AlignItems="center"
                 FlexDirection="column"
                 Padding="3.125rem 3.375rem"
-                BoxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px;"
+                BoxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
                 BorderRadius="1rem"
                 Width="500px"
                 SmallPadding="2.125rem 2.375rem"
