@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 import {useEffect} from 'react';
 import {AppDispatch, RootState} from '@store/store';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {useDebounce} from '@components/Navbar/hooks/useDebounce';
 import {
     FlexContainer,
@@ -14,11 +15,15 @@ import {
 import {BookInfoCard} from '@pages/Search/BookInfoCard';
 import {SearchInputWrapper, SearchInputNavbar} from '@components/Navbar/styles';
 import {searchBook} from '@store/index';
+import {schemaSearchBook} from '@pages/Search/schemaSearchBook';
 import {privateRoutes} from '@routes/routes';
 
 export const SearchingNavbar = () => {
     const dispatch: AppDispatch = useDispatch();
-    const {register, watch, reset, handleSubmit} = useForm({defaultValues: {searchText: ''}});
+    const {register, watch, reset, handleSubmit} = useForm({
+        defaultValues: {searchText: ''},
+        resolver: yupResolver(schemaSearchBook),
+    });
     const searchText = watch('searchText');
     const navigate = useNavigate();
     const {token} = useSelector((state: RootState) => state.auth);
