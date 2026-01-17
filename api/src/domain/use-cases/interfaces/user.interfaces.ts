@@ -18,3 +18,12 @@ export interface LoginResponse {
     user: UserEntity;
     token: string;
 }
+
+export interface RefreshTokenUseCase {
+    execute(token: string): Promise<RefreshTokenResponse>;
+}
+
+export interface RefreshTokenResponse {
+    user: UserEntity;
+    token: string;
+}

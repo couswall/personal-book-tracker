@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { CreateUserDto, LoginUserDto } from '@domain/dtos';
 import { UserRepository } from '@domain/repositories/user.repository';
-import { CreateUser, LoginUser } from '@domain/use-cases';
+import { CreateUser, LoginUser, RefreshToken } from '@domain/use-cases';
 import { CustomError } from '@domain/errors/custom.error';
 
 export class AuthController{
@@ -54,6 +54,35 @@ export class AuthController{
                 res.status(201).json({
                     success: true,
                     message: 'User created successfully',
+                    data: {
+                        user: responseUser,
+                        token,
+                    },
+                })
+            })
+            .catch(error => CustomError.handleError(error, res));
+    };
+
+    public refreshToken = (req: Request, res: Response) => {
+        const authHeader = req.header('Authorization');
+        const token = authHeader?.split(' ')[1];
+
+        if(!token) {
+            res.status(401).json({
+                success: false,
+                error: {message: 'No token provided'},
+            });
+            return;
+        }
+
+        new RefreshToken(this.repository)
+            .execute(token)
+            .then(({user, token}) => {
+                const {password, deletedAt, ...responseUser} = user;
+
+                res.status(200).json({
+                    success: true,
+                    message: 'Token refreshed successfully',
                     data: {
                         user: responseUser,
                         token,
