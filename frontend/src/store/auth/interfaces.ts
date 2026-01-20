@@ -22,11 +22,13 @@ export interface IUser {
 export interface IAuthSliceLoadings{
     loginLoading: boolean;
     registerUserLoading: boolean;
+    refreshTokenLoading: boolean;
 }
 
 export interface IAuthSliceErrors{
     loginErrorMsg?: string;
     registerUserErrorMsg?: string;
+    refreshTokenErrorMsg?: string;
 }
 
 export interface ILoginSuccessRes{
