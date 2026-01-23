@@ -1,6 +1,12 @@
-import styled from 'styled-components';
+import styled, {css, DefaultTheme} from 'styled-components';
+
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
+    variant?: ButtonVariant;
+    size?: ButtonSize;
+    fullWidth?: boolean;
     Width?: string;
     Height?: string;
     Margin?: string;
@@ -23,46 +29,187 @@ interface ButtonProps {
     MaxWidth?: string;
 }
 
+const getVariantStyles = (variant: ButtonVariant, theme: DefaultTheme) => {
+    const isDarkMode = theme.mode === 'dark';
+    const buttonTextColor = isDarkMode ? '#0F1B2A' : '#ffffff';
+
+    const variants = {
+        primary: css`
+            background-color: ${theme.colors.primaryColor};
+            color: ${buttonTextColor};
+            border: none;
+
+            &:hover:not(:disabled) {
+                background-color: ${theme.colors.primaryHover};
+            }
+        `,
+        secondary: css`
+            background-color: ${theme.colors.secondaryColor};
+            color: ${buttonTextColor};
+            border: none;
+
+            &:hover:not(:disabled) {
+                background-color: ${theme.colors.secondaryColor}dd;
+            }
+        `,
+        outline: css`
+            background-color: transparent;
+            color: ${theme.colors.primaryColor};
+            border: 2px solid ${theme.colors.primaryColor};
+
+            &:hover:not(:disabled) {
+                background-color: ${theme.colors.primaryColor};
+                color: ${buttonTextColor};
+            }
+        `,
+        ghost: css`
+            background-color: transparent;
+            color: ${theme.colors.text.theme};
+            border: none;
+
+            &:hover:not(:disabled) {
+                background-color: ${theme.colors.borderColor};
+            }
+        `,
+        danger: css`
+            background-color: ${theme.colors.danger};
+            color: ${buttonTextColor};
+            border: none;
+
+            &:hover:not(:disabled) {
+                background-color: ${theme.colors.dangerHover};
+            }
+        `,
+        success: css`
+            background-color: ${theme.colors.success};
+            color: ${buttonTextColor};
+            border: none;
+
+            &:hover:not(:disabled) {
+                background-color: ${theme.colors.successHover};
+            }
+        `,
+    };
+
+    return variants[variant];
+};
+
+const getSizeStyles = (size: ButtonSize) => {
+    const sizes = {
+        sm: css`
+            height: 36px;
+            padding: 0 12px;
+            font-size: 0.875rem;
+            border-radius: 0.5rem;
+        `,
+        md: css`
+            height: 44px;
+            padding: 0 16px;
+            font-size: 1rem;
+            border-radius: 0.75rem;
+        `,
+        lg: css`
+            height: 52px;
+            padding: 0 24px;
+            font-size: 1.125rem;
+            border-radius: 1rem;
+        `,
+    };
+
+    return sizes[size];
+};
+
 export const Button = styled.button<ButtonProps>`
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: ${(props) => props.FontFamily || props.theme.fonts.lexend};
-    font-size: ${(props) => props.FontSize || '1rem'};
-    font-weight: ${(props) => props.FontWeight || '400'};
-    color: ${(props) => props.FontColor || '#FFF'};
-    background-color: ${(props) => props.BackGroundColor || props.theme.colors.primaryColor};
-    height: ${(props) => props.Height || '50px'};
-    width: ${(props) => props.Width || '100%'};
-    border: ${(props) => props.Border || 'none'};
-    border-radius: ${(props) => props.BorderRadius || '1rem'};
-    padding: ${(props) => props.Padding || '0 20px'};
-    outline: ${(props) => props.Outline || 'none'};
-    cursor: ${(props) => props.Cursor || 'pointer'};
+    font-weight: ${(props) => props.FontWeight || '500'};
+    cursor: pointer;
     text-decoration: ${(props) => props.TextDecoration || 'none'};
+    outline: ${(props) => props.Outline || 'none'};
+    transition: all 0.2s ease;
     flex: ${(props) => props.Flex};
     max-width: ${(props) => props.MaxWidth};
+    margin: ${(props) => props.Margin};
 
-    transition: background-color 0.2s ease;
+    /* Apply size styles */
+    ${(props) => getSizeStyles(props.size || 'md')}
+
+    /* Apply variant styles */
+    ${(props) => getVariantStyles(props.variant || 'primary', props.theme)}
+
+    /* Width handling */
+    width: ${(props) => {
+        if (props.Width) return props.Width;
+        if (props.fullWidth) return '100%';
+        return 'auto';
+    }};
+
+    /* Override with custom props if provided */
+    ${(props) =>
+        props.BackGroundColor &&
+        css`
+            background-color: ${props.BackGroundColor};
+        `}
+    ${(props) =>
+        props.FontColor &&
+        css`
+            color: ${props.FontColor};
+        `}
+    ${(props) =>
+        props.Height &&
+        css`
+            height: ${props.Height};
+        `}
+    ${(props) =>
+        props.Padding &&
+        css`
+            padding: ${props.Padding};
+        `}
+    ${(props) =>
+        props.Border &&
+        css`
+            border: ${props.Border};
+        `}
+    ${(props) =>
+        props.BorderRadius &&
+        css`
+            border-radius: ${props.BorderRadius};
+        `}
+    ${(props) =>
+        props.FontSize &&
+        css`
+            font-size: ${props.FontSize};
+        `}
 
     &:hover {
-        background-color: ${(props) => props.HBackGColor || props.theme.colors.primaryLight};
         text-decoration: ${(props) => props.HTextDecoration || 'none'};
+        ${(props) =>
+            props.HBackGColor &&
+            css`
+                background-color: ${props.HBackGColor};
+            `}
     }
 
     &:disabled {
         background-color: ${(props) => props.DisabledBackGC || props.theme.colors.disabledButton};
         color: ${(props) => props.DisabledFontColor || props.theme.colors.darkGrey};
         cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    &:focus-visible {
+        outline: 2px solid ${(props) => props.theme.colors.primaryColor};
+        outline-offset: 2px;
     }
 `;
 
-export const ButtonSecondary = styled(Button)`
-    background-color: ${(props) => props.BackGroundColor || props.theme.colors.secondaryColor};
-`;
-
-export const ButtonTransparent = styled(Button)`
-    background-color: transparent;
-    color: ${(props) => props.FontColor || props.theme.colors.text.theme};
-
-    &:hover {
-        background-color: transparent;
-    }
-`;
+// Convenience exports for backwards compatibility
+export const ButtonPrimary = styled(Button).attrs({variant: 'primary'})``;
+export const ButtonSecondary = styled(Button).attrs({variant: 'secondary'})``;
+export const ButtonOutline = styled(Button).attrs({variant: 'outline'})``;
+export const ButtonGhost = styled(Button).attrs({variant: 'ghost'})``;
+export const ButtonDanger = styled(Button).attrs({variant: 'danger'})``;
+export const ButtonSuccess = styled(Button).attrs({variant: 'success'})``;
+export const ButtonTransparent = styled(Button).attrs({variant: 'ghost'})``;

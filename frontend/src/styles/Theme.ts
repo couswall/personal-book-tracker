@@ -28,6 +28,12 @@ export const lightTheme: DefaultTheme = {
         disabledButton: '#FFA45B',
         searchBarContainer: '#7C444F',
 
+        // Status Colors
+        danger: '#DC2626',
+        dangerHover: '#B91C1C',
+        success: '#16A34A',
+        successHover: '#15803D',
+
         // Input
         input: {
             inputBackground: '#FFFFFF',
@@ -54,7 +60,7 @@ export const darkTheme: DefaultTheme = {
     colors: {
         // Brand Identity
         primaryColor: '#FF6B6B', // Vivid Coral - CTAs, buttons, active status
-        primaryHover: '#FF5252', // Darker coral for hover states
+        primaryHover: '#FFD1AA', // Darker coral for hover states
         primaryLight: '#FFD1AA', // Light Peach - icons, secondary highlights
         secondaryColor: '#FFD1AA', // Light Peach - secondary accent
         tertiaryColor: '#A64D79', // Tertiary accent
@@ -76,6 +82,12 @@ export const darkTheme: DefaultTheme = {
         darkGrey: '#94A3B8',
         disabledButton: '#005650',
         searchBarContainer: '#1A2C40',
+
+        // Status Colors
+        danger: '#F87171',
+        dangerHover: '#FCA5A5',
+        success: '#4ADE80',
+        successHover: '#86EFAC',
 
         // Input
         input: {
