@@ -1,5 +1,6 @@
 export const LOGIN_PAGE = {
     TITLE: 'Welcome back',
+    BOOK_TRACKER: 'Book Tracker',
     DESCRIPTION: 'Enter your login credentials.',
     FIELDS: {
         EMAIL_USERNAME: {
@@ -9,12 +10,12 @@ export const LOGIN_PAGE = {
         PASSWORD: {
             LABEL: 'Password',
             PLACEHOLDER: 'Type your password',
-        }
+        },
     },
     FORGOT_PASSWORD: 'Forgot password?',
     BTN_LOGIN: 'Login',
     ACCOUNT_CTA: 'Do not you have an account?',
-    SIGN_UP_HERE: 'Sign Up here',
+    SIGN_UP_HERE: 'Sign up here',
 };
 
 export const ERROR_MESSAGES = {
@@ -25,5 +26,5 @@ export const ERROR_MESSAGES = {
     },
     PASSWORD: {
         FORMAT: 'Invalid password format',
-    }
-}
+    },
+};

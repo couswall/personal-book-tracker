@@ -25,7 +25,7 @@ interface IInputProps {
 export const Input = styled.input<IInputProps>`
     font-size: ${(props) => props.FontSize || '1rem'};
     color: ${(props) => props.theme.colors.text.theme || props.FontColor};
-    font-family: ${(props) => props.FontFamily || 'Inter'};
+    font-family: ${(props) => props.FontFamily || props.theme.fonts.lexend};
     width: ${(props) => props.Width || 'auto'};
     height: ${(props) => props.Height || 'auto'};
     background-color: ${(props) => props.BackgroundColor || props.theme.colors.inputBackground};
@@ -65,7 +65,7 @@ export const Label = styled.label<ILabelProps>`
     font-size: ${(props) => props.FontSize || '1rem'};
     font-weight: ${(props) => props.FontWeight || 'normal'};
     color: ${(props) => (props.FontColor ? props.FontColor : props.theme.colors.input.labelColor)};
-    font-family: ${(props) => props.FontFamily || 'Inter'};
+    font-family: ${(props) => props.FontFamily || props.theme.fonts.lexend};
     line-height: ${(props) => props.LineHeight || '1.5'};
     text-align: ${(props) => props.TextAlign || 'left'};
     margin: ${(props) => props.Margin || '0'};

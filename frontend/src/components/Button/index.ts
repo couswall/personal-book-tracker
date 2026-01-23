@@ -24,7 +24,7 @@ interface ButtonProps {
 }
 
 export const Button = styled.button<ButtonProps>`
-    font-family: ${(props) => props.FontFamily || props.theme.fonts.inter};
+    font-family: ${(props) => props.FontFamily || props.theme.fonts.lexend};
     font-size: ${(props) => props.FontSize || '1rem'};
     font-weight: ${(props) => props.FontWeight || '400'};
     color: ${(props) => props.FontColor || '#FFF'};

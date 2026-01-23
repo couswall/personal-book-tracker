@@ -11,6 +11,7 @@ interface IBaseContainerProps {
     MarginBottom?: string;
     Background?: string;
     BackgroundColor?: string;
+    BackgroundColorVariant?: keyof ThemeContainerBGColorVariants;
     Border?: string;
     BorderBottom?: string;
     BorderRadius?: string;
@@ -28,8 +29,11 @@ interface IBaseContainerProps {
     Left?: string;
     BorderTop?: string;
     LgDisplay?: string;
+    LgWidth?: string;
+    MedWidth?: string;
     SmallPadding?: string;
     SmallFlexDir?: string;
+    SmallWidth?: string;
     hasError?: boolean;
     Overflow?: string;
     Filter?: string;
@@ -43,6 +47,13 @@ export interface IFlexContainerProps extends IBaseContainerProps {
     Flex?: string;
 }
 
+type ThemeContainerBGColorVariants = {
+    primary: string;
+    secondary: string;
+    accent: string;
+    card: string;
+};
+
 export const BaseContainer = styled.div<IBaseContainerProps>`
     width: ${(props) => props.Width};
     height: ${(props) => props.Height};
@@ -53,8 +64,15 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     margin: ${(props) => props.Margin || '0'};
     margin-bottom: ${(props) => props.MarginBottom};
     background: ${(props) => props.Background || 'none'};
-    background-color: ${(props) =>
-        props.BackgroundColor ? props.BackgroundColor : props.theme.colors.background};
+    background-color: ${(props) => {
+        const colorMap: ThemeContainerBGColorVariants = {
+            primary: props.theme.colors.background,
+            secondary: props.theme.colors.backgroundSecondary,
+            accent: props.theme.colors.primaryLight,
+            card: props.theme.colors.backgroundSecondary,
+        };
+        return props.BackgroundColor || colorMap[props.BackgroundColorVariant || 'primary'];
+    }};
     border: ${(props) => props.Border || 'none'};
     border-bottom: ${(props) => props.BorderBottom};
     border-top: ${(props) => props.BorderTop};
@@ -82,10 +100,16 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
 
     @media (max-width: 991.98px) {
         display: ${(props) => props.LgDisplay};
+        width: ${(props) => props.LgWidth};
+    }
+
+    @media (max-width: 767.98px) {
+        width: ${(props) => props.MedWidth};
     }
 
     @media (max-width: 575.98px) {
         padding: ${(props) => props.SmallPadding};
+        width: ${(props) => props.SmallWidth};
     }
 `;
 

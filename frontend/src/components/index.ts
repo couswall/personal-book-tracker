@@ -8,3 +8,5 @@ export * from './Navbar/styles';
 export * from './Containers/index';
 export * from './Loaders/index';
 export * from './Image/index';
+export * from './Logo/index';
+export * from './Logo/LogoIcon';

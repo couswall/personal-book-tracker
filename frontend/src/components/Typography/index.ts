@@ -30,6 +30,10 @@ type ThemeTextColorVariants = {
     white: string;
     error: string;
     default: string;
+    primary: string;
+    secondary: string;
+    accent: string;
+    muted: string;
 };
 
 export const TypographyBase = styled.p<ITypographyBaseProps>`
@@ -41,10 +45,14 @@ export const TypographyBase = styled.p<ITypographyBaseProps>`
             white: props.theme.colors.lightColor,
             error: props.theme.colors.input.errorMsgText,
             default: props.theme.colors.text.theme,
+            primary: props.theme.colors.primaryColor,
+            secondary: props.theme.colors.secondaryColor,
+            accent: props.theme.colors.text.accent,
+            muted: props.theme.colors.text.light,
         };
         return props.FontColor || colorMap[props.FontColorVariant || 'default'];
     }};
-    font-family: ${(props) => props.theme.fonts.inter || props.FontFamily};
+    font-family: ${(props) => props.theme.fonts.lexend || props.FontFamily};
     font-style: ${(props) => props.FontStyle || 'normal'};
     line-height: ${(props) => props.LineHeight || '1.5'};
     text-align: ${(props) => props.TextAlign || 'left'};

@@ -1,39 +1,60 @@
-import {DarkGreyIcon, FlexContainer, Input, InputContainer, Label} from '@components/index';
+import {UseFormRegisterReturn} from 'react-hook-form';
+import {
+    DarkGreyIcon,
+    FlexContainer,
+    Input,
+    InputContainer,
+    Label,
+} from '@components/index';
 import {ErrorMessage} from '@pages/Login/ErrorMessage';
-import {IFormFieldProps} from '@pages/SignUp/interfaces';
 
-export const FormField: React.FC<IFormFieldProps> = ({
+interface FormFieldProps {
+    label: string;
+    placeholder: string;
+    iconClass: string;
+    type?: string;
+    error?: string;
+    register: UseFormRegisterReturn;
+    endIcon?: {
+        className: string;
+        onClick: () => void;
+    };
+}
+
+export const FormField = ({
     label,
-    placeholder = '',
-    fieldName,
-    inputType = 'text',
-    inputMaxLength = 50,
-    iconClass = '',
-    errors,
+    placeholder,
+    iconClass,
+    type = 'text',
+    error,
     register,
     endIcon,
-}) => {
+}: FormFieldProps) => {
     return (
-        <FlexContainer Gap="0.5rem" FlexDirection="column" Width="100%" BackgroundColor="inherit">
+        <FlexContainer
+            Gap="0.5rem"
+            FlexDirection="column"
+            Width="100%"
+            BackgroundColor="inherit"
+        >
             <Label FontSize="0.875rem">{label}</Label>
             <InputContainer
                 Gap="0.5rem"
                 Padding="1rem 0px"
                 AlignItems="center"
                 Width="100%"
-                hasError={!!errors[fieldName]}
+                hasError={!!error}
             >
                 <DarkGreyIcon className={iconClass} FontSize="1rem" />
                 <Input
+                    BackgroundColor="transparent"
                     Border="none"
                     BorderRadius="0px"
                     FontSize="1rem"
                     placeholder={placeholder}
                     Width="100%"
-                    BackgroundColor="transparent"
-                    type={inputType}
-                    {...register(fieldName)}
-                    maxLength={inputMaxLength}
+                    type={type}
+                    {...register}
                 />
                 {endIcon && (
                     <DarkGreyIcon
@@ -44,7 +65,7 @@ export const FormField: React.FC<IFormFieldProps> = ({
                     />
                 )}
             </InputContainer>
-            {errors[fieldName]?.message && <ErrorMessage message={errors[fieldName].message} />}
+            {error && <ErrorMessage message={error} />}
         </FlexContainer>
     );
 };

@@ -18,6 +18,10 @@ export interface IFormFieldProps {
   fieldName: SignUpFildName;
   register: UseFormRegister<ISignUpForm>;
   errors: FieldErrors<ISignUpForm>;
+  endIcon?: {
+    className: string;
+    onClick: () => void;
+  };
 }
 
 export interface IErrorAlertProps{

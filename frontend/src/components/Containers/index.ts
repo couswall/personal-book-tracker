@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { BaseContainer } from "../FlexContainer";
+import styled from 'styled-components';
+import {BaseContainer} from '../FlexContainer';
 
 export const Container = styled(BaseContainer)`
     max-width: ${(props) => props.theme.widths.sectionMaxWidth || props.MaxWidth};
