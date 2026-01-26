@@ -73,10 +73,7 @@ export const Book = () => {
                 </FlexContainer>
                 <FlexContainer AlignItems="center" Gap="0.5rem">
                     <Paragraph FontSize="1.5rem">{book.averageRating}</Paragraph>
-                    <Paragraph
-                        FontSize=".875rem"
-                        FontWeight="400"
-                    >{`${book.reviewCount} reviews`}</Paragraph>
+                    <Paragraph size="sm">{`${book.reviewCount} reviews`}</Paragraph>
                 </FlexContainer>
                 <FlexContainer FlexDirection="column" Gap="1.25rem" Width="100%">
                     {book.subtitle && <Paragraph FontWeight="500">{book.subtitle}</Paragraph>}
@@ -126,7 +123,7 @@ export const Book = () => {
                 </FlexContainer>
                 {book.categories.length > 0 && (
                     <FlexContainer Gap="0.5rem" AlignItems="start">
-                        <Paragraph FontWeight="400" FontSize="0.875rem" FontColorVariant="light">
+                        <Paragraph size="sm" variant="muted">
                             {'Categories: '}
                         </Paragraph>
                         <FlexContainer FlexWrap="wrap" Gap="1rem">
@@ -143,11 +140,11 @@ export const Book = () => {
                         </FlexContainer>
                     </FlexContainer>
                 )}
-                <Paragraph FontWeight="400" FontSize="0.875rem" FontColorVariant="light">
+                <Paragraph size="sm" variant="muted">
                     {`${book.pageCount} pages`}
                 </Paragraph>
                 {book.publishedDate && (
-                    <Paragraph FontWeight="400" FontSize="0.875rem" FontColorVariant="light">
+                    <Paragraph size="sm" variant="muted">
                         {`Published on ${formatIsoDate(book.publishedDate)}`}
                     </Paragraph>
                 )}

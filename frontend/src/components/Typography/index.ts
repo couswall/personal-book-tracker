@@ -1,10 +1,25 @@
-import styled from 'styled-components';
+import styled, {css, DefaultTheme} from 'styled-components';
+
+type TypographyVariant =
+    | 'default'
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'muted'
+    | 'white'
+    | 'error'
+    | 'success'
+    | 'danger';
+type TypographySize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+type TypographyWeight = 'normal' | 'medium' | 'semibold' | 'bold';
 
 interface ITypographyBaseProps {
+    variant?: TypographyVariant;
+    size?: TypographySize;
+    weight?: TypographyWeight;
     FontSize?: string;
     FontWeight?: string;
     FontColor?: string;
-    FontColorVariant?: keyof ThemeTextColorVariants;
     FontFamily?: string;
     FontStyle?: string;
     LineHeight?: string;
@@ -14,7 +29,6 @@ interface ITypographyBaseProps {
     Cursor?: string;
     TextDecoration?: string;
     Width?: string;
-    LightColor?: boolean;
     LetterSpacing?: string;
     Border?: string;
     BorderRadius?: string;
@@ -25,36 +39,57 @@ interface ITypographyBaseProps {
     HTextDecoration?: string;
 }
 
-type ThemeTextColorVariants = {
-    light: string;
-    white: string;
-    error: string;
-    default: string;
-    primary: string;
-    secondary: string;
-    accent: string;
-    muted: string;
+const getVariantStyles = (variant: TypographyVariant, theme: DefaultTheme) => {
+    const variants = {
+        default: css`
+            color: ${theme.colors.text.theme};
+        `,
+        primary: css`
+            color: ${theme.colors.primaryColor};
+        `,
+        secondary: css`
+            color: ${theme.colors.secondaryColor};
+        `,
+        accent: css`
+            color: ${theme.colors.text.accent};
+        `,
+        muted: css`
+            color: ${theme.colors.text.light};
+        `,
+        white: css`
+            color: ${theme.colors.lightColor};
+        `,
+        error: css`
+            color: ${theme.colors.input.errorMsgText};
+        `,
+        success: css`
+            color: ${theme.colors.success};
+        `,
+        danger: css`
+            color: ${theme.colors.danger};
+        `,
+    };
+
+    return variants[variant];
 };
 
-export const TypographyBase = styled.p<ITypographyBaseProps>`
-    font-size: ${(props) => props.FontSize || '1rem'};
-    font-weight: ${(props) => props.FontWeight || 'normal'};
-    color: ${(props) => {
-        const colorMap: ThemeTextColorVariants = {
-            light: props.theme.colors.text.light,
-            white: props.theme.colors.lightColor,
-            error: props.theme.colors.input.errorMsgText,
-            default: props.theme.colors.text.theme,
-            primary: props.theme.colors.primaryColor,
-            secondary: props.theme.colors.secondaryColor,
-            accent: props.theme.colors.text.accent,
-            muted: props.theme.colors.text.light,
-        };
-        return props.FontColor || colorMap[props.FontColorVariant || 'default'];
-    }};
-    font-family: ${(props) => props.theme.fonts.lexend || props.FontFamily};
+const getSizeStyles = (size: TypographySize, theme: DefaultTheme) => {
+    const sizeConfig = theme.typography.sizes[size];
+    return css`
+        font-size: ${sizeConfig.fontSize};
+        line-height: ${sizeConfig.lineHeight};
+    `;
+};
+
+const getWeightStyles = (weight: TypographyWeight, theme: DefaultTheme) => {
+    return css`
+        font-weight: ${theme.typography.weights[weight]};
+    `;
+};
+
+export const Text = styled.p<ITypographyBaseProps>`
+    font-family: ${(props) => props.FontFamily || props.theme.fonts.lexend};
     font-style: ${(props) => props.FontStyle || 'normal'};
-    line-height: ${(props) => props.LineHeight || '1.5'};
     text-align: ${(props) => props.TextAlign || 'left'};
     margin: ${(props) => props.Margin || '0'};
     padding: ${(props) => props.Padding || '0'};
@@ -68,32 +103,57 @@ export const TypographyBase = styled.p<ITypographyBaseProps>`
     white-space: ${(props) => props.WhiteSpace};
     text-overflow: ${(props) => props.TextOverflow};
     overflow: ${(props) => props.Overflow};
+    transition: color 0.2s ease;
 
-    &: hover {
+    /* Apply size styles */
+    ${(props) => getSizeStyles(props.size || 'md', props.theme)}
+
+    /* Apply weight styles */
+    ${(props) => getWeightStyles(props.weight || 'normal', props.theme)}
+
+    /* Apply variant styles */
+    ${(props) => getVariantStyles(props.variant || 'default', props.theme)}
+
+    /* Override with custom props if provided */
+    ${(props) =>
+        props.FontSize &&
+        css`
+            font-size: ${props.FontSize};
+        `}
+    ${(props) =>
+        props.FontWeight &&
+        css`
+            font-weight: ${props.FontWeight};
+        `}
+    ${(props) =>
+        props.FontColor &&
+        css`
+            color: ${props.FontColor};
+        `}
+    ${(props) =>
+        props.LineHeight &&
+        css`
+            line-height: ${props.LineHeight};
+        `}
+
+    &:hover {
         text-decoration: ${(props) => props.HTextDecoration};
     }
 `;
 
-export const TitleH1 = styled(TypographyBase).attrs({as: 'h1'})`
-    font-size: ${(props) => props.FontSize || '2rem'};
-    font-weight: ${(props) => props.FontWeight || 'bold'};
-`;
+export const TitleH1 = styled(Text).attrs({as: 'h1', size: '4xl', weight: 'bold'})``;
+export const TitleH2 = styled(Text).attrs({as: 'h2', size: '3xl', weight: 'bold'})``;
+export const TitleH3 = styled(Text).attrs({as: 'h3', size: '2xl', weight: 'bold'})``;
+export const TitleH4 = styled(Text).attrs({as: 'h4', size: 'xl', weight: 'bold'})``;
+export const TitleH5 = styled(Text).attrs({as: 'h5', size: 'lg', weight: 'semibold'})``;
+export const TitleH6 = styled(Text).attrs({as: 'h6', size: 'md', weight: 'semibold'})``;
 
-export const TitleH2 = styled(TypographyBase).attrs({as: 'h2'})`
-    font-size: ${(props) => props.FontSize || '1.75rem'};
-    font-weight: ${(props) => props.FontWeight || 'bold'};
-`;
-
-export const TitleH3 = styled(TypographyBase).attrs({as: 'h3'})`
-    font-size: ${(props) => props.FontSize || '1.5rem'};
-    font-weight: ${(props) => props.FontWeight || 'bold'};
-`;
-
-export const TitleH4 = styled(TypographyBase).attrs({as: 'h4'})`
-    font-size: ${(props) => props.FontSize || '1.25rem'};
-    font-weight: ${(props) => props.FontWeight || 'bold'};
-`;
-
-export const Paragraph = styled(TypographyBase)`
-    font-size: ${(props) => props.FontSize || '1rem'};
-`;
+export const Paragraph = styled(Text).attrs({size: 'md', weight: 'normal'})``;
+export const Label = styled(Text).attrs({as: 'label', size: 'sm', weight: 'medium'})``;
+export const Small = styled(Text).attrs({as: 'small', size: 'sm', weight: 'normal'})``;
+export const Caption = styled(Text).attrs({
+    as: 'span',
+    size: 'xs',
+    weight: 'normal',
+    variant: 'muted',
+})``;

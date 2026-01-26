@@ -13,6 +13,7 @@ export const lightTheme: DefaultTheme = {
         // Surfaces & Foundations
         background: '#F8F7F6', // Global Background - clean off-white
         backgroundSecondary: '#FFFFFF', // Surface White - cards, floating containers
+        backgroundTertiary: '#ffffff9d', // Darker surface - navbar, elevated elements
         borderColor: '#E6E0DB', // Border Color - separators, container outlines
 
         // Typography
@@ -36,13 +37,31 @@ export const lightTheme: DefaultTheme = {
 
         // Input
         input: {
-            inputBackground: '#FFFFFF',
+            inputBackground: '#F0EDEA',
             labelColor: '#333333',
             errorMsgText: '#FA4032',
         },
     },
     fonts: {
         lexend: 'Lexend',
+    },
+    typography: {
+        sizes: {
+            xs: {fontSize: '0.75rem', lineHeight: '1rem'},
+            sm: {fontSize: '0.875rem', lineHeight: '1.25rem'},
+            md: {fontSize: '1rem', lineHeight: '1.5rem'},
+            lg: {fontSize: '1.125rem', lineHeight: '1.75rem'},
+            xl: {fontSize: '1.25rem', lineHeight: '1.75rem'},
+            '2xl': {fontSize: '1.5rem', lineHeight: '2rem'},
+            '3xl': {fontSize: '1.875rem', lineHeight: '2.25rem'},
+            '4xl': {fontSize: '2.25rem', lineHeight: '2.5rem'},
+        },
+        weights: {
+            normal: '400',
+            medium: '500',
+            semibold: '600',
+            bold: '700',
+        },
     },
     widths: {
         sectionMaxWidth: '1400px',
@@ -52,6 +71,14 @@ export const lightTheme: DefaultTheme = {
     },
     margins: {
         sectionContainer: '0 auto',
+    },
+    breakpoints: {
+        xxl: '1400px',
+        xl: '1200px',
+        lg: '992px',
+        md: '768px',
+        sm: '576px',
+        xs: '375px',
     },
 };
 
@@ -68,6 +95,7 @@ export const darkTheme: DefaultTheme = {
         // Surfaces & Foundations
         background: '#0F1B2A', // Sapphire Deep - main background
         backgroundSecondary: '#1A2C40', // Cerulean Card - cards, sidebar, containers
+        backgroundTertiary: '#142336', // Darker surface - navbar, elevated elements
         borderColor: '#2A3F55', // Border color for dark mode
 
         // Typography
@@ -93,11 +121,30 @@ export const darkTheme: DefaultTheme = {
         input: {
             inputBackground: '#1A2C40',
             labelColor: '#94A3B8',
+            bg: '#FFFFFF',
             errorMsgText: '#F86868',
         },
     },
     fonts: {
         lexend: 'Lexend',
+    },
+    typography: {
+        sizes: {
+            xs: {fontSize: '0.75rem', lineHeight: '1rem'},
+            sm: {fontSize: '0.875rem', lineHeight: '1.25rem'},
+            md: {fontSize: '1rem', lineHeight: '1.5rem'},
+            lg: {fontSize: '1.125rem', lineHeight: '1.75rem'},
+            xl: {fontSize: '1.25rem', lineHeight: '1.75rem'},
+            '2xl': {fontSize: '1.5rem', lineHeight: '2rem'},
+            '3xl': {fontSize: '1.875rem', lineHeight: '2.25rem'},
+            '4xl': {fontSize: '2.25rem', lineHeight: '2.5rem'},
+        },
+        weights: {
+            normal: '400',
+            medium: '500',
+            semibold: '600',
+            bold: '700',
+        },
     },
     widths: {
         sectionMaxWidth: '1400px',
@@ -108,7 +155,12 @@ export const darkTheme: DefaultTheme = {
     margins: {
         sectionContainer: '0 auto',
     },
+    breakpoints: {
+        xxl: '1400px',
+        xl: '1200px',
+        lg: '992px',
+        md: '768px',
+        sm: '576px',
+        xs: '375px',
+    },
 };
-
-// Keep the old name for backwards compatibility
-export const lightTeam = lightTheme;

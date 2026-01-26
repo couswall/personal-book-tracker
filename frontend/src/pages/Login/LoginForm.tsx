@@ -41,7 +41,7 @@ export const LoginForm = () => {
             <TitleH2 Margin="0px 0px 0.5rem 0px" TextAlign="center" LineHeight="1">
                 {LOGIN_PAGE.TITLE}
             </TitleH2>
-            <Paragraph FontSize="0.875rem" TextAlign="center" FontColorVariant="light">
+            <Paragraph size="sm" TextAlign="center" variant="muted">
                 {LOGIN_PAGE.DESCRIPTION}
             </Paragraph>
 
@@ -87,12 +87,7 @@ export const LoginForm = () => {
                         MarginBottom="1rem"
                         BackgroundColor="inherit"
                     >
-                        <Paragraph
-                            FontSize="0.875rem"
-                            Cursor="pointer"
-                            FontColorVariant="primary"
-                            FontWeight="600"
-                        >
+                        <Paragraph size="sm" Cursor="pointer" variant="primary" FontWeight="600">
                             {LOGIN_PAGE.FORGOT_PASSWORD}
                         </Paragraph>
                     </FlexContainer>
@@ -121,17 +116,12 @@ export const LoginForm = () => {
                         MarginTop="1.5rem"
                         BackgroundColor="inherit"
                     >
-                        <Paragraph
-                            FontSize="0.875rem"
-                            Cursor="pointer"
-                            TextAlign="center"
-                            FontColorVariant="light"
-                        >
+                        <Paragraph size="sm" Cursor="pointer" TextAlign="center" variant="muted">
                             {LOGIN_PAGE.ACCOUNT_CTA}
                         </Paragraph>
                         <Paragraph
-                            FontSize="0.875rem"
-                            FontColorVariant="primary"
+                            size="sm"
+                            variant="primary"
                             FontWeight="600"
                             Cursor="pointer"
                             onClick={() => navigate(publicRoutes.signUp)}

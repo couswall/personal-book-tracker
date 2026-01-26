@@ -41,7 +41,7 @@ export const SignUpForm = () => {
             <TitleH2 FontSize="2rem" Margin="0px 0px 0.5rem 0px" TextAlign="center" LineHeight="1">
                 {SIGN_UP.TITLE}
             </TitleH2>
-            <Paragraph FontSize="0.875rem" FontColorVariant="light" TextAlign="center">
+            <Paragraph size="sm" variant="muted" TextAlign="center">
                 {SIGN_UP.DESCRIPTION}
             </Paragraph>
 
@@ -133,12 +133,12 @@ export const SignUpForm = () => {
                         MarginTop="1.5rem"
                         BackgroundColor="inherit"
                     >
-                        <Paragraph FontSize="0.875rem" FontColorVariant="light" TextAlign="center">
+                        <Paragraph size="sm" variant="muted" TextAlign="center">
                             {SIGN_UP.HAVE_AN_ACCOUNT}
                         </Paragraph>
                         <Paragraph
-                            FontSize="0.875rem"
-                            FontColorVariant="primary"
+                            size="sm"
+                            variant="primary"
                             FontWeight="600"
                             Cursor="pointer"
                             onClick={() => navigate(publicRoutes.login)}

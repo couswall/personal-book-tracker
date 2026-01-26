@@ -8,8 +8,8 @@ import {useDebounce} from '@components/Navbar/hooks/useDebounce';
 import {
     FlexContainer,
     FormContainer,
-    LightIcon,
     LoadingSpinner,
+    MutedIcon,
     Paragraph,
 } from '@components/index';
 import {BookInfoCard} from '@pages/Search/BookInfoCard';
@@ -53,6 +53,7 @@ export const SearchingNavbar = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <SearchInputWrapper
+                    Background="unset"
                     Gap="0.5rem"
                     Padding="0.5rem 0.875rem"
                     AlignItems="center"
@@ -63,7 +64,7 @@ export const SearchingNavbar = () => {
                     {loadings.navbar ? (
                         <LoadingSpinner Width="1rem" Padding="3px" BackGroundColor="#FFFFFE" />
                     ) : (
-                        <LightIcon className="fa-solid fa-magnifying-glass" FontSize="1rem" />
+                        <MutedIcon className="fa-solid fa-magnifying-glass" FontSize="1rem" />
                     )}
                     <SearchInputNavbar
                         placeholder="Search books"
@@ -95,8 +96,8 @@ export const SearchingNavbar = () => {
                         ))}
                         <FlexContainer Padding="0.5rem" JustifyContent="center" AlignItems="center">
                             <Paragraph
-                                FontSize="0.875rem"
-                                FontColorVariant="light"
+                                size="sm"
+                                variant="muted"
                                 Cursor="pointer"
                                 HTextDecoration="underline"
                             >
