@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+type BoxShadowVariant = 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'inner';
+
 interface IBaseContainerProps {
     Width?: string;
     MaxWidth?: string;
@@ -20,6 +22,7 @@ interface IBaseContainerProps {
     JustifyContent?: string;
     Gap?: string;
     BoxShadow?: string;
+    BoxShadowVariant?: BoxShadowVariant;
     MarginTop?: string;
     Cursor?: string;
     Position?: string;
@@ -50,8 +53,18 @@ export interface IFlexContainerProps extends IBaseContainerProps {
 type ThemeContainerBGColorVariants = {
     primary: string;
     secondary: string;
+    tertiary: string;
     accent: string;
     card: string;
+};
+
+const boxShadowMap: Record<BoxShadowVariant, string> = {
+    none: 'none',
+    sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
+    xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+    inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
 };
 
 export const BaseContainer = styled.div<IBaseContainerProps>`
@@ -68,21 +81,24 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
         const colorMap: ThemeContainerBGColorVariants = {
             primary: props.theme.colors.background,
             secondary: props.theme.colors.backgroundSecondary,
+            tertiary: props.theme.colors.backgroundTertiary,
             accent: props.theme.colors.primaryLight,
             card: props.theme.colors.backgroundSecondary,
         };
         return props.BackgroundColor || colorMap[props.BackgroundColorVariant || 'primary'];
     }};
-    border: ${(props) => props.Border || 'none'};
+    border: ${(props) => props.Border};
     border-bottom: ${(props) => props.BorderBottom};
     border-top: ${(props) => props.BorderTop};
     border-radius: ${(props) => props.BorderRadius || '0'};
+    border-color: ${(props) => props.theme.colors.borderColor};
     display: ${(props) => props.Display};
     align-items: ${(props) => props.AlignItems};
     justify-content: ${(props) => props.JustifyContent};
     gap: ${(props) => props.Gap};
     box-sizing: border-box;
-    box-shadow: ${(props) => props.BoxShadow};
+    box-shadow: ${(props) =>
+        props.BoxShadow || (props.BoxShadowVariant && boxShadowMap[props.BoxShadowVariant])};
     margin-top: ${(props) => props.MarginTop};
     cursor: ${(props) => props.Cursor};
     position: ${(props) => props.Position};
@@ -98,16 +114,16 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
         background-color: ${(props) => props.HBackgroundColor};
     }
 
-    @media (max-width: 991.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         display: ${(props) => props.LgDisplay};
         width: ${(props) => props.LgWidth};
     }
 
-    @media (max-width: 767.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.md}) {
         width: ${(props) => props.MedWidth};
     }
 
-    @media (max-width: 575.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
         padding: ${(props) => props.SmallPadding};
         width: ${(props) => props.SmallWidth};
     }
@@ -122,11 +138,11 @@ export const FlexContainer = styled(BaseContainer)<IFlexContainerProps>`
     justify-content: ${(props) => props.JustifyContent || 'flex-start'};
     gap: ${(props) => props.Gap};
 
-    @media (max-width: 991.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         display: ${(props) => props.LgDisplay || 'flex'};
     }
 
-    @media (max-width: 575.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
         flex-direction: ${(props) => props.SmallFlexDir};
     }
 `;

@@ -41,35 +41,13 @@ export const Input = styled.input<IInputProps>`
         color: ${(props) => (props.LightColor ? props.theme.colors.lightColor : props.PHColor)};
     }
 
-    @media (max-width: 991.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         width: ${(props) => props.MediumWidth};
     }
 
-    @media (max-width: 575.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
         width: ${(props) => props.XSmallWidth};
     }
-`;
-
-interface ILabelProps {
-    FontSize?: string;
-    FontWeight?: string;
-    FontColor?: string;
-    FontFamily?: string;
-    LineHeight?: string;
-    TextAlign?: string;
-    Margin?: string;
-    Padding?: string;
-}
-
-export const Label = styled.label<ILabelProps>`
-    font-size: ${(props) => props.FontSize || '1rem'};
-    font-weight: ${(props) => props.FontWeight || 'normal'};
-    color: ${(props) => (props.FontColor ? props.FontColor : props.theme.colors.input.labelColor)};
-    font-family: ${(props) => props.FontFamily || props.theme.fonts.lexend};
-    line-height: ${(props) => props.LineHeight || '1.5'};
-    text-align: ${(props) => props.TextAlign || 'left'};
-    margin: ${(props) => props.Margin || '0'};
-    padding: ${(props) => props.Padding || '0'};
 `;
 
 export const InputContainer = styled(FlexContainer)`

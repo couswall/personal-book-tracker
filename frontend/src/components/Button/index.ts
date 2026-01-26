@@ -27,6 +27,10 @@ interface ButtonProps {
     DisabledFontColor?: string;
     Flex?: string;
     MaxWidth?: string;
+    Gap?: string;
+    Display?: string;
+    AlignItems?: string;
+    JustifyContent?: string;
 }
 
 const getVariantStyles = (variant: ButtonVariant, theme: DefaultTheme) => {
@@ -120,9 +124,9 @@ const getSizeStyles = (size: ButtonSize) => {
 };
 
 export const Button = styled.button<ButtonProps>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: ${(props) => props.Display || 'flex'};
+    align-items: ${(props) => props.AlignItems || 'center'};
+    justify-content: ${(props) => props.JustifyContent || 'center'};
     font-family: ${(props) => props.FontFamily || props.theme.fonts.lexend};
     font-weight: ${(props) => props.FontWeight || '500'};
     cursor: pointer;
@@ -132,6 +136,7 @@ export const Button = styled.button<ButtonProps>`
     flex: ${(props) => props.Flex};
     max-width: ${(props) => props.MaxWidth};
     margin: ${(props) => props.Margin};
+    gap: ${(props) => props.Gap};
 
     /* Apply size styles */
     ${(props) => getSizeStyles(props.size || 'md')}

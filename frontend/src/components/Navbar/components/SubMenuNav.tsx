@@ -1,12 +1,11 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 import {AppDispatch, RootState} from '@store/store';
-import {SubMenuContainer, SubMenuLink} from '@components/Navbar/styles';
-import {TitleH4} from '@components/Typography';
-import {FlexContainer} from '@components/FlexContainer';
+import {SubMenuContainer} from '@components/Navbar/styles';
+import {DangerIcon, Icon, ButtonGhost, Text, FlexContainer} from '@components/index';
 import {onLogout} from '@store/index';
 import {publicRoutes} from '@routes/routes';
-import {subMenuRoutes} from '@components/Navbar/constants';
+import {SUB_MENU, subMenuRoutes} from '@components/Navbar/constants';
 
 export const SubMenuNav = () => {
     const {user} = useSelector((state: RootState) => state.auth);
@@ -20,53 +19,70 @@ export const SubMenuNav = () => {
     return (
         <SubMenuContainer
             FlexDirection="column"
-            Gap="1rem"
-            Padding="0.5rem 1rem"
+            Gap="0.25rem"
             Position="absolute"
             Width="250px"
             Top="48px"
             Right="0"
+            BackgroundColorVariant="tertiary"
+            BorderRadius="0.75rem"
+            Overflow="hidden"
+            Padding="0.5rem 0px"
+            BoxShadowVariant="md"
+            Border="1px solid"
         >
-            <TitleH4 FontColorVariant="white" FontSize="1rem" LetterSpacing="1.3px">
-                {`Hello, ${name}`}
-            </TitleH4>
-            <FlexContainer FlexDirection="column" BackgroundColor="inherit">
-                {subMenuRoutes.map((item, index) => (
-                    <FlexContainer
-                        key={index}
-                        BackgroundColor="inherit"
-                        Height="32px"
-                        AlignItems="center"
-                    >
-                        <SubMenuLink
-                            FontColorVariant="white"
-                            FontSize="0.875rem"
-                            LetterSpacing="1px"
-                            Cursor="pointer"
-                        >
-                            {item.label}
-                        </SubMenuLink>
-                    </FlexContainer>
-                ))}
+            <FlexContainer
+                Padding="0.5rem 1rem"
+                FlexDirection="column"
+                BackgroundColor="inherit"
+                BorderBottom="1px solid"
+                Cursor="default"
+            >
+                <Text variant="muted" size="xs">
+                    {SUB_MENU.WELCOME_BACK}
+                </Text>
+                <Text size="md" weight="semibold">
+                    {name}
+                </Text>
             </FlexContainer>
 
             <FlexContainer
                 FlexDirection="column"
                 BackgroundColor="inherit"
-                BorderTop="1px solid #FFFFFE"
+                BorderBottom="1px solid"
+                Padding="0.25rem 0px"
             >
-                <FlexContainer BackgroundColor="inherit" Height="32px" AlignItems="center">
-                    <SubMenuLink
-                        FontColorVariant="white"
-                        FontSize="0.875rem"
-                        LetterSpacing="1px"
-                        Cursor="pointer"
-                        onClick={onSignout}
+                {subMenuRoutes.map((item, index) => (
+                    <ButtonGhost
+                        key={index}
+                        Padding="0.5rem 1rem"
+                        Gap="1rem"
+                        JustifyContent="flex-start"
+                        BorderRadius="unset"
+                        onClick={() => navigate(item.route)}
                     >
-                        {'Sign out'}
-                    </SubMenuLink>
-                </FlexContainer>
+                        <Icon variant="text" className={item.iconClassName} />
+                        <Text FontSize="0.875rem" LetterSpacing="1px" Cursor="pointer">
+                            {item.label}
+                        </Text>
+                    </ButtonGhost>
+                ))}
             </FlexContainer>
+
+            <ButtonGhost
+                Margin="0.5rem 0px"
+                Padding="0.5rem 1rem"
+                BorderRadius="unset"
+                Gap="1rem"
+                JustifyContent="flex-start"
+                HBackGColor="rgba(0,0,0,0.1)"
+                onClick={onSignout}
+            >
+                <DangerIcon className="fa-solid fa-arrow-right-from-bracket" />
+                <Text variant="danger" FontSize="0.875rem" LetterSpacing="1px" Cursor="pointer">
+                    {SUB_MENU.LOGOUT}
+                </Text>
+            </ButtonGhost>
         </SubMenuContainer>
     );
 };

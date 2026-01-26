@@ -16,6 +16,7 @@ export const Navbar = () => {
             AlignItems="center"
             JustifyContent="space-between"
             Position="relative"
+            BackgroundColorVariant="tertiary"
         >
             <Container Width="100%">
                 <FlexContainer

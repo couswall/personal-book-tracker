@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import {FlexContainer, Paragraph, TitleH4, LighterIconWrapper, Input} from '@components/index';
+import {FlexContainer, TitleH4, LighterIconWrapper, Input} from '@components/index';
 
 export const NavbarStyled = styled(FlexContainer).attrs({as: 'nav'})`
-    background-color: ${(props) => props.theme.colors.primaryColor};
+    border-bottom: 1px solid ${(props) => props.theme.colors.borderColor};
 `;
 
 export const NavbarList = styled.ul`
@@ -12,7 +12,7 @@ export const NavbarList = styled.ul`
     background-color: inherit;
     gap: 1.5rem;
 
-    @media (max-width: 991.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         opacity: 0;
         flex-direction: column;
         justify-content: center;
@@ -44,7 +44,7 @@ export const NavbarElement = styled.li`
     background-color: inherit;
     cursor: pointer;
 
-    @media (max-width: 575.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
         display: flex;
     }
 `;
@@ -53,22 +53,20 @@ export const NavbarLink = styled(TitleH4).attrs({as: 'p'})`
     transition: all 0.3s ease-out;
 
     &:hover {
-        opacity: 0.6;
-    }
-    @media (max-width: 575.98px) {
+        color: ${(props) => props.theme.colors.text.accent};
     }
 `;
 
 export const HamburgerContainer = styled(LighterIconWrapper)`
     display: none;
 
-    @media (max-width: 991.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         display: flex;
     }
 `;
 
 export const SearchBarContainer = styled(FlexContainer)`
-    background-color: ${(props) => props.theme.colors.searchBarContainer};
+    background-color: ${(props) => props.theme.colors.backgroundTertiary};
 
     padding: 0;
     height: 0;
@@ -85,25 +83,45 @@ export const SearchBarContainer = styled(FlexContainer)`
 `;
 
 export const SubMenuContainer = styled(FlexContainer)`
-    background-color: ${(props) => props.theme.colors.primaryColor};
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+    pointer-events: none;
 `;
 
-export const SubMenuLink = styled(Paragraph)`
-    &:hover {
-        text-decoration: underline;
+export const SubMenuTrigger = styled(LighterIconWrapper)`
+    &:hover::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 250px;
+        height: 20px;
+    }
+
+    &:hover ${SubMenuContainer} {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
     }
 `;
 
 export const SearchInputWrapper = styled(FlexContainer)`
-    background-color: ${(props) => props.BackgroundColor || props.theme.colors.primaryLighter};
+    background-color: ${(props) =>
+        props.BackgroundColor || props.theme.colors.input.inputBackground};
 
-    @media (max-width: 991.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         cursor: pointer;
     }
 `;
 
 export const SearchInputNavbar = styled(Input)`
-    @media (max-width: 991.98px) {
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         display: none;
     }
 `;
