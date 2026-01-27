@@ -34,6 +34,7 @@ interface IBaseContainerProps {
     LgDisplay?: string;
     LgWidth?: string;
     MedWidth?: string;
+    MedDisplay?: string;
     SmallPadding?: string;
     SmallFlexDir?: string;
     SmallWidth?: string;
@@ -121,6 +122,7 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
 
     @media (max-width: ${(props) => props.theme.breakpoints.md}) {
         width: ${(props) => props.MedWidth};
+        display: ${(props) => props.MedDisplay};
     }
 
     @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
@@ -140,6 +142,10 @@ export const FlexContainer = styled(BaseContainer)<IFlexContainerProps>`
 
     @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
         display: ${(props) => props.LgDisplay || 'flex'};
+    }
+
+    @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+        display: ${(props) => props.MedDisplay};
     }
 
     @media (max-width: ${(props) => props.theme.breakpoints.sm}) {

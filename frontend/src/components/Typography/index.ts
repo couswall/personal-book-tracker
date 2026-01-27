@@ -37,6 +37,7 @@ interface ITypographyBaseProps {
     TextOverflow?: string;
     Overflow?: string;
     HTextDecoration?: string;
+    SmDisplay?: string;
 }
 
 const getVariantStyles = (variant: TypographyVariant, theme: DefaultTheme) => {
@@ -138,6 +139,10 @@ export const Text = styled.p<ITypographyBaseProps>`
 
     &:hover {
         text-decoration: ${(props) => props.HTextDecoration};
+    }
+
+    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+        display: ${(props) => props.SmDisplay};
     }
 `;
 

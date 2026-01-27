@@ -5,13 +5,9 @@
 }
 
 :root {
-    --inter-font-family: "Inter", serif;
-    --primary-color: '#69247C';
-    --secondary-color: '#DA498D';
-    --teritary-color: '#FAC67A';
-    --light-color: '#F9E6CF';
+    --lexend-font-family: 'Lexend', serif;
 }
 
 body {
-    font-family: var(--inter-font-family);
+    font-family: var(--lexend-font-family);
 }

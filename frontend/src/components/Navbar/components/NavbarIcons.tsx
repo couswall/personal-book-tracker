@@ -1,63 +1,65 @@
 import {useDispatch, useSelector} from 'react-redux';
+import {useNavigate} from 'react-router';
+import {useRef, useState} from 'react';
 import {AppDispatch, RootState} from '@store/store';
-import {FlexContainer, LighterIconWrapper, MutedIcon} from '@components/index';
+import {useClickOutside} from '@components/Navbar/hooks/useClickOutside';
+import {FlexContainer, MutedIcon, Image, ButtonGhost} from '@components/index';
 import {SubMenuNav} from '@components/Navbar/components/index';
-import {HamburgerContainer, SubMenuTrigger} from '@components/Navbar/styles';
 import {SearchingNavbar} from '@components/Navbar/components/SearchingNavbar/SearchingNavbar';
 import {toggleDarkMode} from '@store/index';
-import {NavbarIconsProps} from '@components/Navbar/components/interfaces';
+import robotImg from '/assets/avatar-robot.jpg';
+import {privateRoutes} from '@routes/routes';
 
-export const NavbarIcons: React.FC<NavbarIconsProps> = ({isMenuOpen, setIsMenuOpen}) => {
+export const NavbarIcons = () => {
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
+    const [showSubNav, setShowSubNav] = useState<boolean>(false);
     const {isDarkMode} = useSelector((state: RootState) => state.darkMode);
+    const subMenuRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    useClickOutside([subMenuRef, triggerRef], () => setShowSubNav(false));
 
     return (
-        <FlexContainer BackgroundColor="inherit" AlignItems="center" Gap="1rem">
-            <FlexContainer
-                LgDisplay="none"
-                BackgroundColor="inherit"
-                AlignItems="center"
-                Gap="1rem"
-            >
-                <SearchingNavbar />
-                <LighterIconWrapper
-                    Height="35px"
-                    AlignItems="center"
-                    Padding="0.5rem 0.75rem"
-                    Cursor="pointer"
-                    BorderRadius="0.75rem"
-                    onClick={() => dispatch(toggleDarkMode())}
-                >
-                    <MutedIcon
-                        className={isDarkMode ? 'fa-regular fa-sun' : 'fa-solid fa-moon'}
-                        FontSize="1rem"
-                    />
-                </LighterIconWrapper>
-                <SubMenuTrigger
-                    Position="relative"
-                    Height="35px"
-                    Padding="0.5rem 0.75rem"
-                    AlignItems="center"
-                    BorderRadius="0.75rem"
-                    Cursor="pointer"
-                >
-                    <MutedIcon className="fa-solid fa-user" FontSize="1rem" />
-                    <SubMenuNav />
-                </SubMenuTrigger>
-            </FlexContainer>
-            <HamburgerContainer
+        <FlexContainer BackgroundColor="inherit" AlignItems="center" Gap="0.5rem">
+            <SearchingNavbar />
+            <ButtonGhost
                 Padding="0.5rem 0.75rem"
-                BorderRadius="0.75rem"
-                Height="35px"
-                AlignItems="center"
-                Cursor="pointer"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                BorderRadius="1rem"
+                Width="36px"
+                onClick={() => navigate(privateRoutes.search)}
+                Display="none"
+                MdDisplay="flex"
+            >
+                <MutedIcon className="fa-solid fa-magnifying-glass" size="md" />
+            </ButtonGhost>
+
+            <ButtonGhost
+                Padding="0.5rem 0.75rem"
+                BorderRadius="1rem"
+                Width="36px"
+                onClick={() => dispatch(toggleDarkMode())}
             >
                 <MutedIcon
-                    className={isMenuOpen ? 'fa-solid fa-x' : 'fa-solid fa-bars'}
-                    FontSize="1rem"
+                    className={isDarkMode ? 'fa-regular fa-sun' : 'fa-solid fa-moon'}
+                    size="md"
                 />
-            </HamburgerContainer>
+            </ButtonGhost>
+            <FlexContainer Position="relative" BackgroundColor="inherit">
+                <ButtonGhost
+                    ref={triggerRef}
+                    BorderRadius="1rem"
+                    Gap="0.5rem"
+                    AlignItems="center"
+                    Padding="0.25rem"
+                    onClick={() => setShowSubNav(!showSubNav)}
+                >
+                    <FlexContainer Height="32px" Width="32px" BorderRadius="50%" Overflow="hidden">
+                        <Image src={robotImg} ObjectFit="cover" />
+                    </FlexContainer>
+                    <MutedIcon className="fa-solid fa-angle-down" size="md" />
+                </ButtonGhost>
+                <SubMenuNav isVisible={showSubNav} subMenuRef={subMenuRef} />
+            </FlexContainer>
         </FlexContainer>
     );
 };

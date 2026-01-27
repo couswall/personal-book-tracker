@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {FlexContainer, TitleH4, LighterIconWrapper, Input} from '@components/index';
+import {ButtonGhost, FlexContainer, MutedIcon, TitleH4} from '@components/index';
 
 export const NavbarStyled = styled(FlexContainer).attrs({as: 'nav'})`
     border-bottom: 1px solid ${(props) => props.theme.colors.borderColor};
@@ -13,29 +13,7 @@ export const NavbarList = styled.ul`
     gap: 1.5rem;
 
     @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
-        opacity: 0;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 80px;
-        left: 0;
-        background-color: ${(props) => props.theme.colors.primaryColor};
-        width: 100%;
-        height: 0px;
-        padding: 0px 0px;
-        visibility: hidden;
-        overflow: hidden;
-        transition: all 0.2s ease-out;
-
-        &.show-menu {
-            opacity: 1;
-            height: max-content;
-            padding: 1rem 0;
-            visibility: visible;
-            overflow: auto;
-            transition: all 0.2s ease-in;
-        }
+        display: none;
     }
 `;
 
@@ -57,14 +35,6 @@ export const NavbarLink = styled(TitleH4).attrs({as: 'p'})`
     }
 `;
 
-export const HamburgerContainer = styled(LighterIconWrapper)`
-    display: none;
-
-    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
-        display: flex;
-    }
-`;
-
 export const SearchBarContainer = styled(FlexContainer)`
     background-color: ${(props) => props.theme.colors.backgroundTertiary};
 
@@ -82,33 +52,25 @@ export const SearchBarContainer = styled(FlexContainer)`
     }
 `;
 
-export const SubMenuContainer = styled(FlexContainer)`
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
+export const SubMenuContainer = styled(FlexContainer)<{$isVisible: boolean}>`
+    position: absolute;
+    width: 250px;
+    flex-direction: column;
+    top: 48px;
+    right: 0;
+    overflow: hidden;
+    padding: 0.5rem 0px;
+    border-radius: 0.75rem;
+    gap: 0.25rem;
+
+    opacity: ${(props) => (props.$isVisible ? 1 : 0)};
+    visibility: ${(props) => (props.$isVisible ? 'visible' : 'hidden')};
+    transform: translateY(${(props) => (props.$isVisible ? '0' : '-10px')});
     transition:
         opacity 0.2s ease,
         transform 0.2s ease,
         visibility 0.2s ease;
-    pointer-events: none;
-`;
-
-export const SubMenuTrigger = styled(LighterIconWrapper)`
-    &:hover::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        right: 0;
-        width: 250px;
-        height: 20px;
-    }
-
-    &:hover ${SubMenuContainer} {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        pointer-events: auto;
-    }
+    pointer-events: ${(props) => (props.$isVisible ? 'auto' : 'none')};
 `;
 
 export const SearchInputWrapper = styled(FlexContainer)`
@@ -120,8 +82,20 @@ export const SearchInputWrapper = styled(FlexContainer)`
     }
 `;
 
-export const SearchInputNavbar = styled(Input)`
-    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
-        display: none;
+export const NavSidebarItem = styled(ButtonGhost)<{$isActive: boolean}>`
+    color: ${(props) =>
+        props.$isActive ? props.theme.colors.text.accent : props.theme.colors.text.light};
+    background-color: ${(props) => (props.$isActive ? '#ff6b6b33' : 'unset')};
+    border-right: 4px solid
+        ${(props) => (props.$isActive ? props.theme.colors.text.accent : 'transparent')};
+
+    ${MutedIcon} {
+        color: ${(props) =>
+            props.$isActive ? props.theme.colors.text.accent : props.theme.colors.text.light};
+    }
+
+    &:hover:not(:disabled) {
+        background-color: ${(props) =>
+            props.$isActive ? '#ff6b6b33' : props.theme.colors.borderColor};
     }
 `;

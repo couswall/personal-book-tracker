@@ -1,14 +1,14 @@
 import {privateRoutes} from '@routes/routes';
 
 export const navbarRoutes = [
-    {label: 'Home', route: '/'},
-    {label: 'My Books', route: privateRoutes.myBooks},
-    {label: 'Browse', route: '/browse'},
+    {id: 1, label: 'Home', route: '/', iconClassName: 'fa-solid fa-house'},
+    {id: 2, label: 'My Books', route: privateRoutes.myBooks, iconClassName: 'fa-solid fa-book'},
+    {id: 3, label: 'Browse', route: '/browse', iconClassName: 'fa-solid fa-compass'},
 ];
 
 export const subMenuRoutes = [
-    {label: 'Profile', route: '/myprofile', iconClassName: 'fa-regular fa-user'},
-    {label: 'Setting', route: '/settings', iconClassName: 'fa-solid fa-gear'},
+    {label: 'Profile', route: '/', iconClassName: 'fa-regular fa-user'},
+    {label: 'Setting', route: '/', iconClassName: 'fa-solid fa-gear'},
 ];
 
 export const SUB_MENU = {

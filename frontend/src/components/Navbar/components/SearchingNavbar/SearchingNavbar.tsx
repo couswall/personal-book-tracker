@@ -8,12 +8,13 @@ import {useDebounce} from '@components/Navbar/hooks/useDebounce';
 import {
     FlexContainer,
     FormContainer,
+    Input,
     LoadingSpinner,
     MutedIcon,
     Paragraph,
 } from '@components/index';
+import {SearchInputWrapper} from '@components/Navbar/styles';
 import {BookInfoCard} from '@pages/Search/BookInfoCard';
-import {SearchInputWrapper, SearchInputNavbar} from '@components/Navbar/styles';
 import {searchBook} from '@store/index';
 import {schemaSearchBook} from '@pages/Search/schemaSearchBook';
 import {privateRoutes} from '@routes/routes';
@@ -51,6 +52,7 @@ export const SearchingNavbar = () => {
                 Position="relative"
                 Width="350px"
                 onSubmit={handleSubmit(onSubmit)}
+                MedDisplay="none"
             >
                 <SearchInputWrapper
                     Background="unset"
@@ -66,7 +68,7 @@ export const SearchingNavbar = () => {
                     ) : (
                         <MutedIcon className="fa-solid fa-magnifying-glass" FontSize="1rem" />
                     )}
-                    <SearchInputNavbar
+                    <Input
                         placeholder="Search books"
                         Height="100%"
                         BackgroundColor="transparent"

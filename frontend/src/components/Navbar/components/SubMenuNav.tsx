@@ -6,8 +6,9 @@ import {DangerIcon, Icon, ButtonGhost, Text, FlexContainer} from '@components/in
 import {onLogout} from '@store/index';
 import {publicRoutes} from '@routes/routes';
 import {SUB_MENU, subMenuRoutes} from '@components/Navbar/constants';
+import {SubMenuNavProps} from '@components/Navbar/components/interfaces';
 
-export const SubMenuNav = () => {
+export const SubMenuNav = ({isVisible, subMenuRef}: SubMenuNavProps) => {
     const {user} = useSelector((state: RootState) => state.auth);
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
@@ -18,18 +19,11 @@ export const SubMenuNav = () => {
     };
     return (
         <SubMenuContainer
-            FlexDirection="column"
-            Gap="0.25rem"
-            Position="absolute"
-            Width="250px"
-            Top="48px"
-            Right="0"
+            $isVisible={isVisible}
             BackgroundColorVariant="tertiary"
-            BorderRadius="0.75rem"
-            Overflow="hidden"
-            Padding="0.5rem 0px"
             BoxShadowVariant="md"
             Border="1px solid"
+            ref={subMenuRef}
         >
             <FlexContainer
                 Padding="0.5rem 1rem"
@@ -75,7 +69,6 @@ export const SubMenuNav = () => {
                 BorderRadius="unset"
                 Gap="1rem"
                 JustifyContent="flex-start"
-                HBackGColor="rgba(0,0,0,0.1)"
                 onClick={onSignout}
             >
                 <DangerIcon className="fa-solid fa-arrow-right-from-bracket" />

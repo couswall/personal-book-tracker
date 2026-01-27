@@ -10,3 +10,5 @@ export * from './Loaders/index';
 export * from './Image/index';
 export * from './Logo/index';
 export * from './Logo/LogoIcon';
+export * from './Modal/index';
+export * from './Modal/Modal';

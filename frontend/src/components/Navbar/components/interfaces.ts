@@ -6,11 +6,14 @@ export interface SearchBarNavProps {
     searchBarRef: RefObject<HTMLDivElement>;
 }
 
-export interface NavbarItemsProps extends SearchBarNavProps {
-    isMenuOpen: boolean;
+export interface NavbarItemsProps extends SearchBarNavProps {}
+
+export interface SubMenuNavProps {
+    isVisible: boolean;
+    subMenuRef: RefObject<HTMLDivElement>;
 }
 
-export interface NavbarIconsProps {
+export interface ModalSidebarProps {
     isMenuOpen: boolean;
     setIsMenuOpen: (value: boolean) => void;
 }

@@ -31,6 +31,8 @@ interface ButtonProps {
     Display?: string;
     AlignItems?: string;
     JustifyContent?: string;
+    LgDisplay?: string;
+    MdDisplay?: string;
 }
 
 const getVariantStyles = (variant: ButtonVariant, theme: DefaultTheme) => {
@@ -207,6 +209,14 @@ export const Button = styled.button<ButtonProps>`
     &:focus-visible {
         outline: 2px solid ${(props) => props.theme.colors.primaryColor};
         outline-offset: 2px;
+    }
+
+    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
+        display: ${(props) => props.LgDisplay};
+    }
+
+    @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+        display: ${(props) => props.MdDisplay};
     }
 `;
 

@@ -1,8 +1,9 @@
 import {useRef, useState} from 'react';
 import {Container} from '@components/Containers';
-import {FlexContainer} from '@components/FlexContainer';
+import {FlexContainer, ButtonGhost, MutedIcon} from '@components/index';
 import {NavbarStyled} from '@components/Navbar/styles';
 import {NavbarItems, NavbarIcons} from '@components/Navbar/components';
+import {ModalSidebar} from '@components/Navbar/components/ModalSidebar/ModalSidebar';
 
 export const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -25,15 +26,25 @@ export const Navbar = () => {
                     AlignItems="center"
                     Gap="16px"
                 >
+                    <ButtonGhost
+                        Padding="0.5rem 0.75rem"
+                        BorderRadius="1rem"
+                        Width="36px"
+                        onClick={() => setIsMenuOpen(true)}
+                        Display="none"
+                        LgDisplay="flex"
+                    >
+                        <MutedIcon className="fa-solid fa-bars" size="md" />
+                    </ButtonGhost>
                     <NavbarItems
                         showSearchInput={showSearchInput}
                         setShowSearchInput={setShowSearchInput}
                         searchBarRef={searchBarRef}
-                        isMenuOpen={isMenuOpen}
                     />
-                    <NavbarIcons isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+                    <NavbarIcons />
                 </FlexContainer>
             </Container>
+            <ModalSidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         </NavbarStyled>
     );
 };
