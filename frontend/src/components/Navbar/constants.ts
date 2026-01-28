@@ -15,3 +15,8 @@ export const SUB_MENU = {
     LOGOUT: 'Logout',
     WELCOME_BACK: 'Welcome back!',
 };
+
+export const NAVBAR = {
+    SEARCH_ALL_RESULTS: 'Search all results for',
+    BY: 'by',
+};

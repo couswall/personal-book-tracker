@@ -11,13 +11,14 @@ import {
     Input,
     LoadingSpinner,
     MutedIcon,
-    Paragraph,
+    Text,
 } from '@components/index';
-import {SearchInputWrapper} from '@components/Navbar/styles';
+import {SearchInputWrapper} from '@components/Navbar/components/SearchingNavbar/styles';
 import {BookInfoCard} from '@pages/Search/BookInfoCard';
 import {searchBook} from '@store/index';
 import {schemaSearchBook} from '@pages/Search/schemaSearchBook';
 import {privateRoutes} from '@routes/routes';
+import {NAVBAR} from '@components/Navbar/constants';
 
 export const SearchingNavbar = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -50,61 +51,72 @@ export const SearchingNavbar = () => {
             <FormContainer
                 BackgroundColor="inherit"
                 Position="relative"
-                Width="350px"
+                Width="320px"
                 onSubmit={handleSubmit(onSubmit)}
-                MedDisplay="none"
+                MdDisplay="none"
             >
                 <SearchInputWrapper
                     Background="unset"
                     Gap="0.5rem"
-                    Padding="0.5rem 0.875rem"
                     AlignItems="center"
                     Width="100%"
-                    BorderRadius="0.75rem"
-                    Height="35px"
+                    BorderRadius="1rem"
+                    Height="36px"
+                    Padding="0px 0px 0px 0.875rem"
                 >
                     {loadings.navbar ? (
-                        <LoadingSpinner Width="1rem" Padding="3px" BackGroundColor="#FFFFFE" />
+                        <LoadingSpinner Width="1rem" Padding="3px" />
                     ) : (
-                        <MutedIcon className="fa-solid fa-magnifying-glass" FontSize="1rem" />
+                        <MutedIcon
+                            className="fa-solid fa-magnifying-glass"
+                            size="sm"
+                            Cursor="default"
+                        />
                     )}
                     <Input
+                        FontSize="0.875rem"
                         placeholder="Search books"
                         Height="100%"
                         BackgroundColor="transparent"
                         Border="unset"
+                        Width="100%"
+                        Padding="0.875rem 0.5rem 0.875rem 0px"
                         {...register('searchText')}
                     />
                 </SearchInputWrapper>
                 {debouncedValue.length > 3 && (
                     <FlexContainer
                         Position="absolute"
-                        Width="350px"
+                        Width="320px"
                         Top="2.5rem"
                         FlexDirection="column"
-                        Gap="0.5rem"
+                        BackgroundColorVariant="card"
+                        Border="1px solid"
                         BorderRadius="1rem"
                         Overflow="hidden"
-                        BoxShadow="rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px"
+                        BoxShadowVariant="md"
                         ZIndex="2"
                     >
                         {searchBookData.navbar?.books.map((book) => (
                             <BookInfoCard
                                 key={book.id}
                                 book={book}
-                                imageHeight="50px"
+                                imageWidth="40px"
+                                imageHeight="56px"
                                 onClickOption={() => reset()}
                             />
                         ))}
-                        <FlexContainer Padding="0.5rem" JustifyContent="center" AlignItems="center">
-                            <Paragraph
-                                size="sm"
-                                variant="muted"
-                                Cursor="pointer"
-                                HTextDecoration="underline"
-                            >
-                                {`Search all results for "${truncatedSearchText}"`}
-                            </Paragraph>
+                        <FlexContainer
+                            Padding="0.75rem"
+                            JustifyContent="center"
+                            AlignItems="center"
+                            BackgroundColor="inherit"
+                            HBackgroundColorVariant="primary"
+                            Cursor="pointer"
+                        >
+                            <Text size="xs" variant="primary" weight="semibold" Cursor="pointer">
+                                {`${NAVBAR.SEARCH_ALL_RESULTS} "${truncatedSearchText}"`}
+                            </Text>
                         </FlexContainer>
                     </FlexContainer>
                 )}

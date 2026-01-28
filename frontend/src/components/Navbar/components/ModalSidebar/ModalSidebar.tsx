@@ -2,16 +2,11 @@ import {useSelector} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router';
 import React from 'react';
 import {RootState} from '@store/store';
+import {Modal, FlexContainer, LogoIcon, MutedIcon, Image, Text} from '@components/index';
 import {
-    Modal,
-    FlexContainer,
-    LogoIcon,
-    MutedIcon,
-    Image,
-    Text,
+    ModalSidebarContainer,
     NavSidebarItem,
-} from '@components/index';
-import {ModalSidebarContainer} from '@components/Navbar/components/ModalSidebar/styles';
+} from '@components/Navbar/components/ModalSidebar/styles';
 import robotImg from '/assets/avatar-robot.jpg';
 import {LOGIN_PAGE} from '@pages/Login/constants';
 import {navbarRoutes} from '@components/Navbar/constants';

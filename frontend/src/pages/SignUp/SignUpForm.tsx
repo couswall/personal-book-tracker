@@ -35,7 +35,7 @@ export const SignUpForm = () => {
             BoxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
             BorderRadius="1rem"
             Width="720px"
-            MedWidth="100%"
+            MdWidth="100%"
             SmallPadding="2.125rem 2.375rem"
         >
             <TitleH2 FontSize="2rem" Margin="0px 0px 0.5rem 0px" TextAlign="center" LineHeight="1">
@@ -116,11 +116,7 @@ export const SignUpForm = () => {
                                 BackgroundColor="transparent"
                                 JustifyContent="center"
                             >
-                                <LoadingSpinner
-                                    Width="25px"
-                                    Padding="5px"
-                                    BackGroundColor="#FFFFFE"
-                                />
+                                <LoadingSpinner Width="25px" Padding="5px" />
                             </FlexContainer>
                         ) : (
                             <>{SIGN_UP.BTN_SUBMIT}</>

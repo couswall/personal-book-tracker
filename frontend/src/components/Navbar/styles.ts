@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {ButtonGhost, FlexContainer, MutedIcon, TitleH4} from '@components/index';
+import {FlexContainer, TitleH4} from '@components/index';
 
 export const NavbarStyled = styled(FlexContainer).attrs({as: 'nav'})`
     border-bottom: 1px solid ${(props) => props.theme.colors.borderColor};
@@ -71,31 +71,4 @@ export const SubMenuContainer = styled(FlexContainer)<{$isVisible: boolean}>`
         transform 0.2s ease,
         visibility 0.2s ease;
     pointer-events: ${(props) => (props.$isVisible ? 'auto' : 'none')};
-`;
-
-export const SearchInputWrapper = styled(FlexContainer)`
-    background-color: ${(props) =>
-        props.BackgroundColor || props.theme.colors.input.inputBackground};
-
-    @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
-        cursor: pointer;
-    }
-`;
-
-export const NavSidebarItem = styled(ButtonGhost)<{$isActive: boolean}>`
-    color: ${(props) =>
-        props.$isActive ? props.theme.colors.text.accent : props.theme.colors.text.light};
-    background-color: ${(props) => (props.$isActive ? '#ff6b6b33' : 'unset')};
-    border-right: 4px solid
-        ${(props) => (props.$isActive ? props.theme.colors.text.accent : 'transparent')};
-
-    ${MutedIcon} {
-        color: ${(props) =>
-            props.$isActive ? props.theme.colors.text.accent : props.theme.colors.text.light};
-    }
-
-    &:hover:not(:disabled) {
-        background-color: ${(props) =>
-            props.$isActive ? '#ff6b6b33' : props.theme.colors.borderColor};
-    }
 `;

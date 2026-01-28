@@ -1,6 +1,8 @@
 import {useNavigate} from 'react-router';
-import {FlexContainer, Paragraph} from '@components/index';
+import {FlexContainer, Text} from '@components/index';
 import {CoverBookImg} from '@pages/Book/components/index';
+import {NAVBAR} from '@components/Navbar/constants';
+import {privateRoutes} from '@routes/routes';
 import {IBookInfoCardProps} from '@pages/Search/interfaces';
 
 export const BookInfoCard: React.FC<IBookInfoCardProps> = ({
@@ -11,16 +13,20 @@ export const BookInfoCard: React.FC<IBookInfoCardProps> = ({
 }) => {
     const navigate = useNavigate();
     const handleSelectOption = (bookId: string) => {
-        navigate(`/book/${bookId}`);
+        const route = privateRoutes.book.replace(':id', bookId);
+        navigate(route);
         if (onClickOption) onClickOption();
     };
     return (
         <FlexContainer
-            Gap="0.5rem"
-            Padding="0.5rem"
+            Gap="0.75rem"
+            Padding="0.75rem"
             Cursor="pointer"
-            Width="max-content"
+            Width="100%"
             onClick={() => handleSelectOption(String(book.id))}
+            BorderBottom="1px solid"
+            BackgroundColor="inherit"
+            HBackgroundColorVariant="muted"
         >
             <CoverBookImg
                 imgSrc={book.imageCover}
@@ -30,28 +36,29 @@ export const BookInfoCard: React.FC<IBookInfoCardProps> = ({
             />
             <FlexContainer
                 FlexDirection="column"
-                Gap="0.25rem"
+                JustifyContent="center"
                 Overflow="hidden"
                 BackgroundColor="transparent"
             >
-                <Paragraph
-                    FontSize="0.875rem"
-                    FontWeight="600"
+                <Text
+                    size="sm"
+                    weight="semibold"
                     WhiteSpace="nowrap"
                     Width="100%"
                     Overflow="hidden"
                     TextOverflow="ellipsis"
                 >
                     {book.title}
-                </Paragraph>
+                </Text>
                 {book.authors && (
-                    <Paragraph
-                        FontSize="0.75rem"
+                    <Text
+                        variant="muted"
+                        size="xs"
                         WhiteSpace="nowrap"
                         Width="100%"
                         Overflow="hidden"
                         TextOverflow="ellipsis"
-                    >{`by ${book.authors.join(',')}`}</Paragraph>
+                    >{`${NAVBAR.BY} ${book.authors.join(',')}`}</Text>
                 )}
             </FlexContainer>
         </FlexContainer>

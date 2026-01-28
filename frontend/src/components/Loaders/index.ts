@@ -1,25 +1,18 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface LoadersProps {
     Width?: string;
     Height?: string;
     Margin?: string;
     Padding?: string;
-    BackGroundColor?: string;
-    HBackGColor?: string;
-    Border?: string;
-    FontSize?: string;
-    FontFamily?: string;
-    FontWeight?: string;
-    FontColor?: string;
-};
+}
 
 export const LoadingSpinner = styled.div<LoadersProps>`
     width: ${(props) => props.Width || '50px'};
-    padding: ${(props) => props. Padding || '8px'};
+    padding: ${(props) => props.Padding || '8px'};
     aspect-ratio: 1;
     border-radius: 50%;
-    background: ${(props) => props.BackGroundColor || '#25b09b'};
+    background: ${(props) => props.theme.colors.primaryColor};
     --_m: 
         conic-gradient(#0000 10%,#000),
         linear-gradient(#000 0 0) content-box;

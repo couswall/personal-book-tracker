@@ -33,15 +33,15 @@ interface IBaseContainerProps {
     BorderTop?: string;
     LgDisplay?: string;
     LgWidth?: string;
-    MedWidth?: string;
-    MedDisplay?: string;
+    MdWidth?: string;
+    MdDisplay?: string;
     SmallPadding?: string;
     SmallFlexDir?: string;
     SmallWidth?: string;
     hasError?: boolean;
     Overflow?: string;
     Filter?: string;
-    HBackgroundColor?: string;
+    HBackgroundColorVariant?: keyof ThemeContainerHBGColorVariants;
     ZIndex?: string;
 }
 
@@ -57,6 +57,11 @@ type ThemeContainerBGColorVariants = {
     tertiary: string;
     accent: string;
     card: string;
+};
+
+type ThemeContainerHBGColorVariants = {
+    primary: string;
+    muted: string;
 };
 
 const boxShadowMap: Record<BoxShadowVariant, string> = {
@@ -111,8 +116,14 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     filter: ${(props) => props.Filter};
     z-index: ${(props) => props.ZIndex};
 
-    &: hover {
-        background-color: ${(props) => props.HBackgroundColor};
+    &:hover {
+        background-color: ${(props) => {
+            const colorMap: ThemeContainerHBGColorVariants = {
+                primary: props.theme.colors.containerHover.primary,
+                muted: props.theme.colors.containerHover.muted,
+            };
+            return props.HBackgroundColorVariant && colorMap[props.HBackgroundColorVariant];
+        }};
     }
 
     @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
@@ -121,8 +132,8 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
     }
 
     @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-        width: ${(props) => props.MedWidth};
-        display: ${(props) => props.MedDisplay};
+        display: ${(props) => props.MdDisplay};
+        width: ${(props) => props.MdWidth};
     }
 
     @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
@@ -132,7 +143,7 @@ export const BaseContainer = styled.div<IBaseContainerProps>`
 `;
 
 export const FlexContainer = styled(BaseContainer)<IFlexContainerProps>`
-    display: ${(props) => props.Display || 'flex'};
+    display: flex;
     flex-direction: ${(props) => props.FlexDirection || 'row'};
     flex-wrap: ${(props) => props.FlexWrap || 'nowrap'};
     flex: ${(props) => props.Flex || 'unset'};
@@ -141,11 +152,11 @@ export const FlexContainer = styled(BaseContainer)<IFlexContainerProps>`
     gap: ${(props) => props.Gap};
 
     @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
-        display: ${(props) => props.LgDisplay || 'flex'};
+        display: ${(props) => props.LgDisplay};
     }
 
     @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-        display: ${(props) => props.MedDisplay};
+        display: ${(props) => props.MdDisplay};
     }
 
     @media (max-width: ${(props) => props.theme.breakpoints.sm}) {

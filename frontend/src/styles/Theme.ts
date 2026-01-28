@@ -41,6 +41,11 @@ export const lightTheme: DefaultTheme = {
             labelColor: '#333333',
             errorMsgText: '#FA4032',
         },
+
+        containerHover: {
+            primary: '#ff6b6b33',
+            muted: '#E6E0DB',
+        },
     },
     fonts: {
         lexend: 'Lexend',
@@ -123,6 +128,11 @@ export const darkTheme: DefaultTheme = {
             labelColor: '#94A3B8',
             bg: '#FFFFFF',
             errorMsgText: '#F86868',
+        },
+
+        containerHover: {
+            primary: '#ff6b6b33',
+            muted: '#2A3F55',
         },
     },
     fonts: {
