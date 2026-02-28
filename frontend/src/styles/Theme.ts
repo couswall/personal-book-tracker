@@ -69,7 +69,14 @@ export const lightTheme: DefaultTheme = {
         },
     },
     widths: {
-        sectionMaxWidth: '1400px',
+        sectionMaxWidths: {
+            sm: '640px',
+            md: '768px',
+            lg: '1024px',
+            xl: '1280px',
+            xxl: '1400px',
+            full: '100%',
+        },
     },
     paddings: {
         sectionContainer: '0 40px',
@@ -157,7 +164,14 @@ export const darkTheme: DefaultTheme = {
         },
     },
     widths: {
-        sectionMaxWidth: '1400px',
+        sectionMaxWidths: {
+            sm: '640px',
+            md: '768px',
+            lg: '1024px',
+            xl: '1280px',
+            xxl: '1400px',
+            full: '100%',
+        },
     },
     paddings: {
         sectionContainer: '0 40px',

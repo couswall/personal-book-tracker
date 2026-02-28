@@ -14,7 +14,7 @@ import {
     Text,
 } from '@components/index';
 import {SearchInputWrapper} from '@components/Navbar/components/SearchingNavbar/styles';
-import {BookInfoCard} from '@pages/Search/BookInfoCard';
+import {BookInfoCard} from '@components/Navbar/components/SearchingNavbar/BookInfoCard';
 import {searchBook} from '@store/index';
 import {schemaSearchBook} from '@pages/Search/schemaSearchBook';
 import {privateRoutes} from '@routes/routes';
@@ -29,7 +29,7 @@ export const SearchingNavbar = () => {
     const searchText = watch('searchText');
     const navigate = useNavigate();
     const {token} = useSelector((state: RootState) => state.auth);
-    const {searchBookData, loadings} = useSelector((state: RootState) => state.searchBook);
+    const {searchBookData, loading} = useSelector((state: RootState) => state.searchBook);
     const debouncedValue = useDebounce(searchText);
     const truncatedSearchText =
         debouncedValue.length > 18 ? debouncedValue.substring(0, 18) + '...' : debouncedValue;
@@ -42,7 +42,7 @@ export const SearchingNavbar = () => {
     useEffect(() => {
         if (debouncedValue.length > 2) {
             const params = {searchText: debouncedValue, maxResults: 5};
-            dispatch(searchBook({token, params, isNavbarSearch: true}));
+            dispatch(searchBook({token, params}));
         }
     }, [debouncedValue]);
 
@@ -64,7 +64,7 @@ export const SearchingNavbar = () => {
                     Height="36px"
                     Padding="0px 0px 0px 0.875rem"
                 >
-                    {loadings.navbar ? (
+                    {loading ? (
                         <LoadingSpinner Width="1rem" Padding="3px" />
                     ) : (
                         <MutedIcon
@@ -97,7 +97,7 @@ export const SearchingNavbar = () => {
                         BoxShadowVariant="md"
                         ZIndex="2"
                     >
-                        {searchBookData.navbar?.books.map((book) => (
+                        {searchBookData?.books.map((book) => (
                             <BookInfoCard
                                 key={book.id}
                                 book={book}

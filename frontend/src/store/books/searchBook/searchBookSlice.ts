@@ -3,11 +3,8 @@ import {searchBook} from '@store/books/searchBook/thunks';
 import {ISearchBookReducer} from '@store/books/searchBook/interfaces';
 
 export const initialState: ISearchBookReducer = {
-    searchBookData: {page: null, navbar: null},
-    loadings: {
-        page: false,
-        navbar: false,
-    },
+    searchBookData: undefined,
+    loading: false,
 };
 
 export const searchBookSlice = createSlice({
@@ -16,31 +13,17 @@ export const searchBookSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(searchBook.pending, (state, action) => {
-                const {isNavbarSearch} = action.meta.arg;
-
-                if (isNavbarSearch) state.loadings.navbar = true;
-                else state.loadings.page = true;
-
+            .addCase(searchBook.pending, (state) => {
+                state.loading = true;
                 state.error = undefined;
             })
             .addCase(searchBook.fulfilled, (state, action) => {
-                const {isNavbarSearch} = action.meta.arg;
-
-                if (isNavbarSearch) {
-                    state.loadings.navbar = false;
-                    state.searchBookData.navbar = action.payload;
-                } else {
-                    state.loadings.page = false;
-                    state.searchBookData.page = action.payload;
-                }
+                state.searchBookData = action.payload;
+                state.loading = false;
                 state.error = undefined;
             })
             .addCase(searchBook.rejected, (state, action) => {
-                const {isNavbarSearch} = action.meta.arg;
-
-                if (isNavbarSearch) state.loadings.navbar = false;
-                else state.loadings.page = false;
+                state.loading = false;
                 state.error = typeof action.payload === 'string' ? action.payload : 'Unknown error';
             });
     },

@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlexContainer, Image, TitleH3} from '@components/index';
+import {FlexContainer, Image, Paragraph} from '@components/index';
 
 interface CoverBookImgProps {
     imgSrc?: string | null;
@@ -31,7 +31,7 @@ export const CoverBookImg: React.FC<CoverBookImgProps> = ({
                     JustifyContent="center"
                     AlignItems="center"
                 >
-                    <TitleH3>{'No Image Available'}</TitleH3>
+                    <Paragraph>{'No Image Available'}</Paragraph>
                 </FlexContainer>
             )}
         </FlexContainer>

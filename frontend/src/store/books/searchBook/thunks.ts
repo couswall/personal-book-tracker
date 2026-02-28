@@ -8,10 +8,7 @@ const apiUrl = getEnvVariables().api_url;
 
 export const searchBook = createAsyncThunk(
     'searchBook/fetch',
-    async (
-        {token, params}: {token: string; params: ISearchBookParams; isNavbarSearch: boolean},
-        thunkAPI
-    ) => {
+    async ({token, params}: {token: string; params: ISearchBookParams}, thunkAPI) => {
         const headers = {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',

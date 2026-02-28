@@ -5,10 +5,8 @@ export interface IGetReducerBase {
     error?: string;
 }
 
-export interface ISearchBookReducer {
-    searchBookData: ISearchBookData;
-    loadings: ISearchBookLoadings;
-    error?: string;
+export interface ISearchBookReducer extends IGetReducerBase {
+    searchBookData?: ISearchingRes;
 }
 
 export interface ISearchBookLoadings {
@@ -16,16 +14,12 @@ export interface ISearchBookLoadings {
     navbar: boolean;
 }
 
-export interface ISearchBookData {
-    page: ISearchingRes | null;
-    navbar: ISearchingRes | null;
-}
-
 export interface ISearchBook {
     id: number;
     title: string;
     authors?: string[];
     imageCover?: string;
+    averageRating?: number;
 }
 
 export interface ISearchBookAPIResponse extends IBaseFetchRes {

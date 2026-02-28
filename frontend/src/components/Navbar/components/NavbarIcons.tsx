@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigate} from 'react-router';
+import {useLocation, useNavigate} from 'react-router';
 import {useRef, useState} from 'react';
 import {AppDispatch, RootState} from '@store/store';
 import {useClickOutside} from '@components/Navbar/hooks/useClickOutside';
@@ -13,25 +13,31 @@ import {privateRoutes} from '@routes/routes';
 export const NavbarIcons = () => {
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
+    const {pathname} = useLocation();
     const [showSubNav, setShowSubNav] = useState<boolean>(false);
     const {isDarkMode} = useSelector((state: RootState) => state.darkMode);
     const subMenuRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
     useClickOutside([subMenuRef, triggerRef], () => setShowSubNav(false));
+    const isSearchPage = pathname === privateRoutes.search;
 
     return (
         <FlexContainer BackgroundColor="inherit" AlignItems="center" Gap="0.5rem">
-            <SearchingNavbar />
-            <ButtonGhost
-                Padding="0.5rem 0.75rem"
-                BorderRadius="1rem"
-                Width="36px"
-                onClick={() => navigate(privateRoutes.search)}
-                Display="none"
-                MdDisplay="flex"
-            >
-                <MutedIcon className="fa-solid fa-magnifying-glass" size="md" />
-            </ButtonGhost>
+            {!isSearchPage && (
+                <>
+                    <SearchingNavbar />
+                    <ButtonGhost
+                        Padding="0.5rem 0.75rem"
+                        BorderRadius="1rem"
+                        Width="36px"
+                        onClick={() => navigate(privateRoutes.search)}
+                        Display="none"
+                        MdDisplay="flex"
+                    >
+                        <MutedIcon className="fa-solid fa-magnifying-glass" size="md" />
+                    </ButtonGhost>
+                </>
+            )}
 
             <ButtonGhost
                 Padding="0.5rem 0.75rem"
